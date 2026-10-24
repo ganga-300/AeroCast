@@ -40,6 +40,12 @@ features:
     min_count: 20                    # below this many labelled outcomes -> fall back to prior
     smoothing_m: 20                  # pseudo-count weight of the prior in shrunk rates
 
+preprocessing:
+  # Stage 6 (D19, D24). Categories with fewer labelled TRAINING flights than this are grouped
+  # into one "infrequent" one-hot column; unseen validation/test categories map to that column
+  # (or to all zeros if no category was infrequent). Fixed a priori, not tuned.
+  min_category_frequency: 100
+
 operating_point:
   # D7: chosen on validation predictions only, then frozen.
   min_precision: 0.70

@@ -48,6 +48,9 @@
         "smoothing_m": 20
       }
     },
+    "preprocessing": {
+      "min_category_frequency": 100
+    },
     "operating_point": {
       "min_precision": 0.7,
       "rule": "maximise_recall_subject_to_min_precision",

@@ -18,6 +18,7 @@ REQUIRED_KEYS: dict[str, list[str]] = {
     "split": ["train", "validation", "test"],
     "operating_point": ["min_precision", "rule", "tie_break"],
     "features": ["history"],
+    "preprocessing": ["min_category_frequency"],
 }
 HISTORY_KEYS = ["entities", "entity_windows_days", "global_windows_days", "min_count", "smoothing_m"]
 SUPPORTED_TIMESTAMP_RULES = {"end_of_previous_day"}
@@ -69,6 +70,9 @@ def validate_config(cfg: dict[str, Any]) -> None:
         raise ValueError("features.history.min_count must be an integer >= 1")
     if not isinstance(hist["smoothing_m"], (int, float)) or hist["smoothing_m"] < 0:
         raise ValueError("features.history.smoothing_m must be >= 0")
+    mcf = cfg["preprocessing"]["min_category_frequency"]
+    if not isinstance(mcf, int) or mcf < 1:
+        raise ValueError("preprocessing.min_category_frequency must be an integer >= 1")
     if cfg["population"]["require_recorded_label"] is not True:
         raise ValueError("population.require_recorded_label must be true (decision D4)")
 

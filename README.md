@@ -3,9 +3,9 @@
 Predict whether a flight departing New York City (EWR/JFK/LGA, 2013) will arrive at least
 15 minutes late, using only information available at the end of the day before the flight.
 
-**Status:** Stages 0–5 complete (audits, prediction contract, EDA, leakage-safe features,
-chronological design with a test-set lock).
-Preprocessing, models and the report are not implemented yet; no model results exist.
+**Status:** Stages 0–6 complete (audits, prediction contract, EDA, leakage-safe features,
+chronological design with a test-set lock, training-only preprocessing).
+Models and the report are not implemented yet; no model results exist.
 
 ## Setup
 ```bash
@@ -23,6 +23,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Exploratory analysis (Stage 3) | `.venv/bin/python scripts/run_eda.py` | `reports/eda/eda_results.json`, `reports/figures/eda/*.png` |
 | Feature build + validation (Stage 4) | `.venv/bin/python scripts/build_features.py` | `reports/features/feature_validation.json`, `docs/feature_dictionary.md` |
 | Experimental design check (Stage 5) | `.venv/bin/python scripts/check_experiment_design.py` | `reports/experiment/design_check.json` |
+| Preprocessing check (Stage 6) | `.venv/bin/python scripts/check_preprocessing.py` | `reports/preprocessing/preprocessing_check.json` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
 ## Key documents
@@ -33,6 +34,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 - [docs/04_feature_engineering.md](docs/04_feature_engineering.md): feature definitions, history rules, leakage verification
 - [docs/feature_dictionary.md](docs/feature_dictionary.md): generated list of all model features
 - [docs/05_experimental_design.md](docs/05_experimental_design.md): partitions, history vs fitting, test lock, validation protocol, test-exposure disclosure
+- [docs/06_preprocessing.md](docs/06_preprocessing.md): per-model encodings, imputation, rare/unseen categories, verification
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
 - [configs/config.yaml](configs/config.yaml): frozen decisions used by the code
 
