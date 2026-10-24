@@ -45,6 +45,7 @@ def outcome_availability(df: pd.DataFrame, lags=(1, 2)) -> dict:
     not yet known when the first prediction allowed to use it was made (00:00 on date d+L)."""
     lab = df[df["label_status"] == "labelled"]
     land = landing_lower_bound(lab)
+    dev = lab["split"] != "test"
     out = {"labelled": int(len(lab)),
            "max_landing_lower_bound_hours_after_flight_date_start":
                round(float(((land - lab["flight_date"]).dt.total_seconds() / 3600).max()), 2)}
@@ -55,8 +56,10 @@ def outcome_availability(df: pd.DataFrame, lags=(1, 2)) -> dict:
             key = f"lag_{lag}_buffer_{buf}min"
             out[key] = {"violations": int(late.sum()),
                         "pct_of_labelled": round(100 * float(late.mean()), 3),
-                        "positive_share_among_violations":
-                            round(float(lab.loc[late, "y"].mean()), 3) if late.any() else None}
+                        # Label values summarised on train/validation only (test labels locked).
+                        "positive_share_among_violations_excl_test":
+                            round(float(lab.loc[late & dev, "y"].mean()), 3)
+                            if (late & dev).any() else None}
     return out
 
 
@@ -108,6 +111,9 @@ def main() -> int:
     summary = split_summary(df["flight_date"], df["split"], df["y"])
     check("every partition has both classes among labelled rows",
           bool(((summary["positives"] > 0) & (summary["negatives"] > 0)).all()))
+    # Test-label statistics are withheld from all outputs until the final evaluation (Stage 5).
+    summary = summary.astype(object)
+    summary.loc[summary["split"] == "test", ["positives", "negatives", "prevalence"]] = "withheld"
     check("labelled rows across partitions sum to modelling population",
           int(summary["rows_labelled"].sum()) == len(modelling_population(df)))
 

@@ -1,0 +1,117 @@
+{
+  "checks": [
+    {
+      "check": "partitions chronological, contiguous, disjoint by id",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "partition date ranges equal configured boundaries",
+      "passed": true,
+      "detail": {
+        "train": [
+          "2013-01-01",
+          "2013-08-31"
+        ],
+        "validation": [
+          "2013-09-01",
+          "2013-10-31"
+        ],
+        "test": [
+          "2013-11-01",
+          "2013-12-31"
+        ]
+      }
+    },
+    {
+      "check": "train and validation each have >= 500 positives and negatives",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "test has >= 500 positives and negatives (counts withheld)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fitting set = labelled training rows only",
+      "passed": true,
+      "detail": {
+        "rows": 217727
+      }
+    },
+    {
+      "check": "development partitions contain no test-period rows",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "test labels locked without a frozen manifest",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no test-label access has been logged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "all_passed": true,
+  "min_class_count": 500,
+  "partition_sizes_labelled": {
+    "train": {
+      "rows": 217727,
+      "days": 243,
+      "positives": 57423,
+      "negatives": 160304,
+      "prevalence": 0.2637
+    },
+    "validation": {
+      "rows": 55628,
+      "days": 61,
+      "positives": 8731,
+      "negatives": 46897,
+      "prevalence": 0.157
+    },
+    "test": {
+      "rows": 53991,
+      "days": 61,
+      "positives": "withheld",
+      "negatives": "withheld",
+      "prevalence": "withheld"
+    }
+  },
+  "history_sources_for_validation": [
+    {
+      "window_days": 28,
+      "share_of_window_in_training_period": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 1.0
+      },
+      "validation_rows_with_window_fully_in_training": 1553,
+      "validation_rows_with_window_fully_in_validation": 29604
+    }
+  ],
+  "boundary_embargo": {
+    "rule": "a model predicting date D could only have been trained on labels dated <= D-2",
+    "affected_validation_dates": [
+      "2013-09-01"
+    ],
+    "affected_validation_rows": 712,
+    "share_of_validation": 0.0128,
+    "test_affected": false
+  },
+  "validation_sub_periods": {
+    "2013-09": {
+      "rows": 27010,
+      "positives": 3705,
+      "prevalence": 0.1372
+    },
+    "2013-10": {
+      "rows": 28618,
+      "positives": 5026,
+      "prevalence": 0.1756
+    }
+  }
+}

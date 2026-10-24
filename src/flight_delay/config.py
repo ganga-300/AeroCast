@@ -17,7 +17,9 @@ REQUIRED_KEYS: dict[str, list[str]] = {
     "population": ["require_recorded_label"],
     "split": ["train", "validation", "test"],
     "operating_point": ["min_precision", "rule", "tie_break"],
+    "features": ["history"],
 }
+HISTORY_KEYS = ["entities", "entity_windows_days", "global_windows_days", "min_count", "smoothing_m"]
 SUPPORTED_TIMESTAMP_RULES = {"end_of_previous_day"}
 
 
@@ -56,6 +58,17 @@ def validate_config(cfg: dict[str, Any]) -> None:
     p = cfg["operating_point"]["min_precision"]
     if not isinstance(p, (int, float)) or not 0 < p <= 1:
         raise ValueError("operating_point.min_precision must be in (0, 1]")
+    hist = cfg["features"]["history"]
+    for key in HISTORY_KEYS:
+        if key not in hist:
+            raise ValueError(f"Config missing field 'features.history.{key}'")
+    windows = hist["entity_windows_days"] + hist["global_windows_days"]
+    if any(not isinstance(w, int) or w < 1 for w in windows):
+        raise ValueError("History windows must be positive integers (days)")
+    if not isinstance(hist["min_count"], int) or hist["min_count"] < 1:
+        raise ValueError("features.history.min_count must be an integer >= 1")
+    if not isinstance(hist["smoothing_m"], (int, float)) or hist["smoothing_m"] < 0:
+        raise ValueError("features.history.smoothing_m must be >= 0")
     if cfg["population"]["require_recorded_label"] is not True:
         raise ValueError("population.require_recorded_label must be true (decision D4)")
 

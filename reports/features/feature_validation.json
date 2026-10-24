@@ -1,0 +1,472 @@
+{
+  "checks": [
+    {
+      "check": "specs satisfy contract and columns match specs",
+      "passed": true,
+      "detail": {
+        "n_features": 31
+      }
+    },
+    {
+      "check": "brute-force recomputation matches for 300 sampled flights",
+      "passed": true,
+      "detail": {
+        "mismatches": [],
+        "sample_by_split": {
+          "train": 199,
+          "validation": 53,
+          "test": 48
+        }
+      }
+    },
+    {
+      "check": "perturbing a date's outcomes changes nothing before date + lag",
+      "passed": true,
+      "detail": {
+        "2013-03-08": {
+          "rows_perturbed": 979,
+          "earlier_unchanged": true,
+          "later_changed": true
+        },
+        "2013-09-15": {
+          "rows_perturbed": 900,
+          "earlier_unchanged": true,
+          "later_changed": true
+        },
+        "2013-11-20": {
+          "rows_perturbed": 977,
+          "earlier_unchanged": true,
+          "later_changed": true
+        }
+      }
+    },
+    {
+      "check": "train/validation features identical with or without test-period rows",
+      "passed": true,
+      "detail": {
+        "rows_compared": 281373
+      }
+    },
+    {
+      "check": "features independent of raw row order",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "missing history occurs exactly on dates with no eligible past",
+      "passed": true,
+      "detail": {
+        "rows_without_history": 1785,
+        "dates": [
+          "2013-01-01",
+          "2013-01-02"
+        ]
+      }
+    },
+    {
+      "check": "schedule features have no missing values",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no numeric feature's validation/test range is disjoint from training",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "check": "raw file unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "all_passed": true,
+  "history_lag_days": 2,
+  "history_config": {
+    "entities": [
+      "carrier",
+      "origin",
+      "dest",
+      "route"
+    ],
+    "entity_windows_days": [
+      28
+    ],
+    "global_windows_days": [
+      7,
+      28
+    ],
+    "min_count": 20,
+    "smoothing_m": 20
+  },
+  "n_features": 31,
+  "features_by_group": {
+    "schedule": [
+      "dep_hour",
+      "dep_hour_sin",
+      "dep_hour_cos",
+      "arr_hour",
+      "arr_hour_sin",
+      "arr_hour_cos",
+      "day_of_week",
+      "is_weekend",
+      "distance",
+      "carrier",
+      "origin",
+      "dest",
+      "route"
+    ],
+    "history": [
+      "hist_all_rate_exp",
+      "hist_all_rate_7d",
+      "hist_all_n_7d",
+      "hist_all_rate_28d",
+      "hist_all_n_28d",
+      "hist_all_nodep_share_7d",
+      "hist_carrier_rate_exp",
+      "hist_carrier_rate_28d",
+      "hist_carrier_n_28d",
+      "hist_origin_rate_exp",
+      "hist_origin_rate_28d",
+      "hist_origin_n_28d",
+      "hist_dest_rate_exp",
+      "hist_dest_rate_28d",
+      "hist_dest_n_28d",
+      "hist_route_rate_exp",
+      "hist_route_rate_28d",
+      "hist_route_n_28d"
+    ]
+  },
+  "excluded_features": {
+    "month": "Training covers Jan-Aug only; Sep-Dec values would be unseen (decision D15)"
+  },
+  "modelling_population_rows": {
+    "train": 217727,
+    "validation": 55628
+  },
+  "rows_without_history_in_population": {
+    "train": 1759,
+    "validation": 0
+  },
+  "share_below_min_count_fallback": {
+    "hist_carrier_n_28d": {
+      "train": 0.0086,
+      "validation": 0.0003
+    },
+    "hist_origin_n_28d": {
+      "train": 0.0081,
+      "validation": 0.0
+    },
+    "hist_dest_n_28d": {
+      "train": 0.0163,
+      "validation": 0.0024
+    },
+    "hist_route_n_28d": {
+      "train": 0.0287,
+      "validation": 0.0095
+    }
+  },
+  "unseen_categories_vs_train": {
+    "day_of_week": {
+      "validation": {
+        "categories": [],
+        "rows": 0
+      }
+    },
+    "carrier": {
+      "validation": {
+        "categories": [],
+        "rows": 0
+      }
+    },
+    "origin": {
+      "validation": {
+        "categories": [],
+        "rows": 0
+      }
+    },
+    "dest": {
+      "validation": {
+        "categories": [
+          "ILM"
+        ],
+        "rows": 51
+      }
+    },
+    "route": {
+      "validation": {
+        "categories": [
+          "EWR-SBN",
+          "LGA-ILM"
+        ],
+        "rows": 54
+      }
+    }
+  },
+  "numeric_summary_by_split": {
+    "train": {
+      "dep_hour": {
+        "min": 5.0,
+        "50%": 13.0,
+        "max": 23.0
+      },
+      "dep_hour_sin": {
+        "min": -1.0,
+        "50%": -0.4423,
+        "max": 1.0
+      },
+      "dep_hour_cos": {
+        "min": -1.0,
+        "50%": -0.4962,
+        "max": 1.0
+      },
+      "arr_hour": {
+        "min": 0.0,
+        "50%": 15.0,
+        "max": 23.0
+      },
+      "arr_hour_sin": {
+        "min": -1.0,
+        "50%": -0.4848,
+        "max": 0.9925
+      },
+      "arr_hour_cos": {
+        "min": -1.0,
+        "50%": -0.3827,
+        "max": 1.0
+      },
+      "is_weekend": {
+        "min": 0.0,
+        "50%": 0.0,
+        "max": 1.0
+      },
+      "distance": {
+        "min": 80.0,
+        "50%": 888.0,
+        "max": 4983.0
+      },
+      "hist_all_rate_exp": {
+        "min": 0.1782,
+        "50%": 0.2451,
+        "max": 0.3076
+      },
+      "hist_all_rate_7d": {
+        "min": 0.1293,
+        "50%": 0.265,
+        "max": 0.4853
+      },
+      "hist_all_n_7d": {
+        "min": 0.0,
+        "50%": 6369.0,
+        "max": 6627.0
+      },
+      "hist_all_rate_28d": {
+        "min": 0.1782,
+        "50%": 0.2534,
+        "max": 0.3612
+      },
+      "hist_all_n_28d": {
+        "min": 0.0,
+        "50%": 25211.0,
+        "max": 26301.0
+      },
+      "hist_all_nodep_share_7d": {
+        "min": 0.0029,
+        "50%": 0.0199,
+        "max": 0.1626
+      },
+      "hist_carrier_rate_exp": {
+        "min": 0.03,
+        "50%": 0.2265,
+        "max": 0.6104
+      },
+      "hist_carrier_rate_28d": {
+        "min": 0.03,
+        "50%": 0.254,
+        "max": 0.6104
+      },
+      "hist_carrier_n_28d": {
+        "min": 0.0,
+        "50%": 3704.0,
+        "max": 4657.0
+      },
+      "hist_origin_rate_exp": {
+        "min": 0.1384,
+        "50%": 0.2428,
+        "max": 0.4148
+      },
+      "hist_origin_rate_28d": {
+        "min": 0.1384,
+        "50%": 0.2653,
+        "max": 0.4148
+      },
+      "hist_origin_n_28d": {
+        "min": 0.0,
+        "50%": 8379.0,
+        "max": 9555.0
+      },
+      "hist_dest_rate_exp": {
+        "min": 0.081,
+        "50%": 0.2436,
+        "max": 0.5874
+      },
+      "hist_dest_rate_28d": {
+        "min": 0.081,
+        "50%": 0.2623,
+        "max": 0.5891
+      },
+      "hist_dest_n_28d": {
+        "min": 0.0,
+        "50%": 556.0,
+        "max": 1422.0
+      },
+      "hist_route_rate_exp": {
+        "min": 0.0324,
+        "50%": 0.2334,
+        "max": 0.5821
+      },
+      "hist_route_rate_28d": {
+        "min": 0.0324,
+        "50%": 0.2574,
+        "max": 0.6355
+      },
+      "hist_route_n_28d": {
+        "min": 0.0,
+        "50%": 221.0,
+        "max": 898.0
+      }
+    },
+    "validation": {
+      "dep_hour": {
+        "min": 5.0,
+        "50%": 13.0,
+        "max": 23.0
+      },
+      "dep_hour_sin": {
+        "min": -1.0,
+        "50%": -0.4384,
+        "max": 1.0
+      },
+      "dep_hour_cos": {
+        "min": -1.0,
+        "50%": -0.5,
+        "max": 1.0
+      },
+      "arr_hour": {
+        "min": 0.0,
+        "50%": 15.0,
+        "max": 23.0
+      },
+      "arr_hour_sin": {
+        "min": -1.0,
+        "50%": -0.5113,
+        "max": 0.9833
+      },
+      "arr_hour_cos": {
+        "min": -1.0,
+        "50%": -0.4305,
+        "max": 1.0
+      },
+      "is_weekend": {
+        "min": 0.0,
+        "50%": 0.0,
+        "max": 1.0
+      },
+      "distance": {
+        "min": 94.0,
+        "50%": 820.0,
+        "max": 4983.0
+      },
+      "hist_all_rate_exp": {
+        "min": 0.2425,
+        "50%": 0.2505,
+        "max": 0.2642
+      },
+      "hist_all_rate_7d": {
+        "min": 0.073,
+        "50%": 0.1656,
+        "max": 0.2425
+      },
+      "hist_all_n_7d": {
+        "min": 6005.0,
+        "50%": 6432.0,
+        "max": 6497.0
+      },
+      "hist_all_rate_28d": {
+        "min": 0.1227,
+        "50%": 0.1556,
+        "max": 0.2419
+      },
+      "hist_all_n_28d": {
+        "min": 24997.0,
+        "50%": 25560.0,
+        "max": 26174.0
+      },
+      "hist_all_nodep_share_7d": {
+        "min": 0.0026,
+        "50%": 0.008,
+        "max": 0.04
+      },
+      "hist_carrier_rate_exp": {
+        "min": 0.1326,
+        "50%": 0.2382,
+        "max": 0.4082
+      },
+      "hist_carrier_rate_28d": {
+        "min": 0.0362,
+        "50%": 0.1494,
+        "max": 0.4313
+      },
+      "hist_carrier_n_28d": {
+        "min": 4.0,
+        "50%": 3836.0,
+        "max": 4619.0
+      },
+      "hist_origin_rate_exp": {
+        "min": 0.2276,
+        "50%": 0.2479,
+        "max": 0.2852
+      },
+      "hist_origin_rate_28d": {
+        "min": 0.1165,
+        "50%": 0.156,
+        "max": 0.2546
+      },
+      "hist_origin_n_28d": {
+        "min": 7794.0,
+        "50%": 8532.0,
+        "max": 9242.0
+      },
+      "hist_dest_rate_exp": {
+        "min": 0.1331,
+        "50%": 0.2528,
+        "max": 0.5817
+      },
+      "hist_dest_rate_28d": {
+        "min": 0.0483,
+        "50%": 0.158,
+        "max": 0.4172
+      },
+      "hist_dest_n_28d": {
+        "min": 0.0,
+        "50%": 571.0,
+        "max": 1441.0
+      },
+      "hist_route_rate_exp": {
+        "min": 0.1087,
+        "50%": 0.2492,
+        "max": 0.5766
+      },
+      "hist_route_rate_28d": {
+        "min": 0.036,
+        "50%": 0.1573,
+        "max": 0.4172
+      },
+      "hist_route_n_28d": {
+        "min": 0.0,
+        "50%": 244.0,
+        "max": 885.0
+      }
+    }
+  },
+  "train_spearman_pairs_abs_ge_0_9": []
+}

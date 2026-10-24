@@ -28,6 +28,18 @@ split:
   validation: {start: "2013-09-01", end: "2013-10-31"}
   test: {start: "2013-11-01", end: "2013-12-31"}
 
+features:
+  # Stage 4. Month is deliberately excluded: training covers Jan-Aug only, so Sep-Dec values
+  # would be unseen (EDA Q6, decision D15).
+  history:
+    # Entities whose past arrival-delay rate is aggregated (D16). Outcomes come only from
+    # flights with flight date <= D - prediction.history_lag_days.
+    entities: [carrier, origin, dest, route]
+    entity_windows_days: [28]        # plus an expanding window from the first data date
+    global_windows_days: [7, 28]     # system-wide rates (plus expanding)
+    min_count: 20                    # below this many labelled outcomes -> fall back to prior
+    smoothing_m: 20                  # pseudo-count weight of the prior in shrunk rates
+
 operating_point:
   # D7: chosen on validation predictions only, then frozen.
   min_precision: 0.70

@@ -29,6 +29,25 @@
         "end": "2013-12-31"
       }
     },
+    "features": {
+      "history": {
+        "entities": [
+          "carrier",
+          "origin",
+          "dest",
+          "route"
+        ],
+        "entity_windows_days": [
+          28
+        ],
+        "global_windows_days": [
+          7,
+          28
+        ],
+        "min_count": 20,
+        "smoothing_m": 20
+      }
+    },
     "operating_point": {
       "min_precision": 0.7,
       "rule": "maximise_recall_subject_to_min_precision",
@@ -111,7 +130,7 @@
       "detail": {
         "violations": 0,
         "pct_of_labelled": 0.0,
-        "positive_share_among_violations": null
+        "positive_share_among_violations_excl_test": null
       }
     },
     {
@@ -154,9 +173,9 @@
       "rows_all": 55403,
       "rows_unlabelled": 1412,
       "rows_labelled": 53991,
-      "positives": 13946,
-      "negatives": 40045,
-      "prevalence": 0.2583
+      "positives": "withheld",
+      "negatives": "withheld",
+      "prevalence": "withheld"
     }
   ],
   "exclusions_by_split": {
@@ -203,32 +222,32 @@
     "lag_1_buffer_0min": {
       "violations": 19303,
       "pct_of_labelled": 5.897,
-      "positive_share_among_violations": 0.538
+      "positive_share_among_violations_excl_test": 0.544
     },
     "lag_1_buffer_60min": {
       "violations": 34182,
       "pct_of_labelled": 10.442,
-      "positive_share_among_violations": 0.474
+      "positive_share_among_violations_excl_test": 0.478
     },
     "lag_1_buffer_180min": {
       "violations": 71648,
       "pct_of_labelled": 21.888,
-      "positive_share_among_violations": 0.403
+      "positive_share_among_violations_excl_test": 0.406
     },
     "lag_2_buffer_0min": {
       "violations": 0,
       "pct_of_labelled": 0.0,
-      "positive_share_among_violations": null
+      "positive_share_among_violations_excl_test": null
     },
     "lag_2_buffer_60min": {
       "violations": 0,
       "pct_of_labelled": 0.0,
-      "positive_share_among_violations": null
+      "positive_share_among_violations_excl_test": null
     },
     "lag_2_buffer_180min": {
       "violations": 0,
       "pct_of_labelled": 0.0,
-      "positive_share_among_violations": null
+      "positive_share_among_violations_excl_test": null
     }
   },
   "permitted_inputs": [

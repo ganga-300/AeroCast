@@ -71,8 +71,9 @@ origin, destination, route). The rules are:
    prediction at time *t* only if it was available before *t*. Measured evidence:
    - With a cutoff of "flight date < D" (lag 1), **19,303 labelled flights (5.90%)** have a
      landing lower bound (actual departure + `air_time`) at or after 00:00 on D, so their outcome
-     was *not* known at the prediction time. 53.8% of them are positives, so this leakage is
-     correlated with the target.
+     was *not* known at the prediction time. 53.8% of them are positives (all partitions, as
+     computed in Stage 2; 54.4% when test rows are excluded), so this leakage is correlated with
+     the target.
    - With "flight date ≤ D−2" (lag 2), **0** flights violate the rule, even with a 180-minute
      allowance for unrecorded taxi-in (latest landing lower bound: 41.55 h after the start of the
      flight date).
@@ -87,11 +88,10 @@ origin, destination, route). The rules are:
 5. **History vs. fitting data:** a validation or test flight's history may include earlier
    training-period outcomes (they were available then). This never permits fitting the model on
    validation/test labels.
-6. **Small samples:** every rate will carry a minimum-count rule and a documented fallback
-   (Stage 4); rates are reported with their denominators.
-7. **Required tests (Stage 4):** appending future records must not change features for earlier
-   dates; a flight's own label must not affect its features; reordering rows must not change
-   features; entities without history get the fallback.
+6. **Small samples:** every rate uses `min_count = 20` with a fallback to the system-wide rate,
+   plus shrinkage (m = 20); see `docs/04_feature_engineering.md`.
+7. **Required tests:** implemented in `tests/test_features.py` and `scripts/build_features.py`
+   (future-append, own/same-day label, row order, fallback, partition consistency, brute force).
 
 ## 5. Chronological split (CONFIRMED, D5)
 Inclusive dates on the verified flight date; `parse_boundaries` rejects overlap or misordering;
