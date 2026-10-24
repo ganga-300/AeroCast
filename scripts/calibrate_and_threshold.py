@@ -9,12 +9,12 @@ For the primary model (Logistic Regression, D29) and the comparison model (XGBoo
      (raw if "none", otherwise cross-fitted), maximising recall; report infeasibility honestly.
   4. Fit the final calibrator on all validation predictions and report the scale mismatch at
      the frozen threshold.
-Test data are never scored or summarised. No frozen manifest is written: a proposal awaits
-the user's approval.
+Test data are never scored or summarised. No frozen manifest is written; the proposal is built
+separately by scripts/prepare_frozen_proposal.py.
 
 Outputs:
     reports/calibration/stage8_results.json
-    reports/calibration/frozen_decisions_proposal.json
+    reports/calibration/stage8_decision_inputs.json   (inputs to the frozen-decisions proposal)
     reports/figures/stage8/*.png
     models/stage8_*.joblib (git-ignored)
 Usage:
@@ -289,7 +289,7 @@ def main() -> int:
                    "model selection, early stopping, calibration selection and threshold selection."}
     (OUT_DIR / "stage8_results.json").write_text(json.dumps(out, indent=2, default=str))
     proposal = {
-        "status": "PROPOSAL - awaiting user approval; not a frozen manifest; test labels remain locked",
+        "status": "STAGE 8 DECISION INPUTS - not a proposal or manifest; test labels remain locked",
         "prepared_at": datetime.now(timezone.utc).isoformat(),
         "primary_model": cal_cfg["primary_model"], "comparison_model": cal_cfg["comparison_model"],
         "features": [s.name for s in specs], "history_lag_days": cfg["prediction"]["history_lag_days"],
@@ -297,7 +297,7 @@ def main() -> int:
         "models": proposal_models, "config_sha256": file_sha256(PROJECT_ROOT / "configs" / "config.yaml"),
         "raw_sha256": sha_before,
     }
-    (OUT_DIR / "frozen_decisions_proposal.json").write_text(json.dumps(proposal, indent=2, default=str))
+    (OUT_DIR / "stage8_decision_inputs.json").write_text(json.dumps(proposal, indent=2, default=str))
     for c in checks:
         print(f"[{'PASS' if c['passed'] else 'FAIL'}] {c['check']}")
     return 0 if out["all_passed"] else 1

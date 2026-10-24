@@ -24,6 +24,11 @@
       }
     },
     {
+      "check": "partition() returns no label columns for test",
+      "passed": true,
+      "detail": null
+    },
+    {
       "check": "train and validation each have >= 500 positives and negatives",
       "passed": true,
       "detail": null

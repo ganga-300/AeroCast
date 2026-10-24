@@ -1,0 +1,585 @@
+{
+  "status": "PROPOSAL - FOR USER REVIEW. NOT THE UNLOCKING MANIFEST. Cannot release test labels (status is not 'FROZEN').",
+  "prepared_at": "2026-10-24T14:25:14.494295+00:00",
+  "unlocking_manifest": {
+    "path": "reports/final/frozen_manifest.json",
+    "access_log": "reports/final/test_label_access_log.jsonl",
+    "exists": false,
+    "created_only": "after explicit user approval, via experiment.build_manifest: status 'FROZEN', ISO-8601 frozen_at with time zone, non-empty approval_note, this proposal's SHA-256, and an exact copy of the bound decision fields",
+    "lock_checks": [
+      "status == 'FROZEN'",
+      "required fields present",
+      "frozen_at ISO-8601 with time zone",
+      "approved_proposal_sha256 equals this file on disk",
+      "bound fields equal this proposal exactly",
+      "operating point equals the D32 statement; no model has a threshold",
+      "config, raw data, model and calibrator files match their SHA-256",
+      "evaluation script and src package code match their SHA-256",
+      "a repeat release needs a logged reason",
+      "each release logged with manifest and proposal hashes"
+    ]
+  },
+  "prediction_contract": {
+    "prediction_timestamp": "end of the day before the scheduled flight date (D3)",
+    "target": "y = 1 if arr_delay >= 15 minutes, 0 if below; flights without a recorded arrival delay excluded (D4, D6)",
+    "split": {
+      "train": {
+        "start": "2013-01-01",
+        "end": "2013-08-31"
+      },
+      "validation": {
+        "start": "2013-09-01",
+        "end": "2013-10-31"
+      },
+      "test": {
+        "start": "2013-11-01",
+        "end": "2013-12-31"
+      }
+    },
+    "history_lag_days": 2,
+    "history_rule": "historical features use only flights with flight date <= D-2 (D10)",
+    "features": [
+      "dep_hour",
+      "dep_hour_sin",
+      "dep_hour_cos",
+      "arr_hour",
+      "arr_hour_sin",
+      "arr_hour_cos",
+      "day_of_week",
+      "is_weekend",
+      "distance",
+      "carrier",
+      "origin",
+      "dest",
+      "route",
+      "hist_all_rate_exp",
+      "hist_all_rate_7d",
+      "hist_all_n_7d",
+      "hist_all_rate_28d",
+      "hist_all_n_28d",
+      "hist_all_nodep_share_7d",
+      "hist_carrier_rate_exp",
+      "hist_carrier_rate_28d",
+      "hist_carrier_n_28d",
+      "hist_origin_rate_exp",
+      "hist_origin_rate_28d",
+      "hist_origin_n_28d",
+      "hist_dest_rate_exp",
+      "hist_dest_rate_28d",
+      "hist_dest_n_28d",
+      "hist_route_rate_exp",
+      "hist_route_rate_28d",
+      "hist_route_n_28d"
+    ],
+    "excluded_features": {
+      "month": "Training covers Jan-Aug only; Sep-Dec values would be unseen (decision D15)"
+    },
+    "raw_path": "data/raw/flights.csv",
+    "feature_config": {
+      "history": {
+        "entities": [
+          "carrier",
+          "origin",
+          "dest",
+          "route"
+        ],
+        "entity_windows_days": [
+          28
+        ],
+        "global_windows_days": [
+          7,
+          28
+        ],
+        "min_count": 20,
+        "smoothing_m": 20
+      }
+    }
+  },
+  "primary_model": "logistic_regression",
+  "comparison_model": "xgboost",
+  "models": {
+    "logistic_regression": {
+      "role": "primary",
+      "stage7_config_id": "logistic_regression_00",
+      "hyperparameters": {
+        "C": 0.01,
+        "class_weight": null,
+        "max_iter": 5000
+      },
+      "resolved_params": {
+        "C": 0.01,
+        "class_weight": null,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "max_iter": 5000
+      },
+      "seed": 42,
+      "training_rows": 217727,
+      "training_positives": 57423,
+      "preprocessing": {
+        "family": "logistic_regression",
+        "fit_info": {
+          "family": "logistic_regression",
+          "n_rows": 217727,
+          "date_min": "2013-01-01",
+          "date_max": "2013-08-31",
+          "ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+          "n_output_columns": 142
+        },
+        "min_category_frequency": 100,
+        "n_output_columns": 142,
+        "output_columns_sha256": "2582b149e5df6da082130a6ac6d0b224326b54e29eee9d5e194fdd421342e4f7"
+      },
+      "calibration": {
+        "method": "sigmoid",
+        "fitted_on": "all validation predictions, 2013-09-01..2013-10-31",
+        "parameters": {
+          "method": "sigmoid",
+          "n": 55628,
+          "positives": 8731,
+          "a": 1.0096061560753247,
+          "b": -0.4961185603652983
+        },
+        "selection": {
+          "selected": "sigmoid",
+          "best_mean_heldout_log_loss": 0.413866010234496,
+          "within_tolerance": [
+            "sigmoid"
+          ],
+          "tie_break_applied": false
+        },
+        "mean_heldout_log_loss": {
+          "none": 0.42787951120918905,
+          "sigmoid": 0.413866010234496,
+          "isotonic": 0.41853535228726835
+        }
+      },
+      "operating_threshold": {
+        "status": "none",
+        "statement": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+        "validation_evidence": {
+          "feasible": false,
+          "min_precision": 0.7,
+          "max_attainable_precision": 0.31344032096288865,
+          "at_threshold": 0.32518930953009517,
+          "recall_there": 0.07158401099530409,
+          "n_flagged_there": 1994,
+          "n_candidates": 55627
+        }
+      },
+      "validation_development_metrics": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.24721969006896338,
+        "roc_auc": 0.6585701926963607,
+        "brier": 0.12697997927672555,
+        "log_loss": 0.4146958187220155,
+        "mean_predicted_probability": 0.15568712936183166
+      },
+      "artifacts": {
+        "model": {
+          "path": "models/stage8_logistic_regression_model.joblib",
+          "sha256": "166f5d0168328836b0800d06af2486a07657b7cf9414fe3d19b1b7e85503078b"
+        },
+        "calibrator": {
+          "path": "models/stage8_logistic_regression_calibrator_sigmoid.joblib",
+          "sha256": "4724afd7d488d17bf6b00d68c6e2c99b89a3cd89ec0e902f23fdbe7d443f429f"
+        }
+      }
+    },
+    "xgboost": {
+      "role": "comparison",
+      "stage7_config_id": "xgboost_01",
+      "hyperparameters": {
+        "max_depth": 3,
+        "min_child_weight": 20,
+        "scale_pos_weight": "train_balanced",
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "n_estimators_max": 2000,
+        "early_stopping_rounds": 50,
+        "early_stopping_metric": "aucpr"
+      },
+      "resolved_params": {
+        "objective": "binary:logistic",
+        "tree_method": "hist",
+        "max_depth": 3,
+        "min_child_weight": 20,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "n_estimators": 2000,
+        "early_stopping_rounds": 50,
+        "eval_metric": "aucpr",
+        "scale_pos_weight": 2.791634014245163
+      },
+      "seed": 42,
+      "training_rows": 217727,
+      "training_positives": 57423,
+      "preprocessing": {
+        "family": "xgboost",
+        "fit_info": {
+          "family": "xgboost",
+          "n_rows": 217727,
+          "date_min": "2013-01-01",
+          "date_max": "2013-08-31",
+          "ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+          "n_output_columns": 134
+        },
+        "min_category_frequency": 100,
+        "n_output_columns": 134,
+        "output_columns_sha256": "130af7b7ed547238fd9bb2fc8ed68496cbda50e8d1c0b58379d10af311ecf4e5"
+      },
+      "calibration": {
+        "method": "isotonic",
+        "fitted_on": "all validation predictions, 2013-09-01..2013-10-31",
+        "parameters": {
+          "method": "isotonic",
+          "n": 55628,
+          "positives": 8731,
+          "n_steps": 31
+        },
+        "selection": {
+          "selected": "isotonic",
+          "best_mean_heldout_log_loss": 0.4178240613215713,
+          "within_tolerance": [
+            "isotonic"
+          ],
+          "tie_break_applied": false
+        },
+        "mean_heldout_log_loss": {
+          "none": 0.6687974268952074,
+          "sigmoid": 0.41830317544480167,
+          "isotonic": 0.4178240613215713
+        }
+      },
+      "operating_threshold": {
+        "status": "none",
+        "statement": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+        "validation_evidence": {
+          "feasible": false,
+          "min_precision": 0.7,
+          "max_attainable_precision": 0.3774733637747336,
+          "at_threshold": 0.3220075377499327,
+          "recall_there": 0.028404535562936664,
+          "n_flagged_there": 657,
+          "n_candidates": 70
+        }
+      },
+      "validation_development_metrics": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.22769614647289285,
+        "roc_auc": 0.6425623464940665,
+        "brier": 0.1281520842068381,
+        "log_loss": 0.41878533567853304,
+        "mean_predicted_probability": 0.15807863599743371
+      },
+      "artifacts": {
+        "model": {
+          "path": "models/stage8_xgboost_model.joblib",
+          "sha256": "cf941cb79cc649c7b3ba8e06c5041ae29ecde6826eddb7230296e32dc242c3e1"
+        },
+        "calibrator": {
+          "path": "models/stage8_xgboost_calibrator_isotonic.joblib",
+          "sha256": "a82b587db541e786c1f6a1e0dc2b235d337ea9c2404edb93c0dc39d65493d557"
+        }
+      }
+    }
+  },
+  "calibration_and_threshold_procedure_D11": {
+    "methods": [
+      "none",
+      "sigmoid",
+      "isotonic"
+    ],
+    "folds": {
+      "sep": {
+        "start": "2013-09-01",
+        "end": "2013-09-30"
+      },
+      "oct": {
+        "start": "2013-10-01",
+        "end": "2013-10-31"
+      }
+    },
+    "criterion": "mean_heldout_log_loss",
+    "tie_tolerance": 1e-06,
+    "threshold_rule": "on validation predictions unseen by the calibrator (raw if 'none', otherwise cross-fitted by month), choose the threshold with precision >= 0.70 and maximum recall; ties to the highest threshold; infeasible if none (D7)",
+    "final_calibrator": "selected method refitted on all validation predictions",
+    "limitation_D33": "cross-fitting with month-specific maps reorders flights between months; on raw LR scores 70% precision occurs only at the top 7 validation flights (5 delayed), in 60% of day resamples; D11 kept unchanged"
+  },
+  "operating_point_D32": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+  "evaluation_script": {
+    "path": "scripts/evaluate_test.py",
+    "sha256": "91f77b36381365351c162117737a8e446d94db262d3d38eec3fd7833fb8af2ed"
+  },
+  "code_sha256": "1ee39dff2e2b3ca28f86573081e03c645f11039484c8781d41bac714db10b08b",
+  "test_evaluation_plan": {
+    "implementation": "scripts/evaluate_test.py (hash-pinned in this proposal) using flight_delay.evaluation.final.evaluate_predictions; not run before approval",
+    "order_of_operations": [
+      "1. load and validate the FROZEN manifest (bound to this proposal and all hashes) before loading data",
+      "2. load hash-pinned artifacts; a deterministic refit on training rows must reproduce their validation predictions exactly; calibrator parameters must match",
+      "3. score test-period features without labels; save predictions (no labels) and their SHA-256",
+      "4. release test labels once via unlock_test_labels (logged with manifest hash and predictions hash)",
+      "5. compute the registered metrics below and write reports/final/test_evaluation.json and figures"
+    ],
+    "single_access": "Exactly one release. The lock refuses a second release unless a repeat reason is given; a repeat is permitted only to fix a software defect that changes no frozen decision, and both outputs must be disclosed.",
+    "models_scored": {
+      "primary": "logistic_regression_sigmoid: Logistic Regression (C=0.01, L2, lbfgs, unweighted) + sigmoid calibrator fitted on all validation predictions",
+      "comparison": "xgboost_isotonic: XGBoost (xgboost_01) + isotonic calibrator fitted on all validation predictions",
+      "references": [
+        "prior_baseline: constant training prevalence (P = 0.2637)",
+        "dummy_most_frequent: constant P = 0"
+      ],
+      "secondary_descriptive": [
+        "logistic_regression_raw",
+        "xgboost_raw (uncalibrated probabilities)"
+      ]
+    },
+    "partition_summary": [
+      "labelled test rows",
+      "positives",
+      "prevalence"
+    ],
+    "metric_definitions": {
+      "average_precision": "step-wise AP (scikit-learn average_precision_score); not trapezoidal",
+      "roc_auc": "scikit-learn roc_auc_score",
+      "brier": "mean squared error of probabilities",
+      "log_loss": "binary cross-entropy with probabilities clipped to [1e-15, 1 - 1e-15]",
+      "calibration_in_the_large": "mean(q) - mean(y); positive = over-prediction",
+      "calibration_intercept_slope": "unpenalised logistic regression of y on logit(clip(q, 1e-15, 1-1e-15)); slope = coefficient, intercept = constant; ideal (0, 1); reported as 'undefined (constant prediction)' for constant predictions; descriptive only, never applied",
+      "reliability": "up to 10 quantile bins of q; bins with duplicate edges merged (fewer bins possible for step-shaped isotonic outputs); per bin: n, mean q, observed rate",
+      "mean_predicted_probability": "mean(q)"
+    },
+    "per_model_metrics": [
+      "average_precision",
+      "roc_auc",
+      "brier",
+      "log_loss",
+      "mean_predicted_probability",
+      "calibration_in_the_large",
+      "calibration_intercept_slope",
+      "reliability"
+    ],
+    "secondary_descriptive": [
+      "the same point metrics for raw (uncalibrated) LR and XGBoost",
+      "point metrics and calibration-in-the-large by month (2013-11, 2013-12)",
+      "validation vs test: prevalence and mean predicted probability"
+    ],
+    "threshold_dependent_metrics": {
+      "status": "NOT APPLICABLE (D32)",
+      "statement": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+      "not_computed": [
+        "recall at the 70% minimum-precision threshold",
+        "precision",
+        "recall",
+        "F1",
+        "confusion matrix at an operating threshold"
+      ],
+      "figures": "Precision-recall and ROC curves are shown descriptively with the 0.70 precision line; no threshold is read from them or reported as an operating point."
+    },
+    "uncertainty": {
+      "method": "95% percentile intervals; day-block bootstrap: 200 resamples of whole test flight dates with replacement; seed 42 (D28); the same resampled days for every model and metric",
+      "undefined_resamples": "resamples in which a metric is undefined are excluded and counted (n_undefined)",
+      "interval_models": [
+        "logistic_regression_sigmoid",
+        "xgboost_isotonic",
+        "prior_baseline",
+        "dummy_most_frequent"
+      ],
+      "interval_metrics": [
+        "average_precision",
+        "roc_auc",
+        "brier",
+        "log_loss"
+      ],
+      "paired_differences": [
+        "logistic_regression_sigmoid - xgboost_isotonic",
+        "logistic_regression_sigmoid - prior_baseline"
+      ],
+      "paired_sign_convention": "difference = metric(primary) - metric(other); AP and ROC AUC > 0 favour the primary model; Brier and log loss < 0 favour it",
+      "constant_baselines": "computed with the same code; ROC AUC of a constant prediction is 0.5 by construction (degenerate interval); AP equals prevalence; calibration slope undefined"
+    },
+    "error_analysis": "Any later test-set error analysis (plan Stage 9) is exploratory and cannot change the frozen pipeline."
+  },
+  "prior_test_period_exposure": [
+    "Stage 1 dataset audit: monthly delay prevalence incl. November (0.181) and December (0.336); whole-year delay distribution.",
+    "Stage 2 prediction contract: test labelled rows 53,991, positives 13,946, prevalence 0.2583; the D10 positive share (53.8%) computed over all partitions.",
+    "Stage 3 EDA: daily and monthly prevalence through December (descriptive figure), label-free category mix and unseen categories.",
+    "Stage 4 feature validation (earlier version): test-period feature ranges incl. historical rates built from test-period outcomes, fallback shares, unseen categories.",
+    "No test predictions, metrics, calibration results or error analyses have ever been computed or seen.",
+    "Mitigation: calibration-method and threshold rules (D11, D7) were fixed before any model existed and applied with validation-only criteria; D17 used label-free evidence only."
+  ],
+  "strict_rules": [
+    "Test results cannot be used to alter the model, its hyperparameters, preprocessing, feature definitions, historical windows, calibration method or calibrator, threshold rule, operating point, split or prediction contract.",
+    "The test evaluation is reported once, as obtained, including if results are disappointing.",
+    "Any analysis or model change after test access is a new, non-final experiment and must be labelled as such; its results may not be presented as an untouched test evaluation.",
+    "No refit on training + validation (D20); the frozen artifacts are the ones scored.",
+    "The scored pipeline must be the hash-pinned artifacts listed here; a deterministic refit from the config must reproduce their validation predictions before scoring."
+  ],
+  "reproducibility": {
+    "python": "3.13.13",
+    "versions": {
+      "pandas": "3.1.0",
+      "numpy": "2.5.4",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1"
+    },
+    "system_dependency": "libomp (Homebrew) for XGBoost on macOS",
+    "raw_sha256": "8bdc6abbf07ac0cbb1036bc14a787cab3eea616be46c31899d2d8048963b08aa",
+    "config_sha256": "75e70698894feb0c1813c126250585a28fb1f034842f7364d441ebb39423e75b",
+    "train_ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+    "validation_ids_sha256": "95fd38ae4fa6d4fdddcf59a6970214aca1c5c61e0889ae23914c34585bdd4f88",
+    "stage7_selection_sha256": "955b2c61ad1ef103cbd8fafe28e2cfb924ccffd141bfe910ae800471cb725379",
+    "stage8_results_sha256": "02edcc5445c2f99975082eb1048acf68f714462080fea761e0341959b400f3c6"
+  },
+  "checks": [
+    {
+      "check": "config: D\u22122 cutoff, 15-min target, 0.70 precision, confirmed split",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "primary = Logistic Regression, comparison = XGBoost (D29)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "[logistic_regression] Stage 8 selected calibration = sigmoid (D31)",
+      "passed": true,
+      "detail": {
+        "selected": "sigmoid",
+        "best_mean_heldout_log_loss": 0.413866010234496,
+        "within_tolerance": [
+          "sigmoid"
+        ],
+        "tie_break_applied": false
+      }
+    },
+    {
+      "check": "[logistic_regression] threshold infeasible on validation (D32)",
+      "passed": true,
+      "detail": {
+        "max_attainable_precision": 0.31344032096288865,
+        "min_precision": 0.7
+      }
+    },
+    {
+      "check": "[logistic_regression] Stage 8 used the Stage 7 selected configuration",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "[logistic_regression] saved model reproduces recorded validation predictions and a fresh refit",
+      "passed": true,
+      "detail": {
+        "max_abs_vs_recorded": 5.000000413701855e-11,
+        "identical_to_refit": true
+      }
+    },
+    {
+      "check": "[logistic_regression] saved calibrator matches Stage 8 final calibrator",
+      "passed": true,
+      "detail": {
+        "method": "sigmoid",
+        "n": 55628,
+        "positives": 8731,
+        "a": 1.0096061560753247,
+        "b": -0.4961185603652983
+      }
+    },
+    {
+      "check": "[logistic_regression] preprocessing fitted on training rows only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "[xgboost] Stage 8 selected calibration = isotonic (D31)",
+      "passed": true,
+      "detail": {
+        "selected": "isotonic",
+        "best_mean_heldout_log_loss": 0.4178240613215713,
+        "within_tolerance": [
+          "isotonic"
+        ],
+        "tie_break_applied": false
+      }
+    },
+    {
+      "check": "[xgboost] threshold infeasible on validation (D32)",
+      "passed": true,
+      "detail": {
+        "max_attainable_precision": 0.3774733637747336,
+        "min_precision": 0.7
+      }
+    },
+    {
+      "check": "[xgboost] Stage 8 used the Stage 7 selected configuration",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "[xgboost] saved model reproduces recorded validation predictions and a fresh refit",
+      "passed": true,
+      "detail": {
+        "max_abs_vs_recorded": 4.997252611715908e-11,
+        "identical_to_refit": true
+      }
+    },
+    {
+      "check": "[xgboost] saved calibrator matches Stage 8 final calibrator",
+      "passed": true,
+      "detail": {
+        "method": "isotonic",
+        "n": 55628,
+        "positives": 8731,
+        "n_steps": 31
+      }
+    },
+    {
+      "check": "[xgboost] preprocessing fitted on training rows only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "this proposal is rejected by the lock if used as a manifest",
+      "passed": true,
+      "detail": "Manifest status is \"PROPOSAL - FOR USER REVIEW. NOT THE UNLOCKING MANIFEST. Cannot release test labels (status is not 'FROZEN').\", not 'FROZEN'; test labels stay locked"
+    },
+    {
+      "check": "official lock refuses release without a manifest",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no test-label access logged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "evaluation script: no forbidden tuning/calibration/threshold calls",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "evaluation script: exactly one .fit call (the training-only refit check)",
+      "passed": true,
+      "detail": {
+        "fit_calls": 1
+      }
+    },
+    {
+      "check": "evaluation script: manifest validated before data load; predictions saved before labels released",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "raw file unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "all_checks_passed": true
+}

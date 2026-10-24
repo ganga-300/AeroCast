@@ -1,6 +1,6 @@
 {
-  "status": "PROPOSAL - awaiting user approval; not a frozen manifest; test labels remain locked",
-  "prepared_at": "2026-10-24T14:03:43.154667+00:00",
+  "status": "STAGE 8 DECISION INPUTS - not a proposal or manifest; test labels remain locked",
+  "prepared_at": "2026-10-24T14:07:46.083304+00:00",
   "primary_model": "logistic_regression",
   "comparison_model": "xgboost",
   "features": [

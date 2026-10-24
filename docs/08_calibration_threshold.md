@@ -2,7 +2,7 @@
 
 Code: `src/flight_delay/evaluation/calibration.py`, `src/flight_delay/evaluation/threshold.py`.
 Run: `.venv/bin/python scripts/calibrate_and_threshold.py` (≈ 15 s). Outputs:
-`reports/calibration/stage8_results.json`, `reports/calibration/frozen_decisions_proposal.json`,
+`reports/calibration/stage8_results.json`, `reports/calibration/stage8_decision_inputs.json`,
 `reports/figures/stage8/*.png`, `models/stage8_*.joblib` (git-ignored). Tests:
 `tests/test_calibration_threshold.py`.
 
@@ -164,6 +164,5 @@ approaches 0.70 at any threshold with non-trivial recall.*
 - **D33: whether to record the raw-score / cross-fitting observation** as a documented limitation
   only (recommended), or to revise D11 before test (not recommended at this stage: it would not
   change feasibility and would be a validation-informed rule change).
-- **Freezing.** `reports/calibration/frozen_decisions_proposal.json` lists the model,
-  preprocessing, hyperparameters, calibrator and threshold status. It becomes the frozen manifest
-  only on your approval, at the start of the final-evaluation stage.
+- **Freezing.** Superseded by `docs/09_frozen_decisions_proposal.md` and
+  `reports/freeze/frozen_decisions_proposal.json`.

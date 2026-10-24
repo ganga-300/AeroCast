@@ -68,10 +68,14 @@ small optimism on validation day 1, disclosed here (D22).
   must come from it.
 - `holdout_features_without_labels(table, cfg)` returns test rows with `y` and `label_status`
   removed, so the frozen pipeline can score them.
-- `unlock_test_labels(...)` releases test labels only if a frozen manifest exists with
-  `frozen_at, model, features, preprocessing, hyperparameters, threshold, calibration`.
-  Every release is appended to `reports/final/test_label_access_log.jsonl`. The design check
-  verifies there is no manifest and no logged access.
+- `partition()` returns test rows **without** label columns; the test sufficiency check is a
+  PASS/FAIL function (`test_partition_sufficient`).
+- `unlock_test_labels(...)` reads the fixed manifest `reports/final/frozen_manifest.json` and
+  releases labels only if it is `status: "FROZEN"` and bound to the approved proposal and to the
+  hashes of the config, raw data, artifacts, evaluation script and `src` code (see
+  `docs/09_frozen_decisions_proposal.md`). Every release is appended to
+  `reports/final/test_label_access_log.jsonl` with the manifest hash; a repeat needs a logged
+  reason. The design check verifies there is no manifest and no logged access.
 - All scripts now withhold test-label statistics: `check_contract.py` reports test
   positives/prevalence as "withheld"; `build_features.py` summarises train/validation only.
   Mechanical leakage checks that involve test rows report PASS/FAIL only.

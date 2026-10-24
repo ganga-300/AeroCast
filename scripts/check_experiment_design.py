@@ -27,13 +27,14 @@ import pandas as pd
 from flight_delay.config import PROJECT_ROOT, load_config, require_history_lag
 from flight_delay.data.load import load_flights
 from flight_delay.data.split import parse_boundaries
-from flight_delay.experiment import (HoldoutLockedError, assert_fit_rows, development_partitions,
-                                     partition, unlock_test_labels)
+from flight_delay.experiment import (ACCESS_LOG_REL, MANIFEST_REL, HoldoutLockedError, assert_fit_rows,
+                                     development_partitions, partition, test_partition_sufficient,
+                                     unlock_test_labels)
 from flight_delay.features.build import build_feature_table
 
 OUT_JSON = PROJECT_ROOT / "reports" / "experiment" / "design_check.json"
-MANIFEST = PROJECT_ROOT / "reports" / "final" / "frozen_manifest.json"
-ACCESS_LOG = PROJECT_ROOT / "reports" / "final" / "test_label_access_log.jsonl"
+MANIFEST = PROJECT_ROOT / MANIFEST_REL
+ACCESS_LOG = PROJECT_ROOT / ACCESS_LOG_REL
 # Floor for metric stability: a precision/recall estimate at a 70%-precision operating point
 # needs hundreds of positives. A sufficiency check, not a tuned value.
 MIN_CLASS_COUNT = 500
@@ -77,11 +78,10 @@ def main() -> int:
         sizes[s] = {"rows": int(len(y)), "days": int(parts[s]["flight_date"].nunique()),
                     "positives": int((y == 1).sum()), "negatives": int((y == 0).sum()),
                     "prevalence": round(float(y.mean()), 4)}
-    y_test = parts["test"]["y"]
-    test_ok = bool(min((y_test == 1).sum(), (y_test == 0).sum()) >= MIN_CLASS_COUNT)
-    sizes["test"] = {"rows": int(len(y_test)), "days": int(parts["test"]["flight_date"].nunique()),
+    check("partition() returns no label columns for test", not {"y", "label_status"} & set(parts["test"].columns))
+    test_ok = test_partition_sufficient(table, cfg, MIN_CLASS_COUNT)  # PASS/FAIL only
+    sizes["test"] = {"rows": int(len(parts["test"])), "days": int(parts["test"]["flight_date"].nunique()),
                      "positives": "withheld", "negatives": "withheld", "prevalence": "withheld"}
-    del y_test
     check(f"train and validation each have >= {MIN_CLASS_COUNT} positives and negatives",
           all(min(sizes[s]["positives"], sizes[s]["negatives"]) >= MIN_CLASS_COUNT
               for s in ("train", "validation")))
@@ -100,7 +100,7 @@ def main() -> int:
         check("no frozen manifest exists yet (decisions not frozen)", False, str(MANIFEST))
     else:
         try:
-            unlock_test_labels(table, cfg, MANIFEST, ACCESS_LOG, "stage 5 lock check")
+            unlock_test_labels(table, cfg, "stage 5 lock check")
             check("test labels locked without a frozen manifest", False)
         except HoldoutLockedError:
             check("test labels locked without a frozen manifest", True)

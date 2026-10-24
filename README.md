@@ -28,6 +28,8 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Preprocessing check (Stage 6) | `.venv/bin/python scripts/check_preprocessing.py` | `reports/preprocessing/preprocessing_check.json` |
 | Baseline models, validation only (Stage 7) | `.venv/bin/python scripts/train_baselines.py` | `reports/models/*.json`, `reports/models/validation_predictions.csv`, `models/*.joblib` (git-ignored) |
 | Calibration + threshold, validation only (Stage 8) | `.venv/bin/python scripts/calibrate_and_threshold.py` | `reports/calibration/*.json`, `reports/figures/stage8/*.png` |
+| Frozen-decisions proposal (review only; cannot unlock test) | `.venv/bin/python scripts/prepare_frozen_proposal.py` | `reports/freeze/frozen_decisions_proposal.json` |
+| Final test evaluation — **do not run before approval** (refuses without a valid FROZEN manifest) | `.venv/bin/python scripts/evaluate_test.py` | `reports/final/` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
 ## Key documents
@@ -41,6 +43,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 - [docs/06_preprocessing.md](docs/06_preprocessing.md): per-model encodings, imputation, rare/unseen categories, verification
 - [docs/07_baseline_models.md](docs/07_baseline_models.md): baseline settings, validation-only comparison, limitations
 - [docs/08_calibration_threshold.md](docs/08_calibration_threshold.md): calibration comparison, threshold infeasibility, diagnostics
+- [docs/09_frozen_decisions_proposal.md](docs/09_frozen_decisions_proposal.md): proposed frozen decisions and pre-registered test reporting (awaiting approval)
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
 - [configs/config.yaml](configs/config.yaml): frozen decisions used by the code
 
