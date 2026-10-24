@@ -1,0 +1,17 @@
+% Generated from reports/experiment/design_check.json, reports/final/test_evaluation.json, configs/config.yaml. Do not edit by hand.
+\begin{table*}[!t]
+\centering
+\footnotesize
+\caption{Experimental protocol and chronological partitions.}
+\label{tab:protocol}
+\begin{tabular}{lcrrr}
+\toprule
+Partition & Dates & Labelled & Delayed & Prevalence \\
+\midrule
+Train & 2013-01-01 to 2013-08-31 & 217,727 & 57,423 & 0.264 \\
+Validation & 2013-09-01 to 2013-10-31 & 55,628 & 8,731 & 0.157 \\
+Test (single evaluation) & 2013-11-01 to 2013-12-31 & 53,991 & 13,946 & 0.258 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\parbox{\linewidth}{\scriptsize Prediction at the end of day $D-1$; historical outcomes only from flight dates $\leq D-2$. Target: arrival delay $\geq$ 15 min. Threshold rule: maximise recall subject to precision $\geq$ 70\% on validation (infeasible; see Sec.~\ref{sec:calibration}).}
+\end{table*}

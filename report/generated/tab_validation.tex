@@ -1,0 +1,18 @@
+% Generated from reports/models/baseline_selection.json. Do not edit by hand.
+\begin{table*}[!t]
+\centering
+\footnotesize
+\caption{Validation comparison (development estimate; optimistic because validation was used for selection).}
+\label{tab:validation}
+\begin{tabular}{lcccc}
+\toprule
+Model & AP [95\% CI] & ROC AUC [95\% CI] & Brier & Log loss \\
+\midrule
+Most-frequent dummy & 0.157 [0.133, 0.178] & 0.500 & 0.1570 & 5.421 \\
+Prior (train prevalence) & 0.157 [0.133, 0.178] & 0.500 & 0.1437 & 0.467 \\
+Logistic Regression & 0.271 [0.215, 0.318] & 0.670 [0.641, 0.696] & 0.1318 & 0.428 \\
+XGBoost & 0.235 [0.187, 0.279] & 0.650 [0.624, 0.676] & 0.2385 & 0.669 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\parbox{\linewidth}{\scriptsize Day-block bootstrap, 200 resamples. Raw (uncalibrated) probabilities.}
+\end{table*}

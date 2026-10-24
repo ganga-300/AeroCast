@@ -1,0 +1,20 @@
+% Generated from reports/calibration/stage8_results.json. Do not edit by hand.
+\begin{table}[!t]
+\centering
+\footnotesize
+\caption{Calibration choice by Sep$\leftrightarrow$Oct cross-fitting (mean held-out values on validation).}
+\label{tab:calibration}
+\begin{tabular}{llcc}
+\toprule
+Model & Method & Log loss & Brier \\
+\midrule
+LR & none & 0.4279 & 0.1316 \\
+LR & sigmoid (selected) & 0.4139 & 0.1267 \\
+LR & isotonic & 0.4185 & 0.1274 \\
+XGBoost & none & 0.6688 & 0.2384 \\
+XGBoost & sigmoid & 0.4183 & 0.1280 \\
+XGBoost & isotonic (selected) & 0.4178 & 0.1278 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\parbox{\linewidth}{\scriptsize No threshold reached 70\% precision on calibrator-unseen validation predictions (maximum precision: LR 0.313, XGBoost 0.377).}
+\end{table}

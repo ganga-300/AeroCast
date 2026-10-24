@@ -1,0 +1,21 @@
+% Generated from reports/audit/dataset_audit.json, reports/features/feature_validation.json. Do not edit by hand.
+\begin{table}[!t]
+\centering
+\footnotesize
+\caption{Dataset summary (supplied file; NYC departures, 2013).}
+\label{tab:dataset}
+\begin{tabular}{lr}
+\toprule
+Quantity & Value \\
+\midrule
+Rows $\times$ columns & 336,776 $\times$ 21 \\
+Date range & 2013-01-01 to 2013-12-31 \\
+Labelled flights (arrival delay recorded) & 327,346 \\
+Delayed ($\geq$15 min) / prevalence & 80,100 / 24.5\% \\
+Excluded: never departed (cancellation proxy) & 8,255 \\
+Excluded: departed, no arrival time & 458 \\
+Excluded: arrived, no delay recorded (diversion proxy) & 717 \\
+Features (schedule / historical) & 31 (13 / 18) \\
+\bottomrule
+\end{tabular}
+\end{table}

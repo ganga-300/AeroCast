@@ -1,0 +1,18 @@
+% Generated from reports/error_analysis/stage9_results.json. Do not edit by hand.
+\begin{table*}[!t]
+\centering
+\footnotesize
+\caption{Prior-shift consistency check (descriptive; never applied).}
+\label{tab:priorshift}
+\begin{tabular}{llccccc}
+\toprule
+Model & Month & Mean pred. & Adjusted & Observed & $\delta_{\text{prior}}$ & $\delta_{\text{match}}$ \\
+\midrule
+LR & 2013-11 & 0.168 & 0.191 & 0.181 & 0.17 & 0.10 \\
+LR & 2013-12 & 0.191 & 0.372 & 0.335 & 1.00 & 0.82 \\
+XGBoost & 2013-11 & 0.168 & 0.193 & 0.181 & 0.17 & 0.09 \\
+XGBoost & 2013-12 & 0.171 & 0.342 & 0.335 & 1.00 & 0.96 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\parbox{\linewidth}{\scriptsize Adjusted: pure prior-shift adjustment from the validation base rate; $\delta$ in log-odds.}
+\end{table*}

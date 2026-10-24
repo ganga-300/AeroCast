@@ -32,7 +32,16 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Frozen-decisions proposal (review only; cannot unlock test) | `.venv/bin/python scripts/prepare_frozen_proposal.py` | `reports/freeze/frozen_decisions_proposal.json` |
 | Final test evaluation — **already run once (2026-10-24); do not re-run** (a repeat needs a logged, disclosed reason) | `.venv/bin/python scripts/evaluate_test.py` | `reports/final/` |
 | Descriptive error analysis, no test-label access (Stage 9) | `.venv/bin/python scripts/run_error_analysis.py` | `reports/error_analysis/stage9_results.json`, `reports/figures/stage9/` |
+| Report tables, macros and figures from saved JSON (no models run, no test access) | `.venv/bin/python scripts/make_report_tables.py` | `report/generated/*.tex`, `report/figures/*.png` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
+
+## Report (IEEE LaTeX)
+`report/main.tex` (IEEEtran conference) with `report/references.bib`. All result numbers are
+`\input` from `report/generated/`, produced by `scripts/make_report_tables.py` from the saved JSON;
+never type results by hand (`tests/test_report.py` fails if generated files differ from a fresh build).
+Red `[TODO]` markers indicate prose the author still has to write. TeX is not installed locally:
+upload the `report/` folder to Overleaf (which provides `IEEEtran.cls`) and compile with
+pdflatex + BibTeX.
 
 ## Key documents
 - [docs/00_workspace_audit.md](docs/00_workspace_audit.md): environment and workspace facts

@@ -1,0 +1,251 @@
+% AeroCast Phase 1 report: IEEE conference skeleton.
+% - Every result number comes from \input{generated/...}, produced by
+%   scripts/make_report_tables.py from saved JSON artifacts. Do NOT type results by hand.
+% - Red [TODO] markers are places where the author must write prose in their own words.
+% - Compile with pdflatex + bibtex (e.g. on Overleaf, which provides IEEEtran.cls).
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figures/}}
+
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\input{generated/numbers}
+
+\begin{document}
+
+\title{Flight Delay Prediction via Gradient Boosting and Temporal Deep Learning:\\
+Phase~1 --- Leakage-Controlled Day-Ahead Machine-Learning Baselines}
+
+\author{\IEEEauthorblockN{\todo{Author name(s)}}
+\IEEEauthorblockA{\todo{Department, institution}\\
+\todo{City, country}\\
+\todo{email}}}
+
+\maketitle
+
+\begin{abstract}
+\todo{150--250 words in your own words. Cover: the day-ahead problem; the dataset
+(\DataLabelled{} labelled NYC departures, 2013); the prediction contract and the $D-\HistLag$
+outcome cutoff; Logistic Regression vs.\ XGBoost with calibration; the single frozen test
+evaluation (AP \TestAPLR{} vs.\ prevalence \TestPrev{}; ROC AUC \TestROCLR{}); no operating
+threshold reached \MinPrecision{} precision; calibration deteriorated in December.}
+\end{abstract}
+
+\begin{IEEEkeywords}
+flight delay prediction, gradient boosting, logistic regression, probability calibration,
+temporal validation, data leakage
+\end{IEEEkeywords}
+
+% =====================================================================
+\section{Introduction}\label{sec:intro}
+\todo{Motivate day-ahead delay risk (passengers, airlines); define the goal precisely: predict
+whether a flight will arrive at least \TargetMinutes{} minutes late, using only information
+available at the end of the previous day. State the contributions (contract and leakage control,
+chronological pre-registered evaluation, calibration analysis, honest negative result). Note that
+temporal deep learning is Phase~2 and out of scope here.}
+
+\subsection{Problem formulation}
+For flight $i$ with scheduled date $D_i$, the label is
+\begin{equation}
+y_i = \mathbb{1}\!\left[\text{arr\_delay}_i \geq \TargetMinutes\ \text{min}\right],
+\end{equation}
+following the BTS on-time convention~\cite{bts_ontime}. The model outputs
+$\hat{p}_i = \Pr(y_i = 1 \mid \mathbf{x}_i)$, where $\mathbf{x}_i$ may contain only information
+available at the end of day $D_i - 1$. Flights without a recorded arrival delay are excluded and
+never labelled. \todo{One sentence on why exclusion is preferred to labelling them on-time.}
+
+% =====================================================================
+\section{Related Work}\label{sec:related}
+\todo{Condense docs/12\_literature\_review.md \S2--\S5 into prose. Suggested structure:
+(i) surveys~\cite{carvalho2021};
+(ii) short-horizon models using live network or surveillance state~\cite{rebollo2014,gui2020,kim2016};
+(iii) longer horizons with schedule or forecast inputs~\cite{choi2016,lambelho2020};
+(iv) cost and imbalance~\cite{choi2017}; (v) probabilistic prediction~\cite{zoutendijk2021};
+(vi) the gap, phrased as ``in the reviewed literature''. Cite only at the verification level
+recorded in docs/12.}
+
+% =====================================================================
+\section{Data and Quality Assessment}\label{sec:data}
+The supplied file matches the public \texttt{nycflights13} dataset~\cite{nycflights13}, sourced
+from BTS on-time data: \DataRows{} scheduled departures from EWR, JFK and LGA between \DataStart{}
+and \DataEnd{} (Table~\ref{tab:dataset}).
+\todo{Summarise the audit (docs/01): no duplicates; delays reconcile with clock times; file rows
+not chronological; no cancellation, diversion or time-zone fields; scope limited to NYC.
+Explain the three exclusion groups and the non-random missingness.}
+\input{generated/tab_dataset}
+
+% =====================================================================
+\section{Prediction Contract and Leakage Prevention}\label{sec:contract}
+\todo{Explain the contract (docs/02): scoring time end of $D-1$; permitted inputs (schedule,
+carrier, airports, distance); prohibited post-event fields (actual departure and arrival,
+departure delay, air time); \texttt{tailnum} excluded as unverifiable. Leakage per~\cite{kaufman2012}.}
+Historical outcomes enter only if the flight date is $\leq D-\HistLag$. A cutoff of $D-1$ was
+rejected because flights on $D-1$ can provably land after midnight. \todo{Give the landing-time
+evidence from docs/02 \S4 and the decision register (D10).}
+
+% =====================================================================
+\section{Exploratory Data Analysis}\label{sec:eda}
+\todo{Key findings from docs/03, each tied to a decision: delay share rises through the day
+(Fig.~\ref{fig:hour}); strong seasonality and a calm validation period (Fig.~\ref{fig:daily});
+destination and route heterogeneity beyond sampling noise; small categories; little shift in the
+schedule mix. Disclose that EDA relating outcomes to features used training data only.}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{eda_dep_hour.png}
+\caption{Training-period delay share by scheduled departure hour, with Wilson 95\% intervals and
+sample sizes.}
+\label{fig:hour}
+\end{figure}
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.85\linewidth]{eda_daily_prevalence.png}
+\caption{Daily delay prevalence in 2013 with partition boundaries (descriptive).}
+\label{fig:daily}
+\end{figure*}
+
+% =====================================================================
+\section{Feature Engineering}\label{sec:features}
+The model uses \NFeatures{} features: \NSchedFeatures{} schedule features and \NHistFeatures{}
+historical features. Time of day is encoded cyclically,
+\begin{equation}
+h_{\sin} = \sin\!\left(\tfrac{2\pi h}{24}\right), \qquad h_{\cos} = \cos\!\left(\tfrac{2\pi h}{24}\right).
+\end{equation}
+Historical delay rates for an entity $e$ (carrier, origin, destination, route) over a window ending
+at $D-\HistLag$ are shrunk towards the system-wide rate $\pi$ of the same window:
+\begin{equation}
+\tilde{r}_e =
+\begin{cases}
+\dfrac{k_e + m\,\pi}{n_e + m}, & n_e \geq n_{\min},\\[4pt]
+\pi, & n_e < n_{\min},
+\end{cases}
+\end{equation}
+with $k_e$ delayed flights out of $n_e$ labelled flights, $m=\HistSmoothing$ and $n_{\min}=\HistMinCount$.
+\todo{Explain why expanding-window counts were removed (a hidden time index, D17), why month is
+excluded (D15), and summarise the leakage tests (independent recalculation, perturbation,
+future-append and row-order checks; docs/04).}
+
+% =====================================================================
+\section{Experimental Design}\label{sec:design}
+Partitions are chronological (Table~\ref{tab:protocol}). Validation is used for model selection
+(Average Precision), XGBoost early stopping, calibration choice and the threshold rule. The test
+set was evaluated once, under a frozen, hash-bound manifest with logged label access.
+\todo{Justify chronological validation: non-stationarity and deployment realism. Cite
+\cite{bergmeir2012} accurately: it recommends blocked cross-validation and found no practical harm
+from standard CV, so it does not by itself rule out random splits. Mention the no-refit policy (D20)
+and the prior test-period exposure disclosed in docs/05 \S3.1.}
+\input{generated/tab_protocol}
+
+% =====================================================================
+\section{Models}\label{sec:models}
+\subsection{Logistic Regression}
+With $\hat{p}_i = \sigma(\beta_0 + \boldsymbol{\beta}^{\top}\mathbf{x}_i)$ and
+$\sigma(z) = 1/(1+e^{-z})$, the model is linear in the log-odds. Training minimises
+\begin{equation}
+\tfrac{1}{2}\lVert\boldsymbol{\beta}\rVert_2^2
+- C\sum_{i}\big[y_i\log\hat{p}_i + (1-y_i)\log(1-\hat{p}_i)\big],
+\end{equation}
+where a small $C$ means strong $L_2$ regularisation~\cite{hastie2009}.
+\todo{State the selected configuration and why strong regularisation helps under seasonal shift;
+preprocessing (one-hot encoding, scaling, training-median imputation plus indicator; docs/06).}
+
+\subsection{Gradient-boosted trees (XGBoost)}
+XGBoost~\cite{chen2016} builds an additive model $F(\mathbf{x}) = \sum_{k=1}^{K} \eta f_k(\mathbf{x})$
+of regression trees~\cite{friedman2001}, with $\hat{p} = \sigma(F)$, by minimising
+\begin{equation}
+\sum_{i}\ell\big(y_i, F(\mathbf{x}_i)\big) + \sum_{k}\Big(\gamma T_k + \tfrac{\lambda}{2}\lVert\mathbf{w}_k\rVert^2\Big).
+\end{equation}
+Using first and second derivatives $g_i, h_i$ of the loss, the optimal weight of leaf $j$ is
+$w_j^{*} = -G_j/(H_j + \lambda)$, where $G_j = \sum_{i \in j} g_i$ and $H_j = \sum_{i \in j} h_i$.
+Its sparsity-aware split finding handles missing values natively~\cite{chen2016}.
+\todo{Search space, early stopping on validation, class weighting and its effect on probabilities
+(docs/07); why trees remain strong on tabular data~\cite{grinsztajn2022}.}
+
+\subsection{Reference baselines}
+\todo{The most-frequent dummy (\DummyAccuracy{} ``accuracy'' on validation while detecting no
+delays) and the constant training-prevalence predictor.}
+
+% =====================================================================
+\section{Evaluation Metrics and Calibration}\label{sec:calibration}
+Average Precision is computed step-wise as $\mathrm{AP} = \sum_n (R_n - R_{n-1})P_n$. Under
+imbalance it is more informative than ROC AUC~\cite{saito2015,davis2006}. Probability quality is
+measured with the Brier score~\cite{brier1950}, $\frac{1}{N}\sum_i(\hat{q}_i - y_i)^2$, and log
+loss, both strictly proper scoring rules~\cite{gneiting2007}.
+
+Calibration maps raw scores $p$ to $q$ with either sigmoid (Platt) scaling~\cite{platt2000},
+$q = \sigma(a\,\mathrm{logit}\,p + b)$, or isotonic regression~\cite{zadrozny2002}, a
+non-decreasing step function. The method was chosen by Sep$\leftrightarrow$Oct cross-fitting on
+held-out log loss (Table~\ref{tab:calibration}). The selected methods were \CalSelLR{} for
+Logistic Regression ($a=\CalSlopeA$, $b=\CalInterceptB$) and \CalSelXGB{} for XGBoost.
+\todo{Explain why calibration matters~\cite{niculescumizil2005,guo2017,vancalster2019}, the
+threshold rule (maximise recall subject to precision $\geq$ \MinPrecision{}) and why it was
+infeasible (maximum precision \MaxPrecLR{} for LR), plus the cross-fitting reordering limitation (D33).}
+\input{generated/tab_calibration}
+Uncertainty is estimated with a bootstrap that resamples whole flight dates, because same-day
+flights are dependent~\cite{field2007}. Paired differences use the same resampled days.
+
+% =====================================================================
+\section{Results}\label{sec:results}
+\subsection{Validation (development)}
+\input{generated/tab_validation}
+\todo{Logistic Regression's validation AP was \ValAPLRci{}, against XGBoost's \ValAPXGB{}; the
+paired XGBoost $-$ LR difference was \ValDiffAPci{}. Stress that these are optimistic development
+estimates.}
+
+\subsection{Single frozen test evaluation}
+\input{generated/tab_test}
+\input{generated/tab_paired}
+\todo{Interpret in your own words, using only the macros:
+LR AP \TestAPLRci{} vs.\ prevalence \TestPrev{} (lift \TestAPLift{}); ROC AUC \TestROCLRci{};
+LR beats XGBoost (\DiffAPLRXGB{} in AP) and the prior on ranking (\DiffAPLRPrior{}). It is
+\emph{not} better than the prior on Brier (\DiffBrierLRPrior{}) or log loss (\DiffLLLRPrior{}).
+It under-predicts (CITL \TestCITLLR{}, slope \TestSlopeLR{}). State the D32 sentence verbatim.}
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.48\linewidth]{test_pr_roc.png}\hfill
+\includegraphics[width=0.30\linewidth]{test_reliability.png}
+\caption{Test precision--recall and ROC curves (descriptive; no threshold read from them) and
+test reliability diagram.}
+\label{fig:test}
+\end{figure*}
+
+% =====================================================================
+\section{Error Analysis}\label{sec:error}
+\input{generated/tab_monthly}
+\input{generated/tab_priorshift}
+\todo{From docs/11, keeping observed findings separate from hypotheses. Prevalence rose from
+\NovPrev{} (Nov) to \DecPrev{} (Dec) while the mean prediction moved only from \NovMeanPredLR{} to
+\DecMeanPredLR{}; CITL went from \NovCITLLR{} to \DecCITLLR{}. A pure prior-shift
+adjustment~\cite{saerens2002} would need a log-odds shift of \DecPriorShift{}; matching the observed
+rate needs \DecReqShift{}. This is consistent with a base-rate shift outside the model's
+inputs~\cite{morenotorres2012}, but not proof of one. State what could not be analysed without
+another label release.}
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.8\linewidth]{stage9_prior_shift.png}
+\caption{(a) Distribution of calibrated LR predictions by period (label-free). (b) Prior-shift
+consistency check (descriptive; never applied).}
+\label{fig:priorshift}
+\end{figure*}
+
+% =====================================================================
+\section{Limitations and Threats to Validity}\label{sec:limitations}
+\todo{Single year, NYC only; no weather or same-day information; non-random exclusions;
+validation reuse makes validation estimates optimistic; calibration fitted on the calmest months;
+prior test-period exposure (aggregates only); historical-retrospective holdout rather than a
+prospective deployment test; associations, not causes.}
+
+% =====================================================================
+\section{Conclusion and Future Work}\label{sec:conclusion}
+\todo{What a strictly day-ahead model can and cannot deliver; Phase~2 directions (temporal deep
+learning, cf.~\cite{kim2016}), framed as future work only.}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

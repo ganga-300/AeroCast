@@ -1,0 +1,16 @@
+% Generated from reports/final/test_evaluation.json. Do not edit by hand.
+\begin{table*}[!t]
+\centering
+\footnotesize
+\caption{Paired test differences (same resampled days).}
+\label{tab:paired}
+\begin{tabular}{lcccc}
+\toprule
+Comparison & $\Delta$AP & $\Delta$ROC & $\Delta$Brier & $\Delta$Log loss \\
+\midrule
+LR $-$ XGBoost & +0.033 [+0.018, +0.049] & +0.017 [+0.004, +0.030] & $-$0.0042 [$-$0.0064, $-$0.0022] & $-$0.0113 [$-$0.0189, $-$0.0047] \\
+LR $-$ prior & +0.104 [+0.079, +0.135] & +0.126 [+0.099, +0.154] & $-$0.0012 [$-$0.0068, +0.0063] & +0.0045 [$-$0.0154, +0.0311] \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\parbox{\linewidth}{\scriptsize AP/ROC $>0$ and Brier/log loss $<0$ favour the primary model.}
+\end{table*}
