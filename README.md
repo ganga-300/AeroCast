@@ -31,6 +31,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Calibration + threshold, validation only (Stage 8) | `.venv/bin/python scripts/calibrate_and_threshold.py` | `reports/calibration/*.json`, `reports/figures/stage8/*.png` |
 | Frozen-decisions proposal (review only; cannot unlock test) | `.venv/bin/python scripts/prepare_frozen_proposal.py` | `reports/freeze/frozen_decisions_proposal.json` |
 | Final test evaluation — **already run once (2026-10-24); do not re-run** (a repeat needs a logged, disclosed reason) | `.venv/bin/python scripts/evaluate_test.py` | `reports/final/` |
+| Descriptive error analysis, no test-label access (Stage 9) | `.venv/bin/python scripts/run_error_analysis.py` | `reports/error_analysis/stage9_results.json`, `reports/figures/stage9/` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
 ## Key documents
@@ -45,6 +46,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 - [docs/07_baseline_models.md](docs/07_baseline_models.md): baseline settings, validation-only comparison, limitations
 - [docs/08_calibration_threshold.md](docs/08_calibration_threshold.md): calibration comparison, threshold infeasibility, diagnostics
 - [docs/09_frozen_decisions_proposal.md](docs/09_frozen_decisions_proposal.md): proposed frozen decisions and pre-registered test reporting (awaiting approval)
+- [docs/11_stage_9_error_analysis.md](docs/11_stage_9_error_analysis.md): descriptive error analysis from saved predictions and aggregates
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
 - [configs/config.yaml](configs/config.yaml): frozen decisions used by the code
 
