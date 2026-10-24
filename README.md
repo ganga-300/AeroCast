@@ -5,8 +5,9 @@ Predict whether a flight departing New York City (EWR/JFK/LGA, 2013) will arrive
 
 **Status:** Stages 0–7 complete (audits, prediction contract, EDA, leakage-safe features,
 chronological design with a test-set lock, training-only preprocessing, baseline models compared
-on validation, calibration and threshold selection on validation). The 70%-precision target
-was infeasible on validation. The final test evaluation is not done yet; no test result exists.
+on validation, calibration and threshold selection on validation, single frozen test
+evaluation). The 70%-precision target was infeasible on validation, so no operating threshold was
+frozen. Final test results: [docs/10_final_test_evaluation.md](docs/10_final_test_evaluation.md).
 
 ## Setup
 ```bash
@@ -29,7 +30,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Baseline models, validation only (Stage 7) | `.venv/bin/python scripts/train_baselines.py` | `reports/models/*.json`, `reports/models/validation_predictions.csv`, `models/*.joblib` (git-ignored) |
 | Calibration + threshold, validation only (Stage 8) | `.venv/bin/python scripts/calibrate_and_threshold.py` | `reports/calibration/*.json`, `reports/figures/stage8/*.png` |
 | Frozen-decisions proposal (review only; cannot unlock test) | `.venv/bin/python scripts/prepare_frozen_proposal.py` | `reports/freeze/frozen_decisions_proposal.json` |
-| Final test evaluation — **do not run before approval** (refuses without a valid FROZEN manifest) | `.venv/bin/python scripts/evaluate_test.py` | `reports/final/` |
+| Final test evaluation — **already run once (2026-10-24); do not re-run** (a repeat needs a logged, disclosed reason) | `.venv/bin/python scripts/evaluate_test.py` | `reports/final/` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
 ## Key documents

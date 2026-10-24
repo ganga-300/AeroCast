@@ -1,0 +1,721 @@
+{
+  "partition_summary": {
+    "labelled_rows": 53991,
+    "positives": 13946,
+    "prevalence": 0.2583023096442
+  },
+  "models": {
+    "logistic_regression_sigmoid": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.36279033521554227,
+        "roc_auc": 0.6264029315077329,
+        "brier": 0.19038323432789317,
+        "log_loss": 0.5758849836252564,
+        "mean_predicted_probability": 0.17903411151217924
+      },
+      "calibration_in_the_large": -0.07926819813202074,
+      "calibration_intercept_slope": {
+        "intercept": 0.05992850618256174,
+        "slope": 0.7041133822384956
+      },
+      "reliability": [
+        {
+          "n": 5400,
+          "mean_predicted": 0.05984104162588947,
+          "observed_rate": 0.14444444444444443
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.08358119975997846,
+          "observed_rate": 0.16929060937210594
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.10308181348868843,
+          "observed_rate": 0.18781255788108908
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.12527963914946805,
+          "observed_rate": 0.20429709205408408
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.1510030547589728,
+          "observed_rate": 0.23948879422115207
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.17794908974833584,
+          "observed_rate": 0.2561585478792369
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.20690812413789747,
+          "observed_rate": 0.28486756806816077
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.23945821705398596,
+          "observed_rate": 0.29894424893498794
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.2809271223487824,
+          "observed_rate": 0.36469716614187814
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.36233388992882454,
+          "observed_rate": 0.4330431561400259
+        }
+      ],
+      "intervals_95": {
+        "average_precision": {
+          "point": 0.36279033521554227,
+          "ci95_low": 0.3106277297393254,
+          "ci95_high": 0.41967078504880306,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "roc_auc": {
+          "point": 0.6264029315077329,
+          "ci95_low": 0.5993304001403001,
+          "ci95_high": 0.6538339793355731,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "brier": {
+          "point": 0.19038323432789317,
+          "ci95_low": 0.1690996015253114,
+          "ci95_high": 0.2164292515167943,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "log_loss": {
+          "point": 0.5758849836252564,
+          "ci95_low": 0.5220011098796552,
+          "ci95_high": 0.6416580072142882,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        }
+      }
+    },
+    "xgboost_isotonic": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.329744457011242,
+        "roc_auc": 0.6091196387643423,
+        "brier": 0.19455232256576438,
+        "log_loss": 0.5872321552141946,
+        "mean_predicted_probability": 0.16941299356657974
+      },
+      "calibration_in_the_large": -0.08888931607762024,
+      "calibration_intercept_slope": {
+        "intercept": 0.03132796711493931,
+        "slope": 0.6597257635669175
+      },
+      "reliability": [
+        {
+          "n": 5832,
+          "mean_predicted": 0.06614872887585861,
+          "observed_rate": 0.1368312757201646
+        },
+        {
+          "n": 9518,
+          "mean_predicted": 0.0985200988630463,
+          "observed_rate": 0.1809203614204665
+        },
+        {
+          "n": 3147,
+          "mean_predicted": 0.11822269240941549,
+          "observed_rate": 0.21099459802986972
+        },
+        {
+          "n": 6106,
+          "mean_predicted": 0.12611721724550812,
+          "observed_rate": 0.2507369800196528
+        },
+        {
+          "n": 7924,
+          "mean_predicted": 0.16488183816262303,
+          "observed_rate": 0.2671630489651691
+        },
+        {
+          "n": 5541,
+          "mean_predicted": 0.17748420397120698,
+          "observed_rate": 0.3111351741562895
+        },
+        {
+          "n": 6467,
+          "mean_predicted": 0.23379930432724974,
+          "observed_rate": 0.3007576929024277
+        },
+        {
+          "n": 5641,
+          "mean_predicted": 0.2599771949828963,
+          "observed_rate": 0.32423329196950895
+        },
+        {
+          "n": 3815,
+          "mean_predicted": 0.3702987126000776,
+          "observed_rate": 0.4235910878112713
+        }
+      ],
+      "intervals_95": {
+        "average_precision": {
+          "point": 0.329744457011242,
+          "ci95_low": 0.2791776974384037,
+          "ci95_high": 0.3861252447125757,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "roc_auc": {
+          "point": 0.6091196387643423,
+          "ci95_low": 0.5859934699989714,
+          "ci95_high": 0.6339098816443528,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "brier": {
+          "point": 0.19455232256576438,
+          "ci95_low": 0.17216089487713038,
+          "ci95_high": 0.2211971625461725,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "log_loss": {
+          "point": 0.5872321552141946,
+          "ci95_low": 0.5308579104443065,
+          "ci95_high": 0.6543762375408544,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        }
+      }
+    },
+    "prior_baseline": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.2583023096442,
+        "roc_auc": 0.5,
+        "brier": 0.19161177902229423,
+        "log_loss": 0.5713501210773202,
+        "mean_predicted_probability": 0.26373853495432353
+      },
+      "calibration_in_the_large": 0.005436225310123555,
+      "calibration_intercept_slope": {
+        "status": "undefined (constant prediction)"
+      },
+      "reliability": [
+        {
+          "n": 53991,
+          "mean_predicted": 0.26373853495432353,
+          "observed_rate": 0.2583023096442
+        }
+      ],
+      "intervals_95": {
+        "average_precision": {
+          "point": 0.2583023096442,
+          "ci95_low": 0.2223406265864901,
+          "ci95_high": 0.30159950864984447,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "roc_auc": {
+          "point": 0.5,
+          "ci95_low": 0.5,
+          "ci95_high": 0.5,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "brier": {
+          "point": 0.19161177902229423,
+          "ci95_low": 0.17461905917284862,
+          "ci95_high": 0.21207069836118975,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "log_loss": {
+          "point": 0.5713501210773202,
+          "ci95_low": 0.5344308829553266,
+          "ci95_high": 0.6158001986095515,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        }
+      }
+    },
+    "dummy_most_frequent": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.2583023096442,
+        "roc_auc": 0.5,
+        "brier": 0.2583023096442,
+        "log_loss": 8.921445715090004,
+        "mean_predicted_probability": 0.0
+      },
+      "calibration_in_the_large": -0.2583023096442,
+      "calibration_intercept_slope": {
+        "status": "undefined (constant prediction)"
+      },
+      "reliability": [
+        {
+          "n": 53991,
+          "mean_predicted": 0.0,
+          "observed_rate": 0.2583023096442
+        }
+      ],
+      "intervals_95": {
+        "average_precision": {
+          "point": 0.2583023096442,
+          "ci95_low": 0.2223406265864901,
+          "ci95_high": 0.30159950864984447,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "roc_auc": {
+          "point": 0.5,
+          "ci95_low": 0.5,
+          "ci95_high": 0.5,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "brier": {
+          "point": 0.2583023096442,
+          "ci95_low": 0.2223406265864901,
+          "ci95_high": 0.30159950864984447,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        },
+        "log_loss": {
+          "point": 8.921445715090004,
+          "ci95_low": 7.679373185175115,
+          "ci95_high": 10.416877990071908,
+          "n_boot": 200,
+          "n_undefined": 0,
+          "resampling_unit": "flight date"
+        }
+      }
+    }
+  },
+  "secondary_descriptive": {
+    "logistic_regression_raw": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.36279033521554227,
+        "roc_auc": 0.6264029315077329,
+        "brier": 0.18503603876737137,
+        "log_loss": 0.5550386406958928,
+        "mean_predicted_probability": 0.2591646570494636
+      },
+      "calibration_in_the_large": 0.0008623474052636415,
+      "calibration_intercept_slope": {
+        "intercept": -0.28923308659102015,
+        "slope": 0.7111140846282965
+      },
+      "reliability": [
+        {
+          "n": 5400,
+          "mean_predicted": 0.0963983467397556,
+          "observed_rate": 0.14444444444444443
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.1323020502391249,
+          "observed_rate": 0.16929060937210594
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.1608803117393122,
+          "observed_rate": 0.18781255788108908
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.1925154927007115,
+          "observed_rate": 0.20429709205408408
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.22807398332802703,
+          "observed_rate": 0.23948879422115207
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.264130304632016,
+          "observed_rate": 0.2561585478792369
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.30158631078747844,
+          "observed_rate": 0.28486756806816077
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.34218439151742097,
+          "observed_rate": 0.29894424893498794
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.39171747507702964,
+          "observed_rate": 0.36469716614187814
+        },
+        {
+          "n": 5399,
+          "mean_predicted": 0.4818880512259458,
+          "observed_rate": 0.4330431561400259
+        }
+      ]
+    },
+    "xgboost_raw": {
+      "metrics": {
+        "n": 53991,
+        "prevalence": 0.2583023096442,
+        "average_precision": 0.3394807296223347,
+        "roc_auc": 0.610799323584716,
+        "brier": 0.24519320041156745,
+        "log_loss": 0.6832538049585714,
+        "mean_predicted_probability": 0.4999132495049126
+      },
+      "calibration_in_the_large": 0.24161093986071264,
+      "calibration_intercept_slope": {
+        "intercept": -1.0924976441445977,
+        "slope": 0.9922593920628975
+      },
+      "reliability": [
+        {
+          "n": 5404,
+          "mean_predicted": 0.3396869635665796,
+          "observed_rate": 0.133419689119171
+        },
+        {
+          "n": 5437,
+          "mean_predicted": 0.3824311365521259,
+          "observed_rate": 0.17068236159646863
+        },
+        {
+          "n": 5680,
+          "mean_predicted": 0.4099970094964538,
+          "observed_rate": 0.1920774647887324
+        },
+        {
+          "n": 5084,
+          "mean_predicted": 0.44663075117334244,
+          "observed_rate": 0.23800157356412274
+        },
+        {
+          "n": 5489,
+          "mean_predicted": 0.4826289502665262,
+          "observed_rate": 0.24230278739296776
+        },
+        {
+          "n": 5415,
+          "mean_predicted": 0.5370884192507243,
+          "observed_rate": 0.28587257617728534
+        },
+        {
+          "n": 5379,
+          "mean_predicted": 0.5675439509700102,
+          "observed_rate": 0.30842163970998326
+        },
+        {
+          "n": 5307,
+          "mean_predicted": 0.587603817872011,
+          "observed_rate": 0.30977953646127754
+        },
+        {
+          "n": 5585,
+          "mean_predicted": 0.6100534565339903,
+          "observed_rate": 0.3033124440465533
+        },
+        {
+          "n": 5211,
+          "mean_predicted": 0.6410575770206265,
+          "observed_rate": 0.40702360391479564
+        }
+      ]
+    }
+  },
+  "paired_differences": {
+    "logistic_regression_sigmoid_minus_xgboost_isotonic": {
+      "average_precision": {
+        "point": 0.03304587820430027,
+        "ci95_low": 0.017745855088386588,
+        "ci95_high": 0.048979815610628544,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.017283292743390577,
+        "ci95_low": 0.0036422123525699044,
+        "ci95_high": 0.029687728500582617,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "brier": {
+        "point": -0.00416908823787121,
+        "ci95_low": -0.00635263877216113,
+        "ci95_high": -0.002237720157850943,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "log_loss": {
+        "point": -0.011347171588938165,
+        "ci95_low": -0.018924041546855237,
+        "ci95_high": -0.004727135405200686,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      }
+    },
+    "logistic_regression_sigmoid_minus_prior_baseline": {
+      "average_precision": {
+        "point": 0.10448802557134229,
+        "ci95_low": 0.07911803834601798,
+        "ci95_high": 0.13484086226082612,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.12640293150773285,
+        "ci95_low": 0.09933040014030019,
+        "ci95_high": 0.1538339793355731,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "brier": {
+        "point": -0.0012285446944010625,
+        "ci95_low": -0.0067606574576982055,
+        "ci95_high": 0.006252707768525711,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      },
+      "log_loss": {
+        "point": 0.004534862547936225,
+        "ci95_low": -0.01541390932453607,
+        "ci95_high": 0.031100657883380404,
+        "n_boot": 200,
+        "n_undefined": 0,
+        "resampling_unit": "flight date"
+      }
+    }
+  },
+  "by_month": {
+    "2013-11": {
+      "logistic_regression_sigmoid": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.2738843824152675,
+          "roc_auc": 0.6335141324019554,
+          "brier": 0.14345382488630584,
+          "log_loss": 0.45873506623824023,
+          "mean_predicted_probability": 0.16753532558542103
+        },
+        "calibration_in_the_large": -0.013473906552801507
+      },
+      "xgboost_isotonic": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.24414026808494677,
+          "roc_auc": 0.6200566192974979,
+          "brier": 0.14491388028939928,
+          "log_loss": 0.46204130144723227,
+          "mean_predicted_probability": 0.16828511204242305
+        },
+        "calibration_in_the_large": -0.012724120095799485
+      },
+      "prior_baseline": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.18100923213822254,
+          "roc_auc": 0.5,
+          "brier": 0.15508902756339174,
+          "log_loss": 0.49199895364042506,
+          "mean_predicted_probability": 0.26373853495432353
+        },
+        "calibration_in_the_large": 0.082729302816101
+      },
+      "dummy_most_frequent": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.18100923213822254,
+          "roc_auc": 0.5,
+          "brier": 0.18100923213822254,
+          "log_loss": 6.251837394236548,
+          "mean_predicted_probability": 0.0
+        },
+        "calibration_in_the_large": -0.18100923213822254
+      },
+      "logistic_regression_raw": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.2738843824152675,
+          "roc_auc": 0.6335141324019554,
+          "brier": 0.14874584861703163,
+          "log_loss": 0.4704243428947843,
+          "mean_predicted_probability": 0.24459863186246633
+        },
+        "calibration_in_the_large": 0.0635893997242438
+      },
+      "xgboost_raw": {
+        "metrics": {
+          "n": 26971,
+          "prevalence": 0.18100923213822254,
+          "average_precision": 0.2580919945952125,
+          "roc_auc": 0.6230832100424841,
+          "brier": 0.24847126482630102,
+          "log_loss": 0.6898851501039014,
+          "mean_predicted_probability": 0.5018031115577624
+        },
+        "calibration_in_the_large": 0.32079387941953985
+      }
+    },
+    "2013-12": {
+      "logistic_regression_sigmoid": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.4264706550379829,
+          "roc_auc": 0.6060307213406038,
+          "brier": 0.23722753862282475,
+          "log_loss": 0.6928224529755606,
+          "mean_predicted_probability": 0.19051204471834496
+        },
+        "calibration_in_the_large": -0.14494317363842782
+      },
+      "xgboost_isotonic": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.4114377629194521,
+          "roc_auc": 0.6116399357200901,
+          "brier": 0.24410074694162828,
+          "log_loss": 0.7121959789354657,
+          "mean_predicted_probability": 0.17053882970973405
+        },
+        "calibration_in_the_large": -0.16491638864703873
+      },
+      "prior_baseline": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.3354552183567728,
+          "roc_auc": 0.5,
+          "brier": 0.2280682975122298,
+          "log_loss": 0.6505573874333712,
+          "mean_predicted_probability": 0.26373853495432353
+        },
+        "calibration_in_the_large": -0.07171668340244924
+      },
+      "dummy_most_frequent": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.3354552183567728,
+          "roc_auc": 0.5,
+          "brier": 0.3354552183567728,
+          "log_loss": 11.586212777330513,
+          "mean_predicted_probability": 0.0
+        },
+        "calibration_in_the_large": -0.3354552183567728
+      },
+      "logistic_regression_raw": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.4264706550379829,
+          "roc_auc": 0.6060307213406038,
+          "brier": 0.22126041769204988,
+          "log_loss": 0.6394994928792272,
+          "mean_predicted_probability": 0.27370426716487833
+        },
+        "calibration_in_the_large": -0.06175095119189444
+      },
+      "xgboost_raw": {
+        "metrics": {
+          "n": 27020,
+          "prevalence": 0.3354552183567728,
+          "average_precision": 0.4146954566186572,
+          "roc_auc": 0.613870908970973,
+          "brier": 0.24192108067323365,
+          "log_loss": 0.6766344855686862,
+          "mean_predicted_probability": 0.4980268146630396
+        },
+        "calibration_in_the_large": 0.16257159630626683
+      }
+    }
+  },
+  "threshold_dependent_metrics": {
+    "status": "NOT APPLICABLE (D32)",
+    "statement": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+    "not_computed": [
+      "recall at the 70% minimum-precision threshold",
+      "precision",
+      "recall",
+      "F1",
+      "confusion matrix at an operating threshold"
+    ]
+  },
+  "bootstrap": {
+    "resamples": 200,
+    "seed": 42,
+    "unit": "flight date",
+    "interval": "95% percentile",
+    "undefined_resamples": "excluded and counted"
+  },
+  "sign_convention": "difference = metric(primary) \u2212 metric(other); AP/ROC AUC > 0 favour primary; Brier/log loss < 0 favour primary",
+  "validation_vs_test": {
+    "logistic_regression": {
+      "validation_prevalence": 0.15695333285395843,
+      "validation_mean_predicted": 0.15568712936183166,
+      "test_prevalence": 0.2583023096442,
+      "test_mean_predicted": 0.17903411151217924
+    },
+    "xgboost": {
+      "validation_prevalence": 0.15695333285395843,
+      "validation_mean_predicted": 0.15807863599743371,
+      "test_prevalence": 0.2583023096442,
+      "test_mean_predicted": 0.16941299356657974
+    }
+  },
+  "operating_point": "No operating threshold \u2014 the 70% precision target was infeasible on validation.",
+  "manifest_sha256": "baa5aca6c84e21c73e9a3ee480b86bc255670929ae54bdfd829698e2bfcd85c6",
+  "approved_proposal_sha256": "46df47cec7ec57cc23762e86571383b8a5551138b4a8284ef421fd022802f1c5",
+  "test_predictions_sha256": "5a67dd31509b2032e2396104d7dc0c7e8e5c5e132d8888e720378e05e60a10e5",
+  "evaluated_at": "2026-10-24T16:05:56.282454+00:00",
+  "note": "Single pre-registered evaluation. Test results may not be used to alter the model, calibration, threshold, features or any other frozen decision.",
+  "figures": [
+    "reports/final/figures/test_pr_roc.png",
+    "reports/final/figures/test_reliability.png"
+  ]
+}
