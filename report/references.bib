@@ -1,0 +1,303 @@
+% Verified bibliography for the AeroCast Phase 1 IEEE report.
+% Every entry was checked on 2026-10-24 against Crossref, the publisher/proceedings page, CRAN or
+% the issuing agency (see docs/12_literature_review.md, section 7, for the verification log).
+% Fields that could not be verified (e.g. NeurIPS volume/pages) are deliberately omitted.
+
+% ---------------- Data and target ----------------
+@misc{bts_ontime,
+  author       = {{Bureau of Transportation Statistics}},
+  title        = {Airline On-Time Performance and Causes of Flight Delays},
+  howpublished = {U.S. Department of Transportation},
+  url          = {https://www.bts.gov/explore-topics-and-geography/topics/airline-time-performance-and-causes-flight-delays},
+  note         = {Accessed: 2026-10-24}
+}
+
+@manual{nycflights13,
+  author = {Hadley Wickham},
+  title  = {nycflights13: Flights that Departed {NYC} in 2013},
+  note   = {R package version 1.0.2},
+  year   = {2021},
+  doi    = {10.32614/CRAN.package.nycflights13},
+  url    = {https://CRAN.R-project.org/package=nycflights13}
+}
+
+% ---------------- Flight-delay prediction ----------------
+@article{carvalho2021,
+  author  = {Leonardo Carvalho and Alice Sternberg and Leandro {Maia Gon{\c{c}}alves} and Ana {Beatriz Cruz} and Jorge A. Soares and Diego Brand{\~a}o and Diego Carvalho and Eduardo Ogasawara},
+  title   = {On the relevance of data science for flight delay research: a systematic review},
+  journal = {Transport Reviews},
+  volume  = {41},
+  number  = {4},
+  pages   = {499--528},
+  year    = {2021},
+  doi     = {10.1080/01441647.2020.1861123}
+}
+
+@misc{sternberg2017,
+  author        = {Alice Sternberg and Jorge Soares and Diego Carvalho and Eduardo Ogasawara},
+  title         = {A Review on Flight Delay Prediction},
+  year          = {2017},
+  eprint        = {1703.06118},
+  archivePrefix = {arXiv},
+  note          = {Preprint; published version: Carvalho et al., Transport Reviews 41(4), 2021}
+}
+
+@article{rebollo2014,
+  author  = {Juan Jose Rebollo and Hamsa Balakrishnan},
+  title   = {Characterization and prediction of air traffic delays},
+  journal = {Transportation Research Part C: Emerging Technologies},
+  volume  = {44},
+  pages   = {231--241},
+  year    = {2014},
+  doi     = {10.1016/j.trc.2014.04.007}
+}
+
+@inproceedings{choi2016,
+  author    = {Sun Choi and Young Jin Kim and Simon Briceno and Dimitri Mavris},
+  title     = {Prediction of weather-induced airline delays based on machine learning algorithms},
+  booktitle = {Proc. 2016 IEEE/AIAA 35th Digital Avionics Systems Conference (DASC)},
+  pages     = {1--6},
+  year      = {2016},
+  doi       = {10.1109/DASC.2016.7777956}
+}
+
+@inproceedings{choi2017,
+  author    = {Sun Choi and Young Jin Kim and Simon Briceno and Dimitri Mavris},
+  title     = {Cost-sensitive prediction of airline delays using machine learning},
+  booktitle = {Proc. 2017 IEEE/AIAA 36th Digital Avionics Systems Conference (DASC)},
+  pages     = {1--8},
+  year      = {2017},
+  doi       = {10.1109/DASC.2017.8102035}
+}
+
+@inproceedings{kim2016,
+  author    = {Young Jin Kim and Sun Choi and Simon Briceno and Dimitri Mavris},
+  title     = {A deep learning approach to flight delay prediction},
+  booktitle = {Proc. 2016 IEEE/AIAA 35th Digital Avionics Systems Conference (DASC)},
+  pages     = {1--6},
+  year      = {2016},
+  doi       = {10.1109/DASC.2016.7778092}
+}
+
+@article{gui2020,
+  author  = {Guan Gui and Fan Liu and Jinlong Sun and Jie Yang and Ziqi Zhou and Dongxu Zhao},
+  title   = {Flight Delay Prediction Based on Aviation Big Data and Machine Learning},
+  journal = {IEEE Transactions on Vehicular Technology},
+  volume  = {69},
+  number  = {1},
+  pages   = {140--150},
+  year    = {2020},
+  doi     = {10.1109/TVT.2019.2954094}
+}
+
+@article{lambelho2020,
+  author  = {Miguel Lambelho and Mihaela Mitici and Simon Pickup and Alan Marsden},
+  title   = {Assessing strategic flight schedules at an airport using machine learning-based flight delay and cancellation predictions},
+  journal = {Journal of Air Transport Management},
+  volume  = {82},
+  pages   = {101737},
+  year    = {2020},
+  doi     = {10.1016/j.jairtraman.2019.101737}
+}
+
+@article{zoutendijk2021,
+  author  = {Micha Zoutendijk and Mihaela Mitici},
+  title   = {Probabilistic Flight Delay Predictions Using Machine Learning and Applications to the Flight-to-Gate Assignment Problem},
+  journal = {Aerospace},
+  volume  = {8},
+  number  = {6},
+  pages   = {152},
+  year    = {2021},
+  doi     = {10.3390/aerospace8060152}
+}
+
+% ---------------- Models ----------------
+@article{friedman2001,
+  author  = {Jerome H. Friedman},
+  title   = {Greedy function approximation: A gradient boosting machine},
+  journal = {The Annals of Statistics},
+  volume  = {29},
+  number  = {5},
+  pages   = {1189--1232},
+  year    = {2001},
+  doi     = {10.1214/aos/1013203451}
+}
+
+@inproceedings{chen2016,
+  author    = {Tianqi Chen and Carlos Guestrin},
+  title     = {{XGBoost}: A Scalable Tree Boosting System},
+  booktitle = {Proc. 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages     = {785--794},
+  year      = {2016},
+  doi       = {10.1145/2939672.2939785}
+}
+
+@inproceedings{grinsztajn2022,
+  author    = {L{\'e}o Grinsztajn and Edouard Oyallon and Ga{\"e}l Varoquaux},
+  title     = {Why do tree-based models still outperform deep learning on typical tabular data?},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2022), Datasets and Benchmarks Track},
+  year      = {2022},
+  url       = {https://mlanthology.org/neurips/2022/grinsztajn2022neurips-treebased/}
+}
+
+@book{hastie2009,
+  author    = {Trevor Hastie and Robert Tibshirani and Jerome Friedman},
+  title     = {The Elements of Statistical Learning},
+  edition   = {2nd},
+  series    = {Springer Series in Statistics},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2009},
+  doi       = {10.1007/978-0-387-84858-7}
+}
+
+% ---------------- Metrics and scoring ----------------
+@article{saito2015,
+  author  = {Takaya Saito and Marc Rehmsmeier},
+  title   = {The Precision-Recall Plot Is More Informative than the {ROC} Plot When Evaluating Binary Classifiers on Imbalanced Datasets},
+  journal = {PLOS ONE},
+  volume  = {10},
+  number  = {3},
+  pages   = {e0118432},
+  year    = {2015},
+  doi     = {10.1371/journal.pone.0118432}
+}
+
+@inproceedings{davis2006,
+  author    = {Jesse Davis and Mark Goadrich},
+  title     = {The relationship between Precision-Recall and {ROC} curves},
+  booktitle = {Proc. 23rd International Conference on Machine Learning (ICML)},
+  pages     = {233--240},
+  year      = {2006},
+  doi       = {10.1145/1143844.1143874}
+}
+
+@article{brier1950,
+  author  = {Glenn W. Brier},
+  title   = {Verification of forecasts expressed in terms of probability},
+  journal = {Monthly Weather Review},
+  volume  = {78},
+  number  = {1},
+  pages   = {1--3},
+  year    = {1950},
+  doi     = {10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+}
+
+@article{gneiting2007,
+  author  = {Tilmann Gneiting and Adrian E. Raftery},
+  title   = {Strictly Proper Scoring Rules, Prediction, and Estimation},
+  journal = {Journal of the American Statistical Association},
+  volume  = {102},
+  number  = {477},
+  pages   = {359--378},
+  year    = {2007},
+  doi     = {10.1198/016214506000001437}
+}
+
+% ---------------- Calibration ----------------
+@incollection{platt2000,
+  author    = {John C. Platt},
+  title     = {Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods},
+  booktitle = {Advances in Large Margin Classifiers},
+  editor    = {Alexander J. Smola and Peter Bartlett and Bernhard Sch{\"o}lkopf and Dale Schuurmans},
+  publisher = {MIT Press},
+  pages     = {61--74},
+  year      = {2000},
+  note      = {Frequently cited with year 1999}
+}
+
+@inproceedings{zadrozny2002,
+  author    = {Bianca Zadrozny and Charles Elkan},
+  title     = {Transforming classifier scores into accurate multiclass probability estimates},
+  booktitle = {Proc. 8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages     = {694--699},
+  year      = {2002},
+  doi       = {10.1145/775047.775151}
+}
+
+@inproceedings{niculescumizil2005,
+  author    = {Alexandru Niculescu-Mizil and Rich Caruana},
+  title     = {Predicting good probabilities with supervised learning},
+  booktitle = {Proc. 22nd International Conference on Machine Learning (ICML)},
+  pages     = {625--632},
+  year      = {2005},
+  doi       = {10.1145/1102351.1102430}
+}
+
+@inproceedings{guo2017,
+  author    = {Chuan Guo and Geoff Pleiss and Yu Sun and Kilian Q. Weinberger},
+  title     = {On Calibration of Modern Neural Networks},
+  booktitle = {Proc. 34th International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {70},
+  pages     = {1321--1330},
+  year      = {2017},
+  url       = {https://proceedings.mlr.press/v70/guo17a.html}
+}
+
+@article{vancalster2019,
+  author  = {Ben {Van Calster} and David J. McLernon and Maarten {van Smeden} and Laure Wynants and Ewout W. Steyerberg},
+  title   = {Calibration: the {Achilles} heel of predictive analytics},
+  journal = {BMC Medicine},
+  volume  = {17},
+  number  = {1},
+  pages   = {230},
+  year    = {2019},
+  doi     = {10.1186/s12916-019-1466-7},
+  note    = {On behalf of Topic Group 'Evaluating diagnostic tests and prediction models' of the STRATOS initiative}
+}
+
+% ---------------- Leakage, validation, shift, uncertainty ----------------
+@article{kaufman2012,
+  author  = {Shachar Kaufman and Saharon Rosset and Claudia Perlich and Ori Stitelman},
+  title   = {Leakage in data mining: Formulation, detection, and avoidance},
+  journal = {ACM Transactions on Knowledge Discovery from Data},
+  volume  = {6},
+  number  = {4},
+  pages   = {1--21},
+  year    = {2012},
+  doi     = {10.1145/2382577.2382579}
+}
+
+@article{bergmeir2012,
+  author  = {Christoph Bergmeir and Jos{\'e} M. Ben{\'i}tez},
+  title   = {On the use of cross-validation for time series predictor evaluation},
+  journal = {Information Sciences},
+  volume  = {191},
+  pages   = {192--213},
+  year    = {2012},
+  doi     = {10.1016/j.ins.2011.12.028}
+}
+
+@article{morenotorres2012,
+  author  = {Jose G. Moreno-Torres and Troy Raeder and Roc{\'i}o Alaiz-Rodr{\'i}guez and Nitesh V. Chawla and Francisco Herrera},
+  title   = {A unifying view on dataset shift in classification},
+  journal = {Pattern Recognition},
+  volume  = {45},
+  number  = {1},
+  pages   = {521--530},
+  year    = {2012},
+  doi     = {10.1016/j.patcog.2011.06.019}
+}
+
+@article{saerens2002,
+  author  = {Marco Saerens and Patrice Latinne and Christine Decaestecker},
+  title   = {Adjusting the Outputs of a Classifier to New a Priori Probabilities: A Simple Procedure},
+  journal = {Neural Computation},
+  volume  = {14},
+  number  = {1},
+  pages   = {21--41},
+  year    = {2002},
+  doi     = {10.1162/089976602753284446}
+}
+
+@article{field2007,
+  author  = {C. A. Field and A. H. Welsh},
+  title   = {Bootstrapping clustered data},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  volume  = {69},
+  number  = {3},
+  pages   = {369--390},
+  year    = {2007},
+  doi     = {10.1111/j.1467-9868.2007.00593.x}
+}

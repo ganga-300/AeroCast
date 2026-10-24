@@ -47,6 +47,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 - [docs/08_calibration_threshold.md](docs/08_calibration_threshold.md): calibration comparison, threshold infeasibility, diagnostics
 - [docs/09_frozen_decisions_proposal.md](docs/09_frozen_decisions_proposal.md): proposed frozen decisions and pre-registered test reporting (awaiting approval)
 - [docs/11_stage_9_error_analysis.md](docs/11_stage_9_error_analysis.md): descriptive error analysis from saved predictions and aggregates
+- [docs/12_literature_review.md](docs/12_literature_review.md): verified literature review, comparison table and gap statement (bibliography: `report/references.bib`)
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
 - [configs/config.yaml](configs/config.yaml): frozen decisions used by the code
 
