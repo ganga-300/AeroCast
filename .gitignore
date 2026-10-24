@@ -1,0 +1,35 @@
+# Environments
+.venv/
+venv/
+
+# Data: never share raw or derived datasets
+data/raw/
+data/interim/
+data/processed/
+data/external/
+*.zip
+
+# Model artifacts (large / regenerable)
+models/
+
+# Python caches and build metadata
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+
+# LaTeX build outputs
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+
+# OS / editor / secrets
+.DS_Store
+.env
+*.key

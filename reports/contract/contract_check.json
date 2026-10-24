@@ -1,0 +1,246 @@
+{
+  "config": {
+    "data": {
+      "raw_path": "data/raw/flights.csv",
+      "raw_sha256": "8bdc6abbf07ac0cbb1036bc14a787cab3eea616be46c31899d2d8048963b08aa"
+    },
+    "prediction": {
+      "timestamp_rule": "end_of_previous_day",
+      "history_lag_days": null
+    },
+    "target": {
+      "source_column": "arr_delay",
+      "threshold_minutes": 15
+    },
+    "population": {
+      "require_recorded_label": true
+    },
+    "split": {
+      "train": {
+        "start": "2013-01-01",
+        "end": "2013-08-31"
+      },
+      "validation": {
+        "start": "2013-09-01",
+        "end": "2013-10-31"
+      },
+      "test": {
+        "start": "2013-11-01",
+        "end": "2013-12-31"
+      }
+    },
+    "operating_point": {
+      "min_precision": 0.7,
+      "rule": "maximise_recall_subject_to_min_precision",
+      "tie_break": "highest_threshold"
+    },
+    "seed": 42
+  },
+  "checks": [
+    {
+      "check": "registry classifies every raw column exactly",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no field is both permitted and unavailable",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "target source column is not a permitted input",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "raw frame not modified by preparation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "label counts match Stage 1 audit",
+      "passed": true,
+      "detail": {
+        "labelled": 327346,
+        "no_departure": 8255,
+        "arrived_no_delay": 717,
+        "departed_no_arrival": 458
+      }
+    },
+    {
+      "check": "positive count matches Stage 1 audit",
+      "passed": true,
+      "detail": 80100
+    },
+    {
+      "check": "missing labels never counted as negatives",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "split ranges cover exactly the data's date range",
+      "passed": true,
+      "detail": [
+        "2013-01-01",
+        "2013-12-31"
+      ]
+    },
+    {
+      "check": "every partition has both classes among labelled rows",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "labelled rows across partitions sum to modelling population",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preparation is independent of raw row order",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "prepared frame sorted by scheduled departure",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "raw file checksum unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "all_passed": true,
+  "split_summary": [
+    {
+      "split": "train",
+      "date_min": "2013-01-01",
+      "date_max": "2013-08-31",
+      "n_days": 243,
+      "rows_all": 224910,
+      "rows_unlabelled": 7183,
+      "rows_labelled": 217727,
+      "positives": 57423,
+      "negatives": 160304,
+      "prevalence": 0.2637
+    },
+    {
+      "split": "validation",
+      "date_min": "2013-09-01",
+      "date_max": "2013-10-31",
+      "n_days": 61,
+      "rows_all": 56463,
+      "rows_unlabelled": 835,
+      "rows_labelled": 55628,
+      "positives": 8731,
+      "negatives": 46897,
+      "prevalence": 0.157
+    },
+    {
+      "split": "test",
+      "date_min": "2013-11-01",
+      "date_max": "2013-12-31",
+      "n_days": 61,
+      "rows_all": 55403,
+      "rows_unlabelled": 1412,
+      "rows_labelled": 53991,
+      "positives": 13946,
+      "negatives": 40045,
+      "prevalence": 0.2583
+    }
+  ],
+  "exclusions_by_split": {
+    "train": {
+      "labelled": 0,
+      "no_departure": 6309,
+      "departed_no_arrival": 341,
+      "arrived_no_delay": 533
+    },
+    "validation": {
+      "labelled": 0,
+      "no_departure": 688,
+      "departed_no_arrival": 63,
+      "arrived_no_delay": 84
+    },
+    "test": {
+      "labelled": 0,
+      "no_departure": 1258,
+      "departed_no_arrival": 54,
+      "arrived_no_delay": 100
+    }
+  },
+  "unlabelled_share_by_carrier_pct": {
+    "HA": 0.0,
+    "F9": 0.58,
+    "AS": 0.7,
+    "VX": 0.89,
+    "DL": 0.94,
+    "B6": 1.07,
+    "UA": 1.51,
+    "WN": 1.88,
+    "AA": 2.39,
+    "FL": 2.61,
+    "US": 3.43,
+    "MQ": 5.15,
+    "EV": 5.66,
+    "9E": 6.32,
+    "OO": 9.38,
+    "YV": 9.48
+  },
+  "outcome_availability_evidence_D10": {
+    "labelled": 327346,
+    "max_landing_lower_bound_hours_after_flight_date_start": 41.55,
+    "lag_1_buffer_0min": {
+      "violations": 19303,
+      "pct_of_labelled": 5.897,
+      "positive_share_among_violations": 0.538
+    },
+    "lag_1_buffer_60min": {
+      "violations": 34182,
+      "pct_of_labelled": 10.442,
+      "positive_share_among_violations": 0.474
+    },
+    "lag_1_buffer_180min": {
+      "violations": 71648,
+      "pct_of_labelled": 21.888,
+      "positive_share_among_violations": 0.403
+    },
+    "lag_2_buffer_0min": {
+      "violations": 0,
+      "pct_of_labelled": 0.0,
+      "positive_share_among_violations": null
+    },
+    "lag_2_buffer_60min": {
+      "violations": 0,
+      "pct_of_labelled": 0.0,
+      "positive_share_among_violations": null
+    },
+    "lag_2_buffer_180min": {
+      "violations": 0,
+      "pct_of_labelled": 0.0,
+      "positive_share_among_violations": null
+    }
+  },
+  "permitted_inputs": [
+    "carrier",
+    "day",
+    "dest",
+    "distance",
+    "hour",
+    "minute",
+    "month",
+    "origin",
+    "sched_arr_time",
+    "sched_dep_time",
+    "year"
+  ],
+  "prohibited_inputs": [
+    "air_time",
+    "arr_delay",
+    "arr_time",
+    "dep_delay",
+    "dep_time",
+    "tailnum"
+  ]
+}
