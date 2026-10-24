@@ -91,6 +91,10 @@ def day_block_bootstrap(y, p, days, metric, n_boot: int = 200, seed: int = 0,
         value = metric(y[idx], p[idx])
         stats.append(value if q is None else value - metric(y[idx], q[idx]))
     point = metric(y, p) if q is None else metric(y, p) - metric(y, q)
-    lo, hi = np.percentile(stats, [2.5, 97.5])
+    stats = np.asarray(stats, dtype="float64")
+    defined = np.isfinite(stats)  # a metric may be undefined in a resample (e.g. nothing flagged)
+    if not defined.any():
+        raise MetricUndefinedError("Metric undefined in every bootstrap resample")
+    lo, hi = np.percentile(stats[defined], [2.5, 97.5])
     return {"point": float(point), "ci95_low": float(lo), "ci95_high": float(hi),
-            "n_boot": n_boot, "resampling_unit": "flight date"}
+            "n_boot": n_boot, "n_undefined": int((~defined).sum()), "resampling_unit": "flight date"}

@@ -66,6 +66,18 @@ models:
     early_stopping_metric: aucpr
   bootstrap_resamples: 200
 
+calibration:
+  # Stage 8 (D11, confirmed). Methods in order of simplicity (used for the tie-break).
+  methods: [none, sigmoid, isotonic]
+  # Validation cross-fit folds by calendar month: fit on one, score held-out log loss on the other.
+  folds:
+    sep: {start: "2013-09-01", end: "2013-09-30"}
+    oct: {start: "2013-10-01", end: "2013-10-31"}
+  criterion: mean_heldout_log_loss   # unweighted mean of the two folds' log losses
+  tie_tolerance: 1.0e-6              # within this, prefer the simpler method
+  primary_model: logistic_regression # D29
+  comparison_model: xgboost
+
 operating_point:
   # D7: chosen on validation predictions only, then frozen.
   min_precision: 0.70

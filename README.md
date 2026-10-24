@@ -5,8 +5,8 @@ Predict whether a flight departing New York City (EWR/JFK/LGA, 2013) will arrive
 
 **Status:** Stages 0–7 complete (audits, prediction contract, EDA, leakage-safe features,
 chronological design with a test-set lock, training-only preprocessing, baseline models compared
-on validation). Calibration, threshold selection and the final test evaluation are not done yet;
-no test result exists.
+on validation, calibration and threshold selection on validation). The 70%-precision target
+was infeasible on validation. The final test evaluation is not done yet; no test result exists.
 
 ## Setup
 ```bash
@@ -27,6 +27,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Experimental design check (Stage 5) | `.venv/bin/python scripts/check_experiment_design.py` | `reports/experiment/design_check.json` |
 | Preprocessing check (Stage 6) | `.venv/bin/python scripts/check_preprocessing.py` | `reports/preprocessing/preprocessing_check.json` |
 | Baseline models, validation only (Stage 7) | `.venv/bin/python scripts/train_baselines.py` | `reports/models/*.json`, `reports/models/validation_predictions.csv`, `models/*.joblib` (git-ignored) |
+| Calibration + threshold, validation only (Stage 8) | `.venv/bin/python scripts/calibrate_and_threshold.py` | `reports/calibration/*.json`, `reports/figures/stage8/*.png` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
 ## Key documents
@@ -39,6 +40,7 @@ Then place the dataset as described in [data/README.md](data/README.md).
 - [docs/05_experimental_design.md](docs/05_experimental_design.md): partitions, history vs fitting, test lock, validation protocol, test-exposure disclosure
 - [docs/06_preprocessing.md](docs/06_preprocessing.md): per-model encodings, imputation, rare/unseen categories, verification
 - [docs/07_baseline_models.md](docs/07_baseline_models.md): baseline settings, validation-only comparison, limitations
+- [docs/08_calibration_threshold.md](docs/08_calibration_threshold.md): calibration comparison, threshold infeasibility, diagnostics
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
 - [configs/config.yaml](configs/config.yaml): frozen decisions used by the code
 

@@ -102,8 +102,8 @@ were computed and documented:
 - The report will repeat this disclosure.
 
 ## 4. Validation-use protocol (CONFIRMED by the user, 2026-10-24)
-Fixed before any model is trained (D11, D20, D21). Implementation follows in plan Stages 6–8;
-these values are not yet codified in `configs/config.yaml`.
+Fixed before any model is trained (D11, D20, D21). Codified in `configs/config.yaml`
+(`calibration`, `operating_point`) and applied in Stage 8 (`docs/08_calibration_threshold.md`).
 
 | step | data | rule |
 |---|---|---|

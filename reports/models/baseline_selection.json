@@ -109,7 +109,7 @@
           "max_iter": 5000
         },
         "seed": 42,
-        "fit_seconds": 1.57,
+        "fit_seconds": 1.52,
         "preprocessing": {
           "family": "logistic_regression",
           "n_rows": 217727,
@@ -183,7 +183,7 @@
           "scale_pos_weight": 2.791634014245163
         },
         "seed": 42,
-        "fit_seconds": 1.44,
+        "fit_seconds": 1.16,
         "preprocessing": {
           "family": "xgboost",
           "n_rows": 217727,
@@ -268,6 +268,7 @@
         "ci95_low": 0.1333488439172598,
         "ci95_high": 0.1775800105182828,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       },
       "roc_auc": {
@@ -281,6 +282,7 @@
         "ci95_low": 0.1333488439172598,
         "ci95_high": 0.1775800105182828,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       },
       "roc_auc": {
@@ -294,6 +296,7 @@
         "ci95_low": 0.21460180264422252,
         "ci95_high": 0.31763877016150677,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       },
       "roc_auc": {
@@ -301,6 +304,7 @@
         "ci95_low": 0.6413880312260096,
         "ci95_high": 0.695570165945615,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       }
     },
@@ -310,6 +314,7 @@
         "ci95_low": 0.18732894893489563,
         "ci95_high": 0.2787869490895039,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       },
       "roc_auc": {
@@ -317,6 +322,7 @@
         "ci95_low": 0.6243765371908035,
         "ci95_high": 0.6758438241553881,
         "n_boot": 200,
+        "n_undefined": 0,
         "resampling_unit": "flight date"
       }
     }
@@ -327,6 +333,7 @@
       "ci95_low": -0.05637684922310968,
       "ci95_high": -0.015840319451958088,
       "n_boot": 200,
+      "n_undefined": 0,
       "resampling_unit": "flight date"
     },
     "roc_auc": {
@@ -334,6 +341,7 @@
       "ci95_low": -0.03142569273350907,
       "ci95_high": -0.011186882279441465,
       "n_boot": 200,
+      "n_undefined": 0,
       "resampling_unit": "flight date"
     }
   },
@@ -400,23 +408,23 @@
   "model_files": {
     "dummy_most_frequent": {
       "path": "models/baseline_dummy_most_frequent.joblib",
-      "sha256": "1eac7bd7f62e4ff85aaf6181225794bc77ff9ef0bc4e3cf36a10df7c54106e78"
+      "sha256": "a0035a1f7e3de4853905e40b4584f40dc2fb46d83244bacfee30162eea474e54"
     },
     "prior_baseline": {
       "path": "models/baseline_prior_baseline.joblib",
-      "sha256": "8e95413a5789df93950a252eff59a14620af5691e081615e7f49b8de0676219c"
+      "sha256": "44510cf3db916086c26df744a6edd9e2d054822e75fd15534ce8b5ca9c5d50e8"
     },
     "logistic_regression": {
       "path": "models/baseline_logistic_regression.joblib",
-      "sha256": "75e3f06119f0faa175b0f4293d06468ab5bb11dcfe04a5df163983443d8e2435"
+      "sha256": "1ed2455d00af8654473a513253df42ca40f4603fcee270252c6bec30a805e70f"
     },
     "xgboost": {
       "path": "models/baseline_xgboost.joblib",
-      "sha256": "7d1d95b879a19f1a306be48fff666a488154a9e04c923fe676269590d4d89e29"
+      "sha256": "4435719c94cca94ff40ed3fa9c47eeb6ca9b594de2c01da3b5ce492637068ac0"
     }
   },
   "reproducibility": {
-    "generated_at": "2026-10-24T13:50:35.273306+00:00",
+    "generated_at": "2026-10-24T14:03:29.054589+00:00",
     "seed": 42,
     "python": "3.13.13",
     "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
@@ -427,7 +435,7 @@
       "xgboost": "3.4.1"
     },
     "raw_sha256": "8bdc6abbf07ac0cbb1036bc14a787cab3eea616be46c31899d2d8048963b08aa",
-    "config_sha256": "eac4e2e9b4560b6412052ef8d69e161aaa5a454563b83ebe4076585cffae7359",
+    "config_sha256": "75e70698894feb0c1813c126250585a28fb1f034842f7364d441ebb39423e75b",
     "train_ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
     "validation_ids_sha256": "95fd38ae4fa6d4fdddcf59a6970214aca1c5c61e0889ae23914c34585bdd4f88",
     "feature_columns": [

@@ -88,6 +88,27 @@
       },
       "bootstrap_resamples": 200
     },
+    "calibration": {
+      "methods": [
+        "none",
+        "sigmoid",
+        "isotonic"
+      ],
+      "folds": {
+        "sep": {
+          "start": "2013-09-01",
+          "end": "2013-09-30"
+        },
+        "oct": {
+          "start": "2013-10-01",
+          "end": "2013-10-31"
+        }
+      },
+      "criterion": "mean_heldout_log_loss",
+      "tie_tolerance": 1e-06,
+      "primary_model": "logistic_regression",
+      "comparison_model": "xgboost"
+    },
     "operating_point": {
       "min_precision": 0.7,
       "rule": "maximise_recall_subject_to_min_precision",
