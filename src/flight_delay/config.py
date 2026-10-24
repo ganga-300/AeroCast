@@ -19,6 +19,7 @@ REQUIRED_KEYS: dict[str, list[str]] = {
     "operating_point": ["min_precision", "rule", "tie_break"],
     "features": ["history"],
     "preprocessing": ["min_category_frequency"],
+    "models": ["logistic_regression", "xgboost", "bootstrap_resamples"],
 }
 HISTORY_KEYS = ["entities", "entity_windows_days", "global_windows_days", "min_count", "smoothing_m"]
 SUPPORTED_TIMESTAMP_RULES = {"end_of_previous_day"}

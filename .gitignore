@@ -10,7 +10,7 @@ data/external/
 *.zip
 
 # Model artifacts (large / regenerable)
-models/
+/models/
 
 # Python caches and build metadata
 __pycache__/

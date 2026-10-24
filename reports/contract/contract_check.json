@@ -51,6 +51,43 @@
     "preprocessing": {
       "min_category_frequency": 100
     },
+    "models": {
+      "logistic_regression": {
+        "C": [
+          0.01,
+          0.1,
+          1.0,
+          10.0
+        ],
+        "class_weight": [
+          null,
+          "balanced"
+        ],
+        "max_iter": 5000
+      },
+      "xgboost": {
+        "max_depth": [
+          3,
+          5,
+          7
+        ],
+        "min_child_weight": [
+          1,
+          20
+        ],
+        "scale_pos_weight": [
+          1.0,
+          "train_balanced"
+        ],
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "n_estimators_max": 2000,
+        "early_stopping_rounds": 50,
+        "early_stopping_metric": "aucpr"
+      },
+      "bootstrap_resamples": 200
+    },
     "operating_point": {
       "min_precision": 0.7,
       "rule": "maximise_recall_subject_to_min_precision",

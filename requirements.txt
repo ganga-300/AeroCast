@@ -1,8 +1,10 @@
 # Pinned to the versions installed in .venv (Python 3.13.13).
-# Stages 0-6; xgboost is added when model training starts (plan Stage 7).
+# Stages 0-7. On macOS, XGBoost also needs the OpenMP runtime: `brew install libomp`.
 pandas==3.1.0
 numpy==2.5.4
 pyyaml==6.0.3
 pytest==9.1.1
 matplotlib==3.11.2
 scikit-learn==1.9.1
+xgboost==3.4.1
+joblib==1.6.0

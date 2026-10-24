@@ -1,0 +1,750 @@
+{
+  "checks": [
+    {
+      "check": "every model fitted on exactly the labelled training partition",
+      "passed": true,
+      "detail": {
+        "train_rows": 217727
+      }
+    },
+    {
+      "check": "no test-period flight used for fitting, early stopping or prediction",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "validation predictions aligned to validation rows",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all predicted probabilities finite and within [0, 1]",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all Logistic Regression fits converged",
+      "passed": true,
+      "detail": {
+        "logistic_regression_00": 74,
+        "logistic_regression_01": 61,
+        "logistic_regression_02": 117,
+        "logistic_regression_03": 132,
+        "logistic_regression_04": 143,
+        "logistic_regression_05": 156,
+        "logistic_regression_06": 141,
+        "logistic_regression_07": 160
+      }
+    },
+    {
+      "check": "XGBoost class weight equals training negatives/positives",
+      "passed": true,
+      "detail": {
+        "train_neg_over_pos": 2.791634014245163
+      }
+    },
+    {
+      "check": "refitting selected models reproduces validation predictions",
+      "passed": true,
+      "detail": {
+        "max_abs_difference": {
+          "logistic_regression": 0.0,
+          "xgboost": 0.0
+        }
+      }
+    },
+    {
+      "check": "test-label lock intact (no frozen manifest, no access log)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "raw file unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "all_passed": true,
+  "partitions": {
+    "train": {
+      "rows": 217727,
+      "positives": 57423,
+      "prevalence": 0.26373853495432353,
+      "dates": [
+        "2013-01-01",
+        "2013-08-31"
+      ]
+    },
+    "validation": {
+      "rows": 55628,
+      "positives": 8731,
+      "prevalence": 0.15695333285395843,
+      "dates": [
+        "2013-09-01",
+        "2013-10-31"
+      ]
+    },
+    "test": "not used in Stage 7"
+  },
+  "selected": {
+    "logistic_regression": {
+      "config_id": "logistic_regression_00",
+      "params": {
+        "C": 0.01,
+        "class_weight": null,
+        "max_iter": 5000
+      },
+      "train_info": {
+        "family": "logistic_regression",
+        "params": {
+          "C": 0.01,
+          "class_weight": null,
+          "max_iter": 5000
+        },
+        "resolved_params": {
+          "C": 0.01,
+          "class_weight": null,
+          "penalty": "l2",
+          "solver": "lbfgs",
+          "max_iter": 5000
+        },
+        "seed": 42,
+        "fit_seconds": 1.57,
+        "preprocessing": {
+          "family": "logistic_regression",
+          "n_rows": 217727,
+          "date_min": "2013-01-01",
+          "date_max": "2013-08-31",
+          "ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+          "n_output_columns": 142
+        },
+        "n_features_in": 142,
+        "train_positives": 57423,
+        "train_rows": 217727,
+        "n_iter": 74,
+        "converged": true
+      },
+      "train": {
+        "n": 217727,
+        "prevalence": 0.26373853495432353,
+        "average_precision": 0.42207885878283874,
+        "roc_auc": 0.6820280602849744,
+        "brier": 0.17856185144178668,
+        "log_loss": 0.5366928043707299,
+        "mean_predicted_probability": 0.26378839645452073
+      },
+      "validation": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.2708122536105173,
+        "roc_auc": 0.6699053658306156,
+        "brier": 0.13182016133789848,
+        "log_loss": 0.4284323861457318,
+        "mean_predicted_probability": 0.2309581741089712
+      }
+    },
+    "xgboost": {
+      "config_id": "xgboost_01",
+      "params": {
+        "max_depth": 3,
+        "min_child_weight": 20,
+        "scale_pos_weight": "train_balanced",
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "n_estimators_max": 2000,
+        "early_stopping_rounds": 50,
+        "early_stopping_metric": "aucpr"
+      },
+      "train_info": {
+        "family": "xgboost",
+        "params": {
+          "max_depth": 3,
+          "min_child_weight": 20,
+          "scale_pos_weight": "train_balanced",
+          "learning_rate": 0.05,
+          "subsample": 0.8,
+          "colsample_bytree": 0.8,
+          "n_estimators_max": 2000,
+          "early_stopping_rounds": 50,
+          "early_stopping_metric": "aucpr"
+        },
+        "resolved_params": {
+          "objective": "binary:logistic",
+          "tree_method": "hist",
+          "max_depth": 3,
+          "min_child_weight": 20,
+          "learning_rate": 0.05,
+          "subsample": 0.8,
+          "colsample_bytree": 0.8,
+          "n_estimators": 2000,
+          "early_stopping_rounds": 50,
+          "eval_metric": "aucpr",
+          "scale_pos_weight": 2.791634014245163
+        },
+        "seed": 42,
+        "fit_seconds": 1.44,
+        "preprocessing": {
+          "family": "xgboost",
+          "n_rows": 217727,
+          "date_min": "2013-01-01",
+          "date_max": "2013-08-31",
+          "ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+          "n_output_columns": 134
+        },
+        "n_features_in": 134,
+        "train_positives": 57423,
+        "train_rows": 217727,
+        "best_iteration": 30,
+        "n_trees_used": 31,
+        "early_stopping_rows": 55628
+      },
+      "train": {
+        "n": 217727,
+        "prevalence": 0.26373853495432353,
+        "average_precision": 0.44301173795028526,
+        "roc_auc": 0.6885018385287205,
+        "brier": 0.2271307938349885,
+        "log_loss": 0.646133271470887,
+        "mean_predicted_probability": 0.484073148529311
+      },
+      "validation": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.23520450222274958,
+        "roc_auc": 0.6498301740355323,
+        "brier": 0.23849616992895178,
+        "log_loss": 0.6690251780802474,
+        "mean_predicted_probability": 0.487912208503516
+      }
+    }
+  },
+  "references": {
+    "dummy_most_frequent": {
+      "train": {
+        "n": 217727,
+        "prevalence": 0.26373853495432353,
+        "average_precision": 0.26373853495432353,
+        "roc_auc": 0.5,
+        "brier": 0.26373853495432353,
+        "log_loss": 9.109206285508716,
+        "mean_predicted_probability": 0.0
+      },
+      "validation": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.15695333285395843,
+        "roc_auc": 0.5,
+        "brier": 0.15695333285395843,
+        "log_loss": 5.420976067878859,
+        "mean_predicted_probability": 0.0
+      }
+    },
+    "prior_baseline": {
+      "train": {
+        "n": 217727,
+        "prevalence": 0.26373853495432353,
+        "average_precision": 0.26373853495432353,
+        "roc_auc": 0.5,
+        "brier": 0.19418052013447057,
+        "log_loss": 0.5769310972620884,
+        "mean_predicted_probability": 0.26373853495432353
+      },
+      "validation": {
+        "n": 55628,
+        "prevalence": 0.15695333285395843,
+        "average_precision": 0.15695333285395843,
+        "roc_auc": 0.5,
+        "brier": 0.14372206354760875,
+        "log_loss": 0.4673025156987076,
+        "mean_predicted_probability": 0.26373853495432353
+      }
+    }
+  },
+  "validation_bootstrap_ci": {
+    "dummy_most_frequent": {
+      "average_precision": {
+        "point": 0.15695333285395843,
+        "ci95_low": 0.1333488439172598,
+        "ci95_high": 0.1775800105182828,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.5,
+        "note": "constant prediction"
+      }
+    },
+    "prior_baseline": {
+      "average_precision": {
+        "point": 0.15695333285395843,
+        "ci95_low": 0.1333488439172598,
+        "ci95_high": 0.1775800105182828,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.5,
+        "note": "constant prediction"
+      }
+    },
+    "logistic_regression": {
+      "average_precision": {
+        "point": 0.2708122536105173,
+        "ci95_low": 0.21460180264422252,
+        "ci95_high": 0.31763877016150677,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.6699053658306156,
+        "ci95_low": 0.6413880312260096,
+        "ci95_high": 0.695570165945615,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      }
+    },
+    "xgboost": {
+      "average_precision": {
+        "point": 0.23520450222274958,
+        "ci95_low": 0.18732894893489563,
+        "ci95_high": 0.2787869490895039,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      },
+      "roc_auc": {
+        "point": 0.6498301740355323,
+        "ci95_low": 0.6243765371908035,
+        "ci95_high": 0.6758438241553881,
+        "n_boot": 200,
+        "resampling_unit": "flight date"
+      }
+    }
+  },
+  "paired_difference_xgboost_minus_logistic_regression": {
+    "average_precision": {
+      "point": -0.03560775138776773,
+      "ci95_low": -0.05637684922310968,
+      "ci95_high": -0.015840319451958088,
+      "n_boot": 200,
+      "resampling_unit": "flight date"
+    },
+    "roc_auc": {
+      "point": -0.020075191795083214,
+      "ci95_low": -0.03142569273350907,
+      "ci95_high": -0.011186882279441465,
+      "n_boot": 200,
+      "resampling_unit": "flight date"
+    }
+  },
+  "validation_by_month": {
+    "logistic_regression": {
+      "2013-09": {
+        "n": 27010,
+        "prevalence": 0.1371714179933358,
+        "average_precision": 0.21779522006446983,
+        "roc_auc": 0.6659370010026635,
+        "brier": 0.12365750359500491,
+        "log_loss": 0.40875306408853956,
+        "mean_predicted_probability": 0.22991900143484106
+      },
+      "2013-10": {
+        "n": 28618,
+        "prevalence": 0.17562373331469705,
+        "average_precision": 0.31817992945549634,
+        "roc_auc": 0.6732568635634544,
+        "brier": 0.13952417229727912,
+        "log_loss": 0.4470059583298385,
+        "mean_predicted_probability": 0.23193895731982647
+      }
+    },
+    "xgboost": {
+      "2013-09": {
+        "n": 27010,
+        "prevalence": 0.1371714179933358,
+        "average_precision": 0.2125621591081185,
+        "roc_auc": 0.6582191909724967,
+        "brier": 0.23461784217093917,
+        "log_loss": 0.6609184822923431,
+        "mean_predicted_probability": 0.48198007071781757
+      },
+      "2013-10": {
+        "n": 28618,
+        "prevalence": 0.17562373331469705,
+        "average_precision": 0.25171044822790334,
+        "roc_auc": 0.639114422905267,
+        "brier": 0.2421565806055861,
+        "log_loss": 0.6766763714980717,
+        "mean_predicted_probability": 0.4935110288820091
+      }
+    }
+  },
+  "class_imbalance_effect": {
+    "logistic_regression": {
+      "best_unweighted_val_ap": 0.2708122536105173,
+      "best_weighted_val_ap": 0.27019569715716135,
+      "best_unweighted_val_log_loss": 0.42706402260305465,
+      "best_weighted_val_log_loss": 0.5965556343609864
+    },
+    "xgboost": {
+      "best_unweighted_val_ap": 0.23472715077262862,
+      "best_weighted_val_ap": 0.23520450222274958,
+      "best_unweighted_val_log_loss": 0.45201790257719204,
+      "best_weighted_val_log_loss": 0.6690031781804403
+    }
+  },
+  "determinism": {
+    "logistic_regression": 0.0,
+    "xgboost": 0.0
+  },
+  "model_files": {
+    "dummy_most_frequent": {
+      "path": "models/baseline_dummy_most_frequent.joblib",
+      "sha256": "1eac7bd7f62e4ff85aaf6181225794bc77ff9ef0bc4e3cf36a10df7c54106e78"
+    },
+    "prior_baseline": {
+      "path": "models/baseline_prior_baseline.joblib",
+      "sha256": "8e95413a5789df93950a252eff59a14620af5691e081615e7f49b8de0676219c"
+    },
+    "logistic_regression": {
+      "path": "models/baseline_logistic_regression.joblib",
+      "sha256": "75e3f06119f0faa175b0f4293d06468ab5bb11dcfe04a5df163983443d8e2435"
+    },
+    "xgboost": {
+      "path": "models/baseline_xgboost.joblib",
+      "sha256": "7d1d95b879a19f1a306be48fff666a488154a9e04c923fe676269590d4d89e29"
+    }
+  },
+  "reproducibility": {
+    "generated_at": "2026-10-24T13:50:35.273306+00:00",
+    "seed": 42,
+    "python": "3.13.13",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "versions": {
+      "pandas": "3.1.0",
+      "numpy": "2.5.4",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1"
+    },
+    "raw_sha256": "8bdc6abbf07ac0cbb1036bc14a787cab3eea616be46c31899d2d8048963b08aa",
+    "config_sha256": "eac4e2e9b4560b6412052ef8d69e161aaa5a454563b83ebe4076585cffae7359",
+    "train_ids_sha256": "382f3e11901ba93ee00a61692a0c6b2977e3b1fa409040883206240b208d0b6a",
+    "validation_ids_sha256": "95fd38ae4fa6d4fdddcf59a6970214aca1c5c61e0889ae23914c34585bdd4f88",
+    "feature_columns": [
+      "dep_hour",
+      "dep_hour_sin",
+      "dep_hour_cos",
+      "arr_hour",
+      "arr_hour_sin",
+      "arr_hour_cos",
+      "day_of_week",
+      "is_weekend",
+      "distance",
+      "carrier",
+      "origin",
+      "dest",
+      "route",
+      "hist_all_rate_exp",
+      "hist_all_rate_7d",
+      "hist_all_n_7d",
+      "hist_all_rate_28d",
+      "hist_all_n_28d",
+      "hist_all_nodep_share_7d",
+      "hist_carrier_rate_exp",
+      "hist_carrier_rate_28d",
+      "hist_carrier_n_28d",
+      "hist_origin_rate_exp",
+      "hist_origin_rate_28d",
+      "hist_origin_n_28d",
+      "hist_dest_rate_exp",
+      "hist_dest_rate_28d",
+      "hist_dest_n_28d",
+      "hist_route_rate_exp",
+      "hist_route_rate_28d",
+      "hist_route_n_28d"
+    ],
+    "model_input_columns": {
+      "logistic_regression": [
+        "dep_hour_sin",
+        "dep_hour_cos",
+        "arr_hour_sin",
+        "arr_hour_cos",
+        "day_of_week_0",
+        "day_of_week_1",
+        "day_of_week_2",
+        "day_of_week_3",
+        "day_of_week_4",
+        "day_of_week_5",
+        "day_of_week_6",
+        "is_weekend",
+        "distance",
+        "hist_all_rate_exp",
+        "hist_all_rate_7d",
+        "hist_all_rate_28d",
+        "hist_all_nodep_share_7d",
+        "hist_carrier_rate_exp",
+        "hist_carrier_rate_28d",
+        "hist_origin_rate_exp",
+        "hist_origin_rate_28d",
+        "hist_dest_rate_exp",
+        "hist_dest_rate_28d",
+        "hist_route_rate_exp",
+        "hist_route_rate_28d",
+        "hist_all_n_7d",
+        "hist_all_n_28d",
+        "hist_carrier_n_28d",
+        "hist_origin_n_28d",
+        "hist_dest_n_28d",
+        "hist_route_n_28d",
+        "history_unavailable",
+        "carrier_9E",
+        "carrier_AA",
+        "carrier_AS",
+        "carrier_B6",
+        "carrier_DL",
+        "carrier_EV",
+        "carrier_F9",
+        "carrier_FL",
+        "carrier_HA",
+        "carrier_MQ",
+        "carrier_UA",
+        "carrier_US",
+        "carrier_VX",
+        "carrier_WN",
+        "carrier_YV",
+        "carrier_infrequent_sklearn",
+        "origin_EWR",
+        "origin_JFK",
+        "origin_LGA",
+        "dest_ABQ",
+        "dest_ACK",
+        "dest_ALB",
+        "dest_ATL",
+        "dest_AUS",
+        "dest_AVL",
+        "dest_BDL",
+        "dest_BGR",
+        "dest_BHM",
+        "dest_BNA",
+        "dest_BOS",
+        "dest_BQN",
+        "dest_BTV",
+        "dest_BUF",
+        "dest_BUR",
+        "dest_BWI",
+        "dest_CAK",
+        "dest_CHS",
+        "dest_CLE",
+        "dest_CLT",
+        "dest_CMH",
+        "dest_CRW",
+        "dest_CVG",
+        "dest_DAY",
+        "dest_DCA",
+        "dest_DEN",
+        "dest_DFW",
+        "dest_DSM",
+        "dest_DTW",
+        "dest_EGE",
+        "dest_FLL",
+        "dest_GRR",
+        "dest_GSO",
+        "dest_GSP",
+        "dest_HNL",
+        "dest_HOU",
+        "dest_IAD",
+        "dest_IAH",
+        "dest_IND",
+        "dest_JAX",
+        "dest_LAS",
+        "dest_LAX",
+        "dest_LGB",
+        "dest_MCI",
+        "dest_MCO",
+        "dest_MDW",
+        "dest_MEM",
+        "dest_MHT",
+        "dest_MIA",
+        "dest_MKE",
+        "dest_MSN",
+        "dest_MSP",
+        "dest_MSY",
+        "dest_MVY",
+        "dest_OAK",
+        "dest_OKC",
+        "dest_OMA",
+        "dest_ORD",
+        "dest_ORF",
+        "dest_PBI",
+        "dest_PDX",
+        "dest_PHL",
+        "dest_PHX",
+        "dest_PIT",
+        "dest_PSE",
+        "dest_PVD",
+        "dest_PWM",
+        "dest_RDU",
+        "dest_RIC",
+        "dest_ROC",
+        "dest_RSW",
+        "dest_SAN",
+        "dest_SAT",
+        "dest_SAV",
+        "dest_SDF",
+        "dest_SEA",
+        "dest_SFO",
+        "dest_SJC",
+        "dest_SJU",
+        "dest_SLC",
+        "dest_SMF",
+        "dest_SNA",
+        "dest_SRQ",
+        "dest_STL",
+        "dest_STT",
+        "dest_SYR",
+        "dest_TPA",
+        "dest_TUL",
+        "dest_TYS",
+        "dest_XNA",
+        "dest_infrequent_sklearn"
+      ],
+      "xgboost": [
+        "dep_hour",
+        "arr_hour",
+        "day_of_week",
+        "is_weekend",
+        "distance",
+        "hist_all_rate_exp",
+        "hist_all_rate_7d",
+        "hist_all_rate_28d",
+        "hist_all_nodep_share_7d",
+        "hist_carrier_rate_exp",
+        "hist_carrier_rate_28d",
+        "hist_origin_rate_exp",
+        "hist_origin_rate_28d",
+        "hist_dest_rate_exp",
+        "hist_dest_rate_28d",
+        "hist_route_rate_exp",
+        "hist_route_rate_28d",
+        "hist_all_n_7d",
+        "hist_all_n_28d",
+        "hist_carrier_n_28d",
+        "hist_origin_n_28d",
+        "hist_dest_n_28d",
+        "hist_route_n_28d",
+        "history_unavailable",
+        "carrier_9E",
+        "carrier_AA",
+        "carrier_AS",
+        "carrier_B6",
+        "carrier_DL",
+        "carrier_EV",
+        "carrier_F9",
+        "carrier_FL",
+        "carrier_HA",
+        "carrier_MQ",
+        "carrier_UA",
+        "carrier_US",
+        "carrier_VX",
+        "carrier_WN",
+        "carrier_YV",
+        "carrier_infrequent_sklearn",
+        "origin_EWR",
+        "origin_JFK",
+        "origin_LGA",
+        "dest_ABQ",
+        "dest_ACK",
+        "dest_ALB",
+        "dest_ATL",
+        "dest_AUS",
+        "dest_AVL",
+        "dest_BDL",
+        "dest_BGR",
+        "dest_BHM",
+        "dest_BNA",
+        "dest_BOS",
+        "dest_BQN",
+        "dest_BTV",
+        "dest_BUF",
+        "dest_BUR",
+        "dest_BWI",
+        "dest_CAK",
+        "dest_CHS",
+        "dest_CLE",
+        "dest_CLT",
+        "dest_CMH",
+        "dest_CRW",
+        "dest_CVG",
+        "dest_DAY",
+        "dest_DCA",
+        "dest_DEN",
+        "dest_DFW",
+        "dest_DSM",
+        "dest_DTW",
+        "dest_EGE",
+        "dest_FLL",
+        "dest_GRR",
+        "dest_GSO",
+        "dest_GSP",
+        "dest_HNL",
+        "dest_HOU",
+        "dest_IAD",
+        "dest_IAH",
+        "dest_IND",
+        "dest_JAX",
+        "dest_LAS",
+        "dest_LAX",
+        "dest_LGB",
+        "dest_MCI",
+        "dest_MCO",
+        "dest_MDW",
+        "dest_MEM",
+        "dest_MHT",
+        "dest_MIA",
+        "dest_MKE",
+        "dest_MSN",
+        "dest_MSP",
+        "dest_MSY",
+        "dest_MVY",
+        "dest_OAK",
+        "dest_OKC",
+        "dest_OMA",
+        "dest_ORD",
+        "dest_ORF",
+        "dest_PBI",
+        "dest_PDX",
+        "dest_PHL",
+        "dest_PHX",
+        "dest_PIT",
+        "dest_PSE",
+        "dest_PVD",
+        "dest_PWM",
+        "dest_RDU",
+        "dest_RIC",
+        "dest_ROC",
+        "dest_RSW",
+        "dest_SAN",
+        "dest_SAT",
+        "dest_SAV",
+        "dest_SDF",
+        "dest_SEA",
+        "dest_SFO",
+        "dest_SJC",
+        "dest_SJU",
+        "dest_SLC",
+        "dest_SMF",
+        "dest_SNA",
+        "dest_SRQ",
+        "dest_STL",
+        "dest_STT",
+        "dest_SYR",
+        "dest_TPA",
+        "dest_TUL",
+        "dest_TYS",
+        "dest_XNA",
+        "dest_infrequent_sklearn"
+      ]
+    }
+  },
+  "note": "Validation metrics are development estimates: validation was used for configuration selection and XGBoost early stopping, so they are optimistic (D21)."
+}

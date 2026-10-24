@@ -46,6 +46,26 @@ preprocessing:
   # (or to all zeros if no category was infrequent). Fixed a priori, not tuned.
   min_category_frequency: 100
 
+models:
+  # Stage 7 (D25-D27). Every configuration is trained on Jan-Aug only and compared on
+  # validation Average Precision. "train_balanced" means negatives/positives computed from
+  # TRAINING labels only.
+  logistic_regression:
+    C: [0.01, 0.1, 1.0, 10.0]
+    class_weight: [null, balanced]
+    max_iter: 5000
+  xgboost:
+    max_depth: [3, 5, 7]
+    min_child_weight: [1, 20]
+    scale_pos_weight: [1.0, train_balanced]
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    n_estimators_max: 2000
+    early_stopping_rounds: 50
+    early_stopping_metric: aucpr
+  bootstrap_resamples: 200
+
 operating_point:
   # D7: chosen on validation predictions only, then frozen.
   min_precision: 0.70
