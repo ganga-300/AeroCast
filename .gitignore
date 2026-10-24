@@ -24,6 +24,8 @@ dist/
 # LaTeX build outputs
 *.aux
 *.log
+# ...but keep the run log of the single frozen test evaluation (audit record)
+!reports/final/evaluate_test_run.log
 *.out
 *.bbl
 *.blg

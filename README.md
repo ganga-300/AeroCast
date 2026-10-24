@@ -3,11 +3,14 @@
 Predict whether a flight departing New York City (EWR/JFK/LGA, 2013) will arrive at least
 15 minutes late, using only information available at the end of the day before the flight.
 
-**Status:** Stages 0–7 complete (audits, prediction contract, EDA, leakage-safe features,
-chronological design with a test-set lock, training-only preprocessing, baseline models compared
-on validation, calibration and threshold selection on validation, single frozen test
-evaluation). The 70%-precision target was infeasible on validation, so no operating threshold was
-frozen. Final test results: [docs/10_final_test_evaluation.md](docs/10_final_test_evaluation.md).
+**Status:** Phase 1 ML work complete; report in progress.
+- Done (Stages 0–9): audits, prediction contract, EDA, leakage-safe features, chronological design
+  with a test-label lock, training-only preprocessing, baseline models compared on validation,
+  calibration and threshold selection on validation, a single frozen test evaluation, and
+  descriptive error analysis without another label release.
+- The 70%-precision target was infeasible on validation, so no operating threshold was frozen.
+  Final test results: [docs/10_final_test_evaluation.md](docs/10_final_test_evaluation.md).
+- In progress: the IEEE report (`report/`; verified literature review in `docs/12`).
 
 ## Setup
 ```bash
@@ -35,6 +38,26 @@ Then place the dataset as described in [data/README.md](data/README.md).
 | Report tables, macros and figures from saved JSON (no models run, no test access) | `.venv/bin/python scripts/make_report_tables.py` | `report/generated/*.tex`, `report/figures/*.png` |
 | Tests | `.venv/bin/python -m pytest -q` | — |
 
+## Re-running scripts safely
+- **Safe to re-run:** Stages 1–4, 6 and 9, and the report generator. They rewrite their own reports
+  deterministically.
+- **Stage 5 (`check_experiment_design.py`)** can be re-run, but its lock checks ("no frozen
+  manifest", "no access logged") now FAIL by design, because the single test release has happened.
+- **Do not re-run `prepare_frozen_proposal.py`.** It would rewrite the approved proposal with a new
+  timestamp, so its SHA-256 would no longer match the one bound in the frozen manifest.
+- **Do not re-run Stage 7 (`train_baselines.py`) or Stage 8 (`calibrate_and_threshold.py`)
+  casually.**
+  - They overwrite the git-ignored `models/*.joblib` files and their reports.
+  - The saved model files embed fit timings, so their SHA-256 hashes change even though
+    predictions are identical.
+  - Those hashes are pinned in the frozen proposal and manifest (`reports/freeze/`,
+    `reports/final/`), so the record would no longer match the files on disk.
+  - If you need to reproduce development results, run them in a copy of the repository.
+- **`evaluate_test.py` was run exactly once** and must not be re-run. It now refuses to start,
+  because the package code changed after the evaluation, so the frozen manifest no longer
+  validates. That is intended. `reports/final/` (manifest, access log, predictions, results, run log)
+  is the audit record and should stay under version control unchanged.
+
 ## Report (IEEE LaTeX)
 `report/main.tex` (IEEEtran conference) with `report/references.bib`. All result numbers are
 `\input` from `report/generated/`, produced by `scripts/make_report_tables.py` from the saved JSON;
@@ -54,7 +77,8 @@ pdflatex + BibTeX.
 - [docs/06_preprocessing.md](docs/06_preprocessing.md): per-model encodings, imputation, rare/unseen categories, verification
 - [docs/07_baseline_models.md](docs/07_baseline_models.md): baseline settings, validation-only comparison, limitations
 - [docs/08_calibration_threshold.md](docs/08_calibration_threshold.md): calibration comparison, threshold infeasibility, diagnostics
-- [docs/09_frozen_decisions_proposal.md](docs/09_frozen_decisions_proposal.md): proposed frozen decisions and pre-registered test reporting (awaiting approval)
+- [docs/09_frozen_decisions_proposal.md](docs/09_frozen_decisions_proposal.md): frozen decisions and pre-registered test reporting (approved and frozen; manifest in `reports/final/`)
+- [docs/10_final_test_evaluation.md](docs/10_final_test_evaluation.md): results of the single frozen test evaluation
 - [docs/11_stage_9_error_analysis.md](docs/11_stage_9_error_analysis.md): descriptive error analysis from saved predictions and aggregates
 - [docs/12_literature_review.md](docs/12_literature_review.md): verified literature review, comparison table and gap statement (bibliography: `report/references.bib`)
 - [docs/decision_register.md](docs/decision_register.md): every design decision, its evidence and status
