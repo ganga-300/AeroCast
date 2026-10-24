@@ -1,7 +1,8 @@
 % AeroCast Phase 1 report: IEEE conference skeleton.
 % - Every result number comes from \input{generated/...}, produced by
 %   scripts/make_report_tables.py from saved JSON artifacts. Do NOT type results by hand.
-% - Red [TODO] markers are places where the author must write prose in their own words.
+% - Prose drafted from the project documentation; the author must review and adapt it.
+%   Red [TODO] markers remain only where information is genuinely missing (author block).
 % - Compile with pdflatex + bibtex (e.g. on Overleaf, which provides IEEEtran.cls).
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
@@ -30,11 +31,21 @@ Phase~1 --- Leakage-Controlled Day-Ahead Machine-Learning Baselines}
 \maketitle
 
 \begin{abstract}
-\todo{150--250 words in your own words. Cover: the day-ahead problem; the dataset
-(\DataLabelled{} labelled NYC departures, 2013); the prediction contract and the $D-\HistLag$
-outcome cutoff; Logistic Regression vs.\ XGBoost with calibration; the single frozen test
-evaluation (AP \TestAPLR{} vs.\ prevalence \TestPrev{}; ROC AUC \TestROCLR{}); no operating
-threshold reached \MinPrecision{} precision; calibration deteriorated in December.}
+We study whether a flight's arrival delay of at least \TargetMinutes{} minutes can be predicted
+at the end of the day before departure, using only information available at that moment. On
+\DataLabelled{} labelled departures from the three New York City airports in 2013, we define an
+explicit prediction contract. Historical outcomes enter features only if their flight date is at
+least \HistLag{} days earlier, a cutoff chosen because flights on the previous day can still be in
+the air at prediction time. Logistic Regression and XGBoost are trained on January--August,
+selected and calibrated on September--October, and evaluated once on November--December under a
+frozen, pre-registered protocol with logged access to test labels. On the test period, the
+calibrated Logistic Regression ranks flights better than chance and better than XGBoost: Average
+Precision is \TestAPLR{} against a prevalence of \TestPrev{}, and ROC AUC is \TestROCLR{}. Its
+probabilities, however, are no more accurate than a constant base-rate forecast, and they
+under-predict in December, when the delay rate rose sharply. No decision threshold reached the
+targeted \MinPrecision{} precision on validation, so no operating point was frozen. The results
+indicate what a strictly day-ahead model can offer: modest, honest risk ranking, not reliable
+individual delay alarms.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -44,11 +55,31 @@ temporal validation, data leakage
 
 % =====================================================================
 \section{Introduction}\label{sec:intro}
-\todo{Motivate day-ahead delay risk (passengers, airlines); define the goal precisely: predict
-whether a flight will arrive at least \TargetMinutes{} minutes late, using only information
-available at the end of the previous day. State the contributions (contract and leakage control,
-chronological pre-registered evaluation, calibration analysis, honest negative result). Note that
-temporal deep learning is Phase~2 and out of scope here.}
+Flight delays impose costs on passengers, airlines and airports. A day-ahead estimate of delay
+risk could support passenger information and planning. However, much of the published delay
+prediction work operates close to departure, using live airspace or surveillance information that
+is not available a day in advance~\cite{rebollo2014,gui2020}. Results obtained under different
+prediction horizons are therefore not directly comparable. A model evaluated with information it
+would not have had at prediction time can also look far better than it is. This is the problem of
+leakage~\cite{kaufman2012}.
+
+This report addresses a deliberately strict question: \emph{using only information available at
+the end of the previous day, can a classifier predict whether a flight will arrive at least
+\TargetMinutes{} minutes late, and how reliable are its probabilities on later, unseen months?}
+The contributions are:
+\begin{itemize}
+\item an explicit prediction contract, including a historical-outcome cutoff chosen from evidence
+about when outcomes become known;
+\item leakage-controlled features whose temporal correctness is verified by independent tests;
+\item a chronological train/validation/test design with a single, pre-registered test evaluation
+and logged access to test labels;
+\item an analysis of ranking quality, probability quality and calibration over time, with
+baselines and day-level uncertainty intervals;
+\item honest reporting of negative findings: no operating point at the targeted precision, and
+calibration deterioration under seasonal shift.
+\end{itemize}
+Temporal deep-learning models belong to Phase~2 of the project and are outside the scope of this
+report.
 
 \subsection{Problem formulation}
 For flight $i$ with scheduled date $D_i$, the label is
@@ -58,43 +89,130 @@ y_i = \mathbb{1}\!\left[\text{arr\_delay}_i \geq \TargetMinutes\ \text{min}\righ
 following the BTS on-time convention~\cite{bts_ontime}. The model outputs
 $\hat{p}_i = \Pr(y_i = 1 \mid \mathbf{x}_i)$, where $\mathbf{x}_i$ may contain only information
 available at the end of day $D_i - 1$. Flights without a recorded arrival delay are excluded and
-never labelled. \todo{One sentence on why exclusion is preferred to labelling them on-time.}
+never labelled. For cancelled or diverted flights the arrival delay is undefined. Labelling them
+on time would be wrong, and labelling them delayed would change the meaning of the target. The
+model's population is therefore flights that operated and have a recorded arrival delay
+(Section~\ref{sec:data}).
 
 % =====================================================================
 \section{Related Work}\label{sec:related}
-\todo{Condense docs/12\_literature\_review.md \S2--\S5 into prose. Suggested structure:
-(i) surveys~\cite{carvalho2021};
-(ii) short-horizon models using live network or surveillance state~\cite{rebollo2014,gui2020,kim2016};
-(iii) longer horizons with schedule or forecast inputs~\cite{choi2016,lambelho2020};
-(iv) cost and imbalance~\cite{choi2017}; (v) probabilistic prediction~\cite{zoutendijk2021};
-(vi) the gap, phrased as ``in the reviewed literature''. Cite only at the verification level
-recorded in docs/12.}
+\textbf{Surveys.} Carvalho et al.~\cite{carvalho2021} review data-science approaches to flight
+delays. They propose a taxonomy organised by problem scope, data and computational method, and
+trace research trends in the field.
+
+\textbf{Short-horizon prediction with live system state.} Rebollo and
+Balakrishnan~\cite{rebollo2014} predict departure delays 2--24~h ahead with random forests. Their
+features include network-wide variables describing the delay state of the US National Airspace
+System at prediction time. Gui et al.~\cite{gui2020} combine ADS-B surveillance messages with
+weather, schedule and airport information. They report overfitting for an LSTM on their dataset and
+a random forest reaching 90.2\% binary accuracy. Kim et al.~\cite{kim2016} model day-to-day
+sequences of airport delays with deep LSTM networks. These designs rely on information that exists
+only close to departure, which a day-ahead model cannot use.
+
+\textbf{Longer horizons.} Choi et al.~\cite{choi2016} train decision trees, random forests,
+AdaBoost and $k$-nearest neighbours on US domestic flight and weather data. At prediction time they
+use the flight schedule and weather \emph{forecasts}, address class imbalance by resampling, and
+compare models by accuracy and ROC curves. According to the summary in~\cite{zoutendijk2021}, they
+consider horizons of one and five days. Lambelho et al.~\cite{lambelho2020} use machine-learning
+predictions of delays and cancellations to assess strategic schedules at London Heathrow, where
+slots are allocated months ahead.
+
+\textbf{Costs and probabilities.} Choi et al.~\cite{choi2017} make classifiers cost-sensitive by
+subsampling according to misclassification costs, and evaluate a weighted error whose optimum
+depends on the cost ratio between false positives and false negatives. Zoutendijk and
+Mitici~\cite{zoutendijk2021} predict full delay distributions for individual flights at a Dutch
+airport. They use mixture density networks and random-forest regression, evaluate with the
+continuous ranked probability score (a proper scoring rule), and construct train and test sets by
+5-fold cross-validation. They argue that most prior work reports classes or point estimates,
+which convey no uncertainty.
+
+\textbf{Gap.} In the reviewed literature, horizons and the information assumed available at
+prediction time vary widely and are often implicit. Headline results are frequently accuracy or
+confusion-matrix metrics~\cite{choi2016,kim2016,gui2020}, which can mislead under class
+imbalance~\cite{saito2015}. Probabilistic quality is rarely assessed, and validation designs are
+often not chronological~\cite{zoutendijk2021}. None of the reviewed studies combines an explicit
+day-ahead information contract with a verified historical-outcome cutoff; a single, pre-registered
+chronological test evaluation; imbalance-aware ranking metrics together with proper scoring rules
+and calibration assessed over time; and explicit reporting of negative operational results. This
+work does not claim higher accuracy than prior studies. It positions itself as a leakage-controlled
+baseline that shows what a strictly day-ahead model can and cannot deliver. The review is small and
+non-systematic, so this gap refers to the reviewed sample, not the whole field.
 
 % =====================================================================
 \section{Data and Quality Assessment}\label{sec:data}
 The supplied file matches the public \texttt{nycflights13} dataset~\cite{nycflights13}, sourced
 from BTS on-time data: \DataRows{} scheduled departures from EWR, JFK and LGA between \DataStart{}
 and \DataEnd{} (Table~\ref{tab:dataset}).
-\todo{Summarise the audit (docs/01): no duplicates; delays reconcile with clock times; file rows
-not chronological; no cancellation, diversion or time-zone fields; scope limited to NYC.
-Explain the three exclusion groups and the non-random missingness.}
+A scripted audit checked the file before any modelling:
+\begin{itemize}
+\item there are no duplicate rows, and every calendar day of the year is present;
+\item clock fields are valid, and recorded departure and arrival delays reconcile exactly with the
+difference between actual and scheduled times (allowing for flights that cross midnight);
+\item the rows are \emph{not} in chronological order (months appear in lexicographic order), so
+all processing sorts by reconstructed timestamps and never relies on row position;
+\item there are no cancellation, diversion, delay-cause, weather or time-zone fields. Because the
+scheduled departure is in New York local time and the scheduled arrival in destination local time,
+a true scheduled duration cannot be computed, so distance is used instead.
+\end{itemize}
+Cancellation and diversion are inferred from missing fields. A flight with no departure time never
+departed (\DataNoDep{} flights); \DataDepNoArr{} departed but have no arrival time; and
+\DataArrNoDelay{} arrived but have no recorded delay. These \DataUnlabelled{} flights are excluded
+from the modelling population. Their share differs across carriers and months, so the exclusion is
+not random. The model therefore describes delay \emph{conditional on the flight operating and being
+recorded}. Among the \DataLabelled{} labelled flights, \DataPositives{} (\DataPrevalence) arrived at
+least \TargetMinutes{} minutes late. The scope is limited to departures from the three New York
+airports in a single year.
 \input{generated/tab_dataset}
 
 % =====================================================================
 \section{Prediction Contract and Leakage Prevention}\label{sec:contract}
-\todo{Explain the contract (docs/02): scoring time end of $D-1$; permitted inputs (schedule,
-carrier, airports, distance); prohibited post-event fields (actual departure and arrival,
-departure delay, air time); \texttt{tailnum} excluded as unverifiable. Leakage per~\cite{kaufman2012}.}
-Historical outcomes enter only if the flight date is $\leq D-\HistLag$. A cutoff of $D-1$ was
-rejected because flights on $D-1$ can provably land after midnight. \todo{Give the landing-time
-evidence from docs/02 \S4 and the decision register (D10).}
+Leakage is the use of information about the target that would not legitimately be available when
+the prediction is made~\cite{kaufman2012}. To prevent it, every flight scheduled on date $D$ is
+scored at a fixed time: the end of day $D-1$, i.e.\ 00:00 local time on $D$. A field may describe
+the flight being predicted only if it is known from the published schedule at that time:
+\begin{itemize}
+\item \textbf{Permitted:} scheduled departure and arrival times, date, carrier, origin,
+destination and distance.
+\item \textbf{Prohibited:} actual departure and arrival times, departure delay, arrival delay
+(which defines the target) and airborne time, all of which are observed only on day $D$.
+\item \textbf{Excluded as unverifiable:} the aircraft tail number. Assignments change on the day
+(same-day swaps are visible in the data), so its value at the end of $D-1$ cannot be established.
+\end{itemize}
+The rules are enforced in code by a field registry: feature definitions must declare their source
+columns, and any non-permitted column is rejected.
+
+Outcomes of \emph{other, earlier} flights may enter historical features, but only if they were
+already known at prediction time. A cutoff based on flight date alone ($< D$) is not enough. A
+lower bound on a flight's landing time is its actual departure time plus its airborne time, both
+recorded in the data. Some flights dated $D-1$, disproportionately the delayed ones, provably land
+after midnight, so their outcomes were unknown at the end of $D-1$. Including them would leak
+target-correlated information. With the cutoff at flight dates $\leq D-\HistLag$, no flight violated
+this, even when three hours were added for unrecorded taxiing. The \HistLag-day lag was therefore
+adopted.
 
 % =====================================================================
 \section{Exploratory Data Analysis}\label{sec:eda}
-\todo{Key findings from docs/03, each tied to a decision: delay share rises through the day
-(Fig.~\ref{fig:hour}); strong seasonality and a calm validation period (Fig.~\ref{fig:daily});
-destination and route heterogeneity beyond sampling noise; small categories; little shift in the
-schedule mix. Disclose that EDA relating outcomes to features used training data only.}
+To avoid informing design choices with later outcomes, all analyses relating the target to
+candidate features used the training period only. Full-year views were restricted to label-free
+quantities and per-period delay rates. The main findings, each tied to a design decision, are:
+\begin{itemize}
+\item \textbf{Time of day.} The delay share rises steadily from early-morning to evening departures
+(Fig.~\ref{fig:hour}), so departure and arrival hour enter as features.
+\item \textbf{Calendar.} Weekdays differ (Saturday has the lowest delay share). Monthly
+differences exist, but training covers only January--August, so month values in the validation
+and test periods would be unseen. Month is therefore excluded, and seasonal level enters only
+through lagged historical rates.
+\item \textbf{Airports and routes.} Delay shares for many destinations and routes lie outside the
+range expected from sampling noise alone. Many routes, however, have few flights. This motivates
+shrunk historical route rates instead of a one-hot route identity.
+\item \textbf{Seasonality.} The validation months are the calmest period of the year, while the
+test period includes a volatile December (Fig.~\ref{fig:daily}). This warns that thresholds and
+calibration chosen on validation may transfer poorly.
+\item \textbf{Schedule mix.} The carrier, airport and departure-hour composition changes little
+between periods. The main temporal change is in the outcome rate itself.
+\end{itemize}
+The full-year monthly delay rates, including those of the test months, were seen during the data
+audit before the split was fixed. This is disclosed in Section~\ref{sec:limitations}.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{eda_dep_hour.png}
@@ -126,19 +244,51 @@ at $D-\HistLag$ are shrunk towards the system-wide rate $\pi$ of the same window
 \end{cases}
 \end{equation}
 with $k_e$ delayed flights out of $n_e$ labelled flights, $m=\HistSmoothing$ and $n_{\min}=\HistMinCount$.
-\todo{Explain why expanding-window counts were removed (a hidden time index, D17), why month is
-excluded (D15), and summarise the leakage tests (independent recalculation, perturbation,
-future-append and row-order checks; docs/04).}
+Shrinkage pulls the rate of a sparsely observed entity towards the system-wide rate, so a route
+with a handful of flights is not treated as a stable risk estimate. The fallback applies
+when an entity has too little history. Rates are computed over an expanding window and a 28-day
+window, and system-wide rates also over a 7-day window. Counts of labelled flights are included for
+the fixed windows only. Expanding-window counts grow monotonically with the date, so they act as a
+hidden time index whose test values lie entirely outside the training range; they were removed.
+
+Each historical feature is computed from per-day outcome totals and cumulative sums. Its value for
+date $D$ therefore depends only on flights dated $\leq D-\HistLag$. By construction it cannot
+include the flight's own outcome, same-day outcomes or later records. This is verified by tests
+that:
+\begin{itemize}
+\item recompute the features of randomly sampled flights independently, by direct filtering;
+\item check that changing every outcome on one date leaves all features before date $+\HistLag$
+unchanged;
+\item check that appending future records, or removing all test-period rows, does not change
+earlier features;
+\item check that shuffling the input rows has no effect.
+\end{itemize}
+Flights on the first \HistLag{} days of the year have no eligible history. Their historical
+features are left missing rather than filled from later data.
 
 % =====================================================================
 \section{Experimental Design}\label{sec:design}
 Partitions are chronological (Table~\ref{tab:protocol}). Validation is used for model selection
 (Average Precision), XGBoost early stopping, calibration choice and the threshold rule. The test
 set was evaluated once, under a frozen, hash-bound manifest with logged label access.
-\todo{Justify chronological validation: non-stationarity and deployment realism. Cite
-\cite{bergmeir2012} accurately: it recommends blocked cross-validation and found no practical harm
-from standard CV, so it does not by itself rule out random splits. Mention the no-refit policy (D20)
-and the prior test-period exposure disclosed in docs/05 \S3.1.}
+A deployed model is trained on the past and applied to the future. A chronological holdout
+reproduces this ordering, whereas a random split would let models learn from flights that occur
+after the ones they are evaluated on. That matters here for two reasons. First, the process is
+non-stationary: the delay rate changes strongly with the season (Fig.~\ref{fig:daily}), and a
+random split would hide this shift by mixing all seasons into both sides. Second, historical
+features summarise earlier outcomes, so evaluation must follow the same ordering they were built
+for. Bergmeir and Ben\'{\i}tez~\cite{bergmeir2012} note that temporal dependence violates the
+assumptions of cross-validation in theory, but they found no practical harm in their experiments
+and recommend \emph{blocked} cross-validation. Their work therefore does not, by itself, rule out
+random splits. Our choice rests on non-stationarity and deployment realism.
+
+The split uses whole calendar months, so no day is divided between partitions. All models are
+fitted on the training months only and are \emph{not} refitted on training plus validation. The
+calibrator and threshold are estimated on predictions for data the model has not seen, and a refit
+would produce a different model whose calibration was never checked. The cost is that the
+validation months do not contribute to fitting. Because validation is reused for selection, early
+stopping and calibration, validation scores are optimistic development estimates. The test period
+gives the single reported estimate.
 \input{generated/tab_protocol}
 
 % =====================================================================
@@ -150,9 +300,28 @@ $\sigma(z) = 1/(1+e^{-z})$, the model is linear in the log-odds. Training minimi
 \tfrac{1}{2}\lVert\boldsymbol{\beta}\rVert_2^2
 - C\sum_{i}\big[y_i\log\hat{p}_i + (1-y_i)\log(1-\hat{p}_i)\big],
 \end{equation}
-where a small $C$ means strong $L_2$ regularisation~\cite{hastie2009}.
-\todo{State the selected configuration and why strong regularisation helps under seasonal shift;
-preprocessing (one-hot encoding, scaling, training-median imputation plus indicator; docs/06).}
+where $\boldsymbol{\beta}$ are the coefficients, $\beta_0$ the intercept (not penalised),
+$\mathbf{x}_i$ the preprocessed features of flight $i$, and $C>0$ the inverse regularisation
+strength~\cite{hastie2009}. The second term is $C$ times the binary cross-entropy (log loss): it
+rewards high predicted probability for the observed outcome. The first term, the $L_2$ penalty,
+shrinks coefficients towards zero. Smaller $C$ means stronger shrinkage, trading a little bias for
+lower variance, which helps when the relationship between features and delays drifts over time. A
+coefficient $\beta_j$ is the change in the log-odds of delay per unit change in feature $j$ (a
+standardised unit for numeric inputs), holding the others fixed. This is an association, not a
+causal effect.
+
+The search covered $C\in\{0.01,0.1,1,10\}$, with and without balanced class weights. The selected
+model ($C=0.01$, unweighted, lbfgs solver) uses the strongest regularisation in the grid; validation
+AP varied little across the grid. Preprocessing is fitted on training rows only:
+\begin{itemize}
+\item time of day is encoded cyclically and numeric features are standardised;
+\item historical counts are log-transformed;
+\item carrier, origin and destination are one-hot encoded, with categories seen in fewer than 100
+training flights grouped into an ``infrequent'' column, to which unseen categories are also
+mapped;
+\item missing historical rates (the first days of the year) are imputed with training medians, and
+a missing-history indicator lets the model treat these rows differently.
+\end{itemize}
 
 \subsection{Gradient-boosted trees (XGBoost)}
 XGBoost~\cite{chen2016} builds an additive model $F(\mathbf{x}) = \sum_{k=1}^{K} \eta f_k(\mathbf{x})$
@@ -160,51 +329,157 @@ of regression trees~\cite{friedman2001}, with $\hat{p} = \sigma(F)$, by minimisi
 \begin{equation}
 \sum_{i}\ell\big(y_i, F(\mathbf{x}_i)\big) + \sum_{k}\Big(\gamma T_k + \tfrac{\lambda}{2}\lVert\mathbf{w}_k\rVert^2\Big).
 \end{equation}
-Using first and second derivatives $g_i, h_i$ of the loss, the optimal weight of leaf $j$ is
-$w_j^{*} = -G_j/(H_j + \lambda)$, where $G_j = \sum_{i \in j} g_i$ and $H_j = \sum_{i \in j} h_i$.
-Its sparsity-aware split finding handles missing values natively~\cite{chen2016}.
-\todo{Search space, early stopping on validation, class weighting and its effect on probabilities
-(docs/07); why trees remain strong on tabular data~\cite{grinsztajn2022}.}
+Here $f_k$ is the $k$-th regression tree, $\eta$ the learning rate (shrinkage), $\ell$ the
+logistic loss on the log-odds $F$, $T_k$ the number of leaves of tree $k$, $\mathbf{w}_k$ its leaf
+weights, and $\gamma,\lambda\geq 0$ penalties on tree size and leaf weights. Trees are added one at
+a time. Each new tree is fitted using a second-order approximation of the loss around the current
+model, with gradients $g_i=\partial\ell/\partial F=\hat{p}_i-y_i$ and curvatures
+$h_i=\partial^2\ell/\partial F^2=\hat{p}_i(1-\hat{p}_i)$. For a fixed tree structure, the optimal
+weight of leaf $j$ is
+\begin{equation}
+w_j^{*} = -\frac{G_j}{H_j + \lambda}, \qquad G_j = \sum_{i \in j} g_i,\quad H_j = \sum_{i \in j} h_i ,
+\end{equation}
+so $\lambda$ shrinks leaf predictions, much as the $L_2$ penalty does in Logistic Regression. The
+sparsity-aware split finding of XGBoost sends missing values along a learned default direction,
+so the missing historical features of the first days need no imputation~\cite{chen2016}.
+Tree ensembles remain strong baselines on tabular data~\cite{grinsztajn2022}.
+
+The search varied tree depth $\{3,5,7\}$, minimum child weight $\{1,20\}$ and the positive-class
+weight (none, or the training negative-to-positive ratio). The fixed settings were $\eta=0.05$,
+row and column subsampling of 0.8, and the library defaults $\lambda=1$, $\gamma=0$. The number of
+trees was set by early stopping on validation Average Precision. The selected model (depth 3,
+minimum child weight 20, class-weighted) stopped after only a small number of trees. Deeper models
+fit the training months much better but validated worse, suggesting patterns that did not carry
+over to the autumn. Class weighting barely changed validation AP but distorted the raw
+probabilities upwards, which the calibration step later corrects.
 
 \subsection{Reference baselines}
-\todo{The most-frequent dummy (\DummyAccuracy{} ``accuracy'' on validation while detecting no
-delays) and the constant training-prevalence predictor.}
+Two trivial references anchor the comparison. The \emph{most-frequent dummy} always predicts ``not
+delayed'' ($\hat{p}=0$). It would be \DummyAccuracy{} accurate on validation while detecting no
+delays at all, which is why accuracy is not used as a headline metric. The \emph{prior baseline}
+always predicts the training delay rate (\TrainPrev{}). It has no ranking ability, but it is the
+natural reference for probability quality: a useful model should beat it on Brier score and log
+loss.
 
 % =====================================================================
 \section{Evaluation Metrics and Calibration}\label{sec:calibration}
-Average Precision is computed step-wise as $\mathrm{AP} = \sum_n (R_n - R_{n-1})P_n$. Under
-imbalance it is more informative than ROC AUC~\cite{saito2015,davis2006}. Probability quality is
-measured with the Brier score~\cite{brier1950}, $\frac{1}{N}\sum_i(\hat{q}_i - y_i)^2$, and log
-loss, both strictly proper scoring rules~\cite{gneiting2007}.
+\subsection{Ranking metrics}
+Let $q_i\in[0,1]$ be the predicted delay probability of flight $i$, $y_i\in\{0,1\}$ its label, and
+$N$ the number of flights. Flagging every flight with $q_i\geq t$ gives, at threshold $t$,
+\begin{equation}
+P(t) = \frac{\mathrm{TP}(t)}{\mathrm{TP}(t)+\mathrm{FP}(t)},\qquad
+R(t) = \frac{\mathrm{TP}(t)}{\mathrm{TP}(t)+\mathrm{FN}(t)},
+\end{equation}
+where TP, FP and FN count true positives, false positives and false negatives. Precision $P$ is the
+share of flagged flights that are actually delayed; recall $R$ is the share of delayed flights that
+are flagged. Average Precision summarises the precision--recall curve without choosing a threshold:
+\begin{equation}
+\mathrm{AP}=\sum_{n}\big(R_n-R_{n-1}\big)\,P_n ,
+\end{equation}
+where $(P_n, R_n)$ are the precision and recall at the $n$-th distinct threshold, in decreasing
+order of $t$. A random or constant predictor has AP equal to the prevalence, so AP is judged
+against the base rate. ROC AUC is the probability that a randomly chosen delayed flight receives a
+higher score than a randomly chosen on-time flight; random ranking gives 0.5. Under class imbalance,
+ROC plots can give an overly favourable impression, while precision--recall analysis reflects the
+reliability of positive predictions~\cite{saito2015,davis2006}. AP is therefore the primary
+selection metric, with ROC AUC secondary.
 
-Calibration maps raw scores $p$ to $q$ with either sigmoid (Platt) scaling~\cite{platt2000},
-$q = \sigma(a\,\mathrm{logit}\,p + b)$, or isotonic regression~\cite{zadrozny2002}, a
-non-decreasing step function. The method was chosen by Sep$\leftrightarrow$Oct cross-fitting on
-held-out log loss (Table~\ref{tab:calibration}). The selected methods were \CalSelLR{} for
-Logistic Regression ($a=\CalSlopeA$, $b=\CalInterceptB$) and \CalSelXGB{} for XGBoost.
-\todo{Explain why calibration matters~\cite{niculescumizil2005,guo2017,vancalster2019}, the
-threshold rule (maximise recall subject to precision $\geq$ \MinPrecision{}) and why it was
-infeasible (maximum precision \MaxPrecLR{} for LR), plus the cross-fitting reordering limitation (D33).}
+\subsection{Probability quality}
+The Brier score~\cite{brier1950} and the log loss are
+\begin{equation}
+\mathrm{BS}=\frac{1}{N}\sum_{i}(q_i-y_i)^2,\qquad
+\mathrm{LL}=-\frac{1}{N}\sum_{i}\big[y_i\log q_i+(1-y_i)\log(1-q_i)\big].
+\end{equation}
+Both are strictly proper scoring rules: their expected value is minimised only by reporting the true
+probability~\cite{gneiting2007}. They reward calibration and sharpness together. Log loss penalises
+confident errors heavily (probabilities are clipped to $[10^{-15},1-10^{-15}]$).
+
+\subsection{Calibration}
+A model is calibrated if, among flights predicted with probability $q$, a fraction $q$ are actually
+delayed: $\Pr(y=1\mid \hat{q}=q)=q$. Ranking quality does not imply this. Boosted trees are known to
+distort probabilities~\cite{niculescumizil2005}, and poorly calibrated predictions can mislead
+decisions even when ranking is good~\cite{guo2017,vancalster2019}. Raw model outputs $p$ are mapped
+to calibrated probabilities $q$ by one of two methods.
+\begin{itemize}
+\item \textbf{Sigmoid (Platt) scaling}~\cite{platt2000}: $q=\sigma\big(a\,\mathrm{logit}(p)+b\big)$,
+with $\mathrm{logit}(p)=\log\frac{p}{1-p}$ and $(a,b)$ fitted by logistic regression. This
+two-parameter monotone map can correct a shifted or overly spread score scale.
+\item \textbf{Isotonic regression}~\cite{zadrozny2002}: $q=g(p)$, where $g$ is the non-decreasing
+step function minimising $\sum_i(y_i-g(p_i))^2$. It is more flexible but needs more data.
+\end{itemize}
+Both are compared with no calibration by cross-fitting within validation. Each method is fitted on
+September and scored by log loss on October, and then the reverse. The method with the lowest mean
+held-out log loss is selected; within $10^{-6}$, the simpler method wins. The selected method is
+then refitted on all validation predictions. The rule selected \CalSelLR{} scaling for Logistic
+Regression ($a=\CalSlopeA$, $b=\CalInterceptB$) and \CalSelXGB{} regression for XGBoost
+(Table~\ref{tab:calibration}). The slope $a\approx 1$ means the ranking spread of Logistic
+Regression transferred to the validation months, and the calibration mainly corrected the
+probability level downwards for the calmer autumn.
 \input{generated/tab_calibration}
-Uncertainty is estimated with a bootstrap that resamples whole flight dates, because same-day
-flights are dependent~\cite{field2007}. Paired differences use the same resampled days.
+
+\subsection{Operating threshold}
+The operational requirement was a minimum precision of $\pi_{\min}=$\MinPrecision{}. The threshold
+is selected on validation as
+\begin{equation}
+t^{*}=\arg\max_{t}\; R(t)\quad\text{subject to}\quad P(t)\geq \pi_{\min},
+\end{equation}
+with ties resolved towards the highest threshold. The predictions used are ones the calibrator did
+not see: raw probabilities if no calibration is selected, otherwise cross-fitted ones (September
+calibrated by the October fit, and vice versa). No threshold satisfied the constraint. The highest
+attainable precision was \MaxPrecLR{} for Logistic Regression and \MaxPrecXGB{} for XGBoost, so
+the requirement was declared infeasible and \emph{no operating threshold was frozen}. The
+requirement was not relaxed. One limitation of the procedure is that the two monthly calibration
+maps shift the months differently, which reorders some flights between months and slightly lowers
+pooled ranking quality. On raw scores, the target precision is reached only by a handful of the
+highest-ranked validation flights, and only in some bootstrap resamples, so the conclusion is
+unchanged.
+
+\subsection{Uncertainty: day-level bootstrap}
+Flights on the same day share weather and congestion, so they are not independent. Intervals are
+therefore computed by resampling whole flight dates. Let $d_1,\dots,d_K$ be the $K$ dates of an
+evaluation period. A bootstrap sample draws $K$ dates with replacement and pools all their flights,
+and the metric is recomputed on it. Over $B=$\TestBootResamples{} samples, the 2.5th and 97.5th
+percentiles of the recomputed metric form the 95\% interval. Resampling whole clusters keeps the
+within-day dependence~\cite{field2007}. For a paired difference between two models, both are
+evaluated on the same resampled dates. The interval assumes that days are exchangeable within a
+period, an approximation under seasonality.
 
 % =====================================================================
 \section{Results}\label{sec:results}
 \subsection{Validation (development)}
 \input{generated/tab_validation}
-\todo{Logistic Regression's validation AP was \ValAPLRci{}, against XGBoost's \ValAPXGB{}; the
-paired XGBoost $-$ LR difference was \ValDiffAPci{}. Stress that these are optimistic development
-estimates.}
+Table~\ref{tab:validation} reports development results on September--October (prevalence
+\ValPrev{}). They are optimistic, because the same months were used to select configurations and
+to stop XGBoost early. Logistic Regression reached a validation AP of \ValAPLRci{} and ROC AUC
+\ValROCLR{}. XGBoost reached an AP of \ValAPXGB{} and ROC AUC \ValROCXGB{}. The paired difference
+(XGBoost $-$ Logistic Regression) in AP was \ValDiffAPci{}, an interval excluding zero. Following
+the pre-registered rule (highest validation AP), Logistic Regression was carried forward as the
+primary model, with XGBoost as the comparison.
 
 \subsection{Single frozen test evaluation}
 \input{generated/tab_test}
 \input{generated/tab_paired}
-\todo{Interpret in your own words, using only the macros:
-LR AP \TestAPLRci{} vs.\ prevalence \TestPrev{} (lift \TestAPLift{}); ROC AUC \TestROCLRci{};
-LR beats XGBoost (\DiffAPLRXGB{} in AP) and the prior on ranking (\DiffAPLRPrior{}). It is
-\emph{not} better than the prior on Brier (\DiffBrierLRPrior{}) or log loss (\DiffLLLRPrior{}).
-It under-predicts (CITL \TestCITLLR{}, slope \TestSlopeLR{}). State the D32 sentence verbatim.}
+The test period (\TestRows{} labelled flights, prevalence \TestPrev{}) was evaluated once with all
+decisions frozen (Tables~\ref{tab:test} and~\ref{tab:paired}). These are the reported results.
+\begin{itemize}
+\item \textbf{Ranking.} The calibrated Logistic Regression achieved an AP of \TestAPLRci{}, which is
+\TestAPLift{} times the prevalence, and a ROC AUC of \TestROCLRci{}. It outperformed XGBoost
+(AP difference \DiffAPLRXGB{}; ROC AUC difference \DiffROCLRXGB{}) and the prior baseline in AP
+(\DiffAPLRPrior{}). Discrimination was lower than on validation.
+\item \textbf{Probability quality.} The model was \emph{not} better than the constant prior. The
+Brier difference was \DiffBrierLRPrior{} and the log-loss difference \DiffLLLRPrior{}; both
+intervals include zero, and the log-loss point estimate is slightly worse.
+\item \textbf{Calibration.} The model under-predicted delays: mean predicted probability
+\TestMeanPredLR{} against an observed rate of \TestPrev{}, a calibration-in-the-large of
+\TestCITLLR{}. The calibration slope of \TestSlopeLR{} (ideal~1) indicates predictions that are
+too spread out on the test data (Fig.~\ref{fig:test}).
+\item \textbf{Operating point.} No operating threshold --- the \MinPrecision{} precision target was
+infeasible on validation. Recall at the target precision, precision, recall, F1 and the confusion
+matrix at an operating threshold are therefore not reported. The descriptive test precision--recall
+curve also stays below the target precision.
+\end{itemize}
+None of the bootstrap resamples produced an undefined metric (\TestBootUndefined{} undefined
+resamples).
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.48\linewidth]{test_pr_roc.png}\hfill
@@ -218,13 +493,49 @@ test reliability diagram.}
 \section{Error Analysis}\label{sec:error}
 \input{generated/tab_monthly}
 \input{generated/tab_priorshift}
-\todo{From docs/11, keeping observed findings separate from hypotheses. Prevalence rose from
-\NovPrev{} (Nov) to \DecPrev{} (Dec) while the mean prediction moved only from \NovMeanPredLR{} to
-\DecMeanPredLR{}; CITL went from \NovCITLLR{} to \DecCITLLR{}. A pure prior-shift
-adjustment~\cite{saerens2002} would need a log-odds shift of \DecPriorShift{}; matching the observed
-rate needs \DecReqShift{}. This is consistent with a base-rate shift outside the model's
-inputs~\cite{morenotorres2012}, but not proof of one. State what could not be analysed without
-another label release.}
+The error analysis is descriptive and did not release test labels again. It uses only the saved
+test predictions, the aggregate outcomes saved by the single evaluation, label-free schedule
+fields and validation data.
+
+\textbf{Observed.}
+\begin{itemize}
+\item The delay rate rose from \NovPrev{} in November to \DecPrev{} in December
+(Table~\ref{tab:monthly}), while the mean calibrated prediction moved only from \NovMeanPredLR{} to
+\DecMeanPredLR{}.
+\item Calibration-in-the-large was close to zero in November (\NovCITLLR{}) but strongly negative
+in December (\DecCITLLR{}). In December, the constant prior had a lower Brier score than the model.
+\item In the overall test reliability diagram, every bin is under-predicted by a similar margin, a
+level offset rather than a distortion confined to some risk range.
+\item The schedule composition (carriers, airports, departure hours) changed only slightly between
+November and December.
+\end{itemize}
+
+\textbf{Consistency check.} If only the base rate had changed, with the feature distribution within
+each class unchanged (a prior shift~\cite{morenotorres2012}), Bayes' rule implies shifting each
+prediction's log-odds by the change in log prior odds~\cite{saerens2002}:
+\begin{equation}
+\mathrm{logit}\,q' = \mathrm{logit}\,q + \mathrm{logit}\,\pi_{\text{test}} - \mathrm{logit}\,\pi_{\text{val}},
+\end{equation}
+where $\pi_{\text{val}}$ is the validation base rate on which the calibrator was fitted and
+$\pi_{\text{test}}$ the month's observed rate. For December this shift is \DecPriorShift{} on the
+log-odds scale and would raise the mean prediction to \DecPriorShiftAdj{}, overshooting the observed
+\DecPrev{}. The constant shift that exactly matches December's rate is \DecReqShift{}, of the same
+order (Table~\ref{tab:priorshift}, Fig.~\ref{fig:priorshift}). This check is descriptive. It is never
+applied, since the test base rate is not known at prediction time.
+
+\textbf{Hypotheses (not established).}
+\begin{itemize}
+\item The December under-prediction is largely a base-rate shift driven by factors outside the
+model's inputs, such as weather or holiday congestion, which the dataset does not contain.
+\item The shift is not purely a prior shift: discrimination also declined from validation to
+November and December, and the pure adjustment overshoots.
+\item Lagged history catches such shifts only partly and late, because outcomes enter after a
+\HistLag-day delay.
+\end{itemize}
+
+\textbf{Not possible without another label release:} false-positive and false-negative analysis;
+performance or calibration by carrier, route, airport or hour; monthly reliability curves; and
+day-level errors. These were not attempted.
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.8\linewidth]{stage9_prior_shift.png}
@@ -235,15 +546,48 @@ consistency check (descriptive; never applied).}
 
 % =====================================================================
 \section{Limitations and Threats to Validity}\label{sec:limitations}
-\todo{Single year, NYC only; no weather or same-day information; non-random exclusions;
-validation reuse makes validation estimates optimistic; calibration fitted on the calmest months;
-prior test-period exposure (aggregates only); historical-retrospective holdout rather than a
-prospective deployment test; associations, not causes.}
+\begin{itemize}
+\item \textbf{Scope.} One year of departures from three New York airports. Seasonal effects cannot
+be separated from events specific to 2013, and results may not generalise to other airports or years.
+\item \textbf{Information.} No weather, same-day operational state, aircraft rotation or holiday
+calendar was used. These limit what a day-ahead model can achieve.
+\item \textbf{Population.} Cancelled and diverted flights are excluded, and their share varies by
+carrier and month. Results apply to flights that operated and were recorded.
+\item \textbf{Optimistic validation.} The validation months were reused for model selection, early
+stopping, calibration choice and threshold selection.
+\item \textbf{Calibration under shift.} Calibration was fitted on the calmest months of the year and
+transferred poorly to a high-delay December. The cross-fitting procedure also reorders some flights
+between months.
+\item \textbf{Prior exposure.} Aggregate delay rates of the test months were seen during the data
+audit, before the split was fixed. No test predictions or metrics existed before the single
+evaluation, and the calibration and threshold rules were fixed beforehand.
+\item \textbf{Training boundary.} The model is fitted on labels up to the last training day, which
+a deployed model predicting the first validation day could not yet have. This affects one
+validation day and no test day.
+\item \textbf{Retrospective design.} The test period is a historical holdout, not a prospective
+deployment, and the test-label lock is a procedural safeguard rather than access control.
+\item \textbf{Interpretation.} Coefficients and importances describe associations, not causes. The
+literature review is small and non-systematic.
+\end{itemize}
 
 % =====================================================================
 \section{Conclusion and Future Work}\label{sec:conclusion}
-\todo{What a strictly day-ahead model can and cannot deliver; Phase~2 directions (temporal deep
-learning, cf.~\cite{kim2016}), framed as future work only.}
+Under a strict day-ahead information contract with verified leakage controls, a regularised
+Logistic Regression ranked test flights by delay risk better than chance, better than XGBoost and
+better than a constant base-rate forecast. Discrimination was modest, however (ROC AUC
+\TestROCLR{}). The model did not provide probabilities more accurate than the base rate, and it
+under-predicted in a high-delay December. No operating point met the targeted \MinPrecision{}
+precision. A strictly day-ahead model built on schedule information and lagged history can
+therefore offer coarse risk ranking, but not reliable individual delay alarms.
+
+Future work, each item requiring a new and separately reported evaluation, includes:
+\begin{itemize}
+\item temporal deep-learning models (Phase~2; cf.~\cite{kim2016});
+\item approved additional information sources, such as weather forecasts that are genuinely
+available a day ahead;
+\item recalibration strategies that can adapt to base-rate shift without using future labels;
+\item evaluation across several years and airports.
+\end{itemize}
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
