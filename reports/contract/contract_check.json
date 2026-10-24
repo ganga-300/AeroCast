@@ -6,7 +6,7 @@
     },
     "prediction": {
       "timestamp_rule": "end_of_previous_day",
-      "history_lag_days": null
+      "history_lag_days": 2
     },
     "target": {
       "source_column": "arr_delay",
@@ -104,6 +104,15 @@
       "check": "prepared frame sorted by scheduled departure",
       "passed": true,
       "detail": null
+    },
+    {
+      "check": "configured history lag (2 days) has zero outcome-availability violations",
+      "passed": true,
+      "detail": {
+        "violations": 0,
+        "pct_of_labelled": 0.0,
+        "positive_share_among_violations": null
+      }
     },
     {
       "check": "raw file checksum unchanged",

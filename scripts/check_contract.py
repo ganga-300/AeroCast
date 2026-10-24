@@ -19,7 +19,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from flight_delay.config import PROJECT_ROOT, load_config, resolve_path
+from flight_delay.config import PROJECT_ROOT, load_config, require_history_lag, resolve_path
 from flight_delay.contract import (PROHIBITED_INPUTS, PERMITTED_INPUTS, assert_registry_covers,
                                    availability_table)
 from flight_delay.data.load import file_sha256, load_raw, modelling_population, prepare_flights
@@ -123,6 +123,10 @@ def main() -> int:
                   .groupby(["split", "label_status"], observed=False).size()
                   .unstack(fill_value=0))
     availability = outcome_availability(df)
+    lag = require_history_lag(cfg)
+    configured = availability.get(f"lag_{lag}_buffer_{max(BUFFERS_MIN)}min")
+    check(f"configured history lag ({lag} days) has zero outcome-availability violations",
+          configured is not None and configured["violations"] == 0, configured)
     sha_after = file_sha256(raw_path)
     check("raw file checksum unchanged", sha_before == sha_after == cfg["data"]["raw_sha256"])
 
@@ -149,7 +153,7 @@ def main() -> int:
         "registry, not this file.\n\n"
         "Prediction timestamp: end of the day before the flight (decision D3). "
         "`history_eligible` outcomes may only enter historical aggregates of earlier flights, "
-        "subject to the historical-outcome cutoff (decision D10).\n\n"
+        "subject to the historical-outcome cutoff (decision D10: flight date ≤ D−2).\n\n"
         + markdown_table(table) + "\n")
 
     for c in checks:

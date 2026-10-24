@@ -1,6 +1,7 @@
 # Pinned to the versions installed in .venv (Python 3.13.13).
-# Stages 0-2 only; modelling/plotting packages are added when their stage starts.
+# Stages 0-3; modelling packages (scikit-learn, xgboost) are added in Stage 6/7.
 pandas==3.1.0
 numpy==2.5.4
 pyyaml==6.0.3
 pytest==9.1.1
+matplotlib==3.11.2

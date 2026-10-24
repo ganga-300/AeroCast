@@ -8,10 +8,10 @@ data:
 prediction:
   # D3: every flight on date D is scored at the end of D-1 (00:00 NYC local time on D).
   timestamp_rule: end_of_previous_day
-  # D10 (OPEN): number of days between the prediction date and the latest flight date whose
-  # outcome may enter historical features. 1 => dates <= D-1, 2 => dates <= D-2.
-  # Left null on purpose: building historical features fails until this is confirmed.
-  history_lag_days: null
+  # D10 (CONFIRMED): historical features for a flight on date D may use only outcomes of
+  # flights with flight date <= D - history_lag_days. Lag 1 would include D-1 flights that
+  # provably landed after 00:00 on D (19,303 labelled rows); lag 2 has zero such violations.
+  history_lag_days: 2
 
 target:
   # D6: y = 1 if arr_delay >= threshold, 0 if below, <NA> if arr_delay is missing.

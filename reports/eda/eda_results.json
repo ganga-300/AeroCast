@@ -1,0 +1,2423 @@
+{
+  "policy": {
+    "target_vs_feature_analyses": "training split only (2013-01-01..2013-08-31)",
+    "full_year_analyses": "volume, missingness, category shares, unseen categories, per-period prevalence (description of shift only)",
+    "train_overall_rate": 0.2637
+  },
+  "q01_quality": {
+    "missing_by_split": {
+      "train": {
+        "dep_time": 6309,
+        "dep_delay": 6309,
+        "arr_time": 6650,
+        "arr_delay": 7183,
+        "tailnum": 1941,
+        "air_time": 7183,
+        "y": 7183
+      },
+      "validation": {
+        "dep_time": 688,
+        "dep_delay": 688,
+        "arr_time": 751,
+        "arr_delay": 835,
+        "tailnum": 228,
+        "air_time": 835,
+        "y": 835
+      },
+      "test": {
+        "dep_time": 1258,
+        "dep_delay": 1258,
+        "arr_time": 1312,
+        "arr_delay": 1412,
+        "tailnum": 343,
+        "air_time": 1412,
+        "y": 1412
+      }
+    },
+    "unlabelled_share_by_month": [
+      {
+        "month": 1,
+        "size": 27004,
+        "sum": 606,
+        "mean": 0.0224
+      },
+      {
+        "month": 2,
+        "size": 24951,
+        "sum": 1340,
+        "mean": 0.0537
+      },
+      {
+        "month": 3,
+        "size": 28834,
+        "sum": 932,
+        "mean": 0.0323
+      },
+      {
+        "month": 4,
+        "size": 28330,
+        "sum": 766,
+        "mean": 0.027
+      },
+      {
+        "month": 5,
+        "size": 28796,
+        "sum": 668,
+        "mean": 0.0232
+      },
+      {
+        "month": 6,
+        "size": 28243,
+        "sum": 1168,
+        "mean": 0.0414
+      },
+      {
+        "month": 7,
+        "size": 29425,
+        "sum": 1132,
+        "mean": 0.0385
+      },
+      {
+        "month": 8,
+        "size": 29327,
+        "sum": 571,
+        "mean": 0.0195
+      },
+      {
+        "month": 9,
+        "size": 27574,
+        "sum": 564,
+        "mean": 0.0205
+      },
+      {
+        "month": 10,
+        "size": 28889,
+        "sum": 271,
+        "mean": 0.0094
+      },
+      {
+        "month": 11,
+        "size": 27268,
+        "sum": 297,
+        "mean": 0.0109
+      },
+      {
+        "month": 12,
+        "size": 28135,
+        "sum": 1115,
+        "mean": 0.0396
+      }
+    ],
+    "unlabelled_share_by_carrier": [
+      {
+        "carrier": "HA",
+        "size": 342,
+        "sum": 0,
+        "mean": 0.0
+      },
+      {
+        "carrier": "F9",
+        "size": 685,
+        "sum": 4,
+        "mean": 0.0058
+      },
+      {
+        "carrier": "AS",
+        "size": 714,
+        "sum": 5,
+        "mean": 0.007
+      },
+      {
+        "carrier": "VX",
+        "size": 5162,
+        "sum": 46,
+        "mean": 0.0089
+      },
+      {
+        "carrier": "DL",
+        "size": 48110,
+        "sum": 452,
+        "mean": 0.0094
+      },
+      {
+        "carrier": "B6",
+        "size": 54635,
+        "sum": 586,
+        "mean": 0.0107
+      },
+      {
+        "carrier": "UA",
+        "size": 58665,
+        "sum": 883,
+        "mean": 0.0151
+      },
+      {
+        "carrier": "WN",
+        "size": 12275,
+        "sum": 231,
+        "mean": 0.0188
+      },
+      {
+        "carrier": "AA",
+        "size": 32729,
+        "sum": 782,
+        "mean": 0.0239
+      },
+      {
+        "carrier": "FL",
+        "size": 3260,
+        "sum": 85,
+        "mean": 0.0261
+      },
+      {
+        "carrier": "US",
+        "size": 20536,
+        "sum": 705,
+        "mean": 0.0343
+      },
+      {
+        "carrier": "MQ",
+        "size": 26397,
+        "sum": 1360,
+        "mean": 0.0515
+      },
+      {
+        "carrier": "EV",
+        "size": 54173,
+        "sum": 3065,
+        "mean": 0.0566
+      },
+      {
+        "carrier": "9E",
+        "size": 18460,
+        "sum": 1166,
+        "mean": 0.0632
+      },
+      {
+        "carrier": "OO",
+        "size": 32,
+        "sum": 3,
+        "mean": 0.0938
+      },
+      {
+        "carrier": "YV",
+        "size": 601,
+        "sum": 57,
+        "mean": 0.0948
+      }
+    ],
+    "unlabelled_share_by_origin": [
+      {
+        "origin": "EWR",
+        "size": 120835,
+        "sum": 3708,
+        "mean": 0.0307
+      },
+      {
+        "origin": "JFK",
+        "size": 111279,
+        "sum": 2200,
+        "mean": 0.0198
+      },
+      {
+        "origin": "LGA",
+        "size": 104662,
+        "sum": 3522,
+        "mean": 0.0337
+      }
+    ]
+  },
+  "q02_class_balance": [
+    {
+      "split": "train",
+      "rows": 224910,
+      "labelled": 217727,
+      "positives": 57423,
+      "negatives": 160304,
+      "prevalence": 0.2637
+    },
+    {
+      "split": "validation",
+      "rows": 56463,
+      "labelled": 55628,
+      "positives": 8731,
+      "negatives": 46897,
+      "prevalence": 0.157
+    },
+    {
+      "split": "test",
+      "rows": 55403,
+      "labelled": 53991,
+      "positives": 13946,
+      "negatives": 40045,
+      "prevalence": 0.2583
+    }
+  ],
+  "q03_arr_delay_train": {
+    "n": 217727,
+    "mean": 8.98,
+    "median": -4.0,
+    "quantiles": {
+      "0.01": -45.0,
+      "0.05": -32.0,
+      "0.25": -16.0,
+      "0.5": -4.0,
+      "0.75": 16.0,
+      "0.95": 100.0,
+      "0.99": 201.0,
+      "0.999": 352.2740000000049
+    },
+    "share_early_lt0": 0.5601,
+    "share_ge15": 0.2637,
+    "share_ge60": 0.0991,
+    "share_ge180": 0.014,
+    "n_ge600": 28,
+    "min": -86.0,
+    "max": 1272.0,
+    "skew": 3.53
+  },
+  "q04_prevalence_over_time": {
+    "monthly": [
+      {
+        "month": 1,
+        "n": 26398,
+        "positives": 6201,
+        "rate": 0.2349,
+        "ci_low": 0.2298,
+        "ci_high": 0.2401
+      },
+      {
+        "month": 2,
+        "n": 23611,
+        "positives": 5615,
+        "rate": 0.2378,
+        "ci_low": 0.2324,
+        "ci_high": 0.2433
+      },
+      {
+        "month": 3,
+        "n": 27902,
+        "positives": 6586,
+        "rate": 0.236,
+        "ci_low": 0.2311,
+        "ci_high": 0.2411
+      },
+      {
+        "month": 4,
+        "n": 27564,
+        "positives": 7925,
+        "rate": 0.2875,
+        "ci_low": 0.2822,
+        "ci_high": 0.2929
+      },
+      {
+        "month": 5,
+        "n": 28128,
+        "positives": 6376,
+        "rate": 0.2267,
+        "ci_low": 0.2218,
+        "ci_high": 0.2316
+      },
+      {
+        "month": 6,
+        "n": 27075,
+        "positives": 8535,
+        "rate": 0.3152,
+        "ci_low": 0.3097,
+        "ci_high": 0.3208
+      },
+      {
+        "month": 7,
+        "n": 28293,
+        "positives": 9112,
+        "rate": 0.3221,
+        "ci_low": 0.3166,
+        "ci_high": 0.3275
+      },
+      {
+        "month": 8,
+        "n": 28756,
+        "positives": 7073,
+        "rate": 0.246,
+        "ci_low": 0.241,
+        "ci_high": 0.251
+      },
+      {
+        "month": 9,
+        "n": 27010,
+        "positives": 3705,
+        "rate": 0.1372,
+        "ci_low": 0.1331,
+        "ci_high": 0.1413
+      },
+      {
+        "month": 10,
+        "n": 28618,
+        "positives": 5026,
+        "rate": 0.1756,
+        "ci_low": 0.1713,
+        "ci_high": 0.1801
+      },
+      {
+        "month": 11,
+        "n": 26971,
+        "positives": 4882,
+        "rate": 0.181,
+        "ci_low": 0.1765,
+        "ci_high": 0.1856
+      },
+      {
+        "month": 12,
+        "n": 27020,
+        "positives": 9064,
+        "rate": 0.3355,
+        "ci_low": 0.3298,
+        "ci_high": 0.3411
+      }
+    ],
+    "daily_rate_quantiles": {
+      "0": 0.0421,
+      "0.1": 0.0937,
+      "0.5": 0.2053,
+      "0.9": 0.4751,
+      "1": 0.792
+    },
+    "worst_days_train": [
+      {
+        "flight_date": "2013-03-08T00:00:00.000",
+        "n": 798,
+        "positives": 632,
+        "rate": 0.792,
+        "ci_low": 0.7625,
+        "ci_high": 0.8187
+      },
+      {
+        "flight_date": "2013-06-13T00:00:00.000",
+        "n": 881,
+        "positives": 629,
+        "rate": 0.714,
+        "ci_low": 0.6832,
+        "ci_high": 0.7428
+      },
+      {
+        "flight_date": "2013-07-01T00:00:00.000",
+        "n": 877,
+        "positives": 590,
+        "rate": 0.6727,
+        "ci_low": 0.641,
+        "ci_high": 0.703
+      },
+      {
+        "flight_date": "2013-05-23T00:00:00.000",
+        "n": 756,
+        "positives": 455,
+        "rate": 0.6019,
+        "ci_low": 0.5665,
+        "ci_high": 0.6361
+      },
+      {
+        "flight_date": "2013-08-08T00:00:00.000",
+        "n": 929,
+        "positives": 550,
+        "rate": 0.592,
+        "ci_low": 0.5601,
+        "ci_high": 0.6232
+      },
+      {
+        "flight_date": "2013-04-22T00:00:00.000",
+        "n": 937,
+        "positives": 551,
+        "rate": 0.588,
+        "ci_low": 0.5562,
+        "ci_high": 0.6191
+      },
+      {
+        "flight_date": "2013-04-25T00:00:00.000",
+        "n": 960,
+        "positives": 564,
+        "rate": 0.5875,
+        "ci_low": 0.5561,
+        "ci_high": 0.6182
+      },
+      {
+        "flight_date": "2013-08-09T00:00:00.000",
+        "n": 931,
+        "positives": 535,
+        "rate": 0.5747,
+        "ci_low": 0.5427,
+        "ci_high": 0.606
+      },
+      {
+        "flight_date": "2013-01-16T00:00:00.000",
+        "n": 853,
+        "positives": 486,
+        "rate": 0.5698,
+        "ci_low": 0.5363,
+        "ci_high": 0.6026
+      },
+      {
+        "flight_date": "2013-08-13T00:00:00.000",
+        "n": 932,
+        "positives": 514,
+        "rate": 0.5515,
+        "ci_low": 0.5194,
+        "ci_high": 0.5832
+      }
+    ],
+    "days_with_rate_ge_0_5": 27
+  },
+  "q10_volume": {
+    "daily_by_split": {
+      "test": {
+        "min": 634,
+        "median": 963.0,
+        "max": 1014
+      },
+      "train": {
+        "min": 674,
+        "median": 964.0,
+        "max": 1006
+      },
+      "validation": {
+        "min": 676,
+        "median": 967.0,
+        "max": 996
+      }
+    },
+    "mean_daily_by_dow": {
+      "Mon": 974.8,
+      "Tue": 951.4,
+      "Wed": 962.7,
+      "Thu": 965.8,
+      "Fri": 967.5,
+      "Sat": 744.6,
+      "Sun": 891.5
+    },
+    "lowest_volume_days": {
+      "2013-11-28": 634,
+      "2013-11-29": 661,
+      "2013-01-19": 674,
+      "2013-10-12": 676,
+      "2013-01-26": 680
+    }
+  },
+  "q05_hour_train": {
+    "dep_hour": [
+      {
+        "hour": 5,
+        "n": 1295,
+        "positives": 140,
+        "rate": 0.1081,
+        "ci_low": 0.0923,
+        "ci_high": 0.1262
+      },
+      {
+        "hour": 6,
+        "n": 17434,
+        "positives": 2167,
+        "rate": 0.1243,
+        "ci_low": 0.1195,
+        "ci_high": 0.1293
+      },
+      {
+        "hour": 7,
+        "n": 14822,
+        "positives": 1821,
+        "rate": 0.1229,
+        "ci_low": 0.1177,
+        "ci_high": 0.1282
+      },
+      {
+        "hour": 8,
+        "n": 17294,
+        "positives": 3002,
+        "rate": 0.1736,
+        "ci_low": 0.168,
+        "ci_high": 0.1793
+      },
+      {
+        "hour": 9,
+        "n": 13414,
+        "positives": 2432,
+        "rate": 0.1813,
+        "ci_low": 0.1749,
+        "ci_high": 0.1879
+      },
+      {
+        "hour": 10,
+        "n": 10647,
+        "positives": 2085,
+        "rate": 0.1958,
+        "ci_low": 0.1884,
+        "ci_high": 0.2035
+      },
+      {
+        "hour": 11,
+        "n": 10511,
+        "positives": 2059,
+        "rate": 0.1959,
+        "ci_low": 0.1884,
+        "ci_high": 0.2036
+      },
+      {
+        "hour": 12,
+        "n": 11730,
+        "positives": 2565,
+        "rate": 0.2187,
+        "ci_low": 0.2113,
+        "ci_high": 0.2262
+      },
+      {
+        "hour": 13,
+        "n": 12675,
+        "positives": 3287,
+        "rate": 0.2593,
+        "ci_low": 0.2518,
+        "ci_high": 0.267
+      },
+      {
+        "hour": 14,
+        "n": 13757,
+        "positives": 3955,
+        "rate": 0.2875,
+        "ci_low": 0.28,
+        "ci_high": 0.2951
+      },
+      {
+        "hour": 15,
+        "n": 15591,
+        "positives": 5072,
+        "rate": 0.3253,
+        "ci_low": 0.318,
+        "ci_high": 0.3327
+      },
+      {
+        "hour": 16,
+        "n": 14473,
+        "positives": 4784,
+        "rate": 0.3305,
+        "ci_low": 0.3229,
+        "ci_high": 0.3383
+      },
+      {
+        "hour": 17,
+        "n": 16077,
+        "positives": 5819,
+        "rate": 0.3619,
+        "ci_low": 0.3546,
+        "ci_high": 0.3694
+      },
+      {
+        "hour": 18,
+        "n": 13877,
+        "positives": 4990,
+        "rate": 0.3596,
+        "ci_low": 0.3516,
+        "ci_high": 0.3676
+      },
+      {
+        "hour": 19,
+        "n": 13869,
+        "positives": 5310,
+        "rate": 0.3829,
+        "ci_low": 0.3748,
+        "ci_high": 0.391
+      },
+      {
+        "hour": 20,
+        "n": 10654,
+        "positives": 4118,
+        "rate": 0.3865,
+        "ci_low": 0.3773,
+        "ci_high": 0.3958
+      },
+      {
+        "hour": 21,
+        "n": 7125,
+        "positives": 2889,
+        "rate": 0.4055,
+        "ci_low": 0.3941,
+        "ci_high": 0.4169
+      },
+      {
+        "hour": 22,
+        "n": 1731,
+        "positives": 672,
+        "rate": 0.3882,
+        "ci_low": 0.3655,
+        "ci_high": 0.4114
+      },
+      {
+        "hour": 23,
+        "n": 751,
+        "positives": 256,
+        "rate": 0.3409,
+        "ci_low": 0.3079,
+        "ci_high": 0.3755
+      }
+    ],
+    "arr_hour": [
+      {
+        "arr_hour": 0,
+        "n": 2970,
+        "positives": 1192,
+        "rate": 0.4013,
+        "ci_low": 0.3839,
+        "ci_high": 0.4191
+      },
+      {
+        "arr_hour": 1,
+        "n": 528,
+        "positives": 238,
+        "rate": 0.4508,
+        "ci_low": 0.4088,
+        "ci_high": 0.4934
+      },
+      {
+        "arr_hour": 2,
+        "n": 165,
+        "positives": 78,
+        "rate": 0.4727,
+        "ci_low": 0.398,
+        "ci_high": 0.5487
+      },
+      {
+        "arr_hour": 3,
+        "n": 548,
+        "positives": 187,
+        "rate": 0.3412,
+        "ci_low": 0.3028,
+        "ci_high": 0.3819
+      },
+      {
+        "arr_hour": 4,
+        "n": 162,
+        "positives": 40,
+        "rate": 0.2469,
+        "ci_low": 0.1869,
+        "ci_high": 0.3187
+      },
+      {
+        "arr_hour": 6,
+        "n": 568,
+        "positives": 50,
+        "rate": 0.088,
+        "ci_low": 0.0674,
+        "ci_high": 0.1142
+      },
+      {
+        "arr_hour": 7,
+        "n": 4022,
+        "positives": 417,
+        "rate": 0.1037,
+        "ci_low": 0.0946,
+        "ci_high": 0.1135
+      },
+      {
+        "arr_hour": 8,
+        "n": 9506,
+        "positives": 1257,
+        "rate": 0.1322,
+        "ci_low": 0.1256,
+        "ci_high": 0.1392
+      },
+      {
+        "arr_hour": 9,
+        "n": 13279,
+        "positives": 1880,
+        "rate": 0.1416,
+        "ci_low": 0.1358,
+        "ci_high": 0.1476
+      },
+      {
+        "arr_hour": 10,
+        "n": 16925,
+        "positives": 2574,
+        "rate": 0.1521,
+        "ci_low": 0.1468,
+        "ci_high": 0.1576
+      },
+      {
+        "arr_hour": 11,
+        "n": 13611,
+        "positives": 2346,
+        "rate": 0.1724,
+        "ci_low": 0.1661,
+        "ci_high": 0.1788
+      },
+      {
+        "arr_hour": 12,
+        "n": 13749,
+        "positives": 2578,
+        "rate": 0.1875,
+        "ci_low": 0.1811,
+        "ci_high": 0.1941
+      },
+      {
+        "arr_hour": 13,
+        "n": 12162,
+        "positives": 2408,
+        "rate": 0.198,
+        "ci_low": 0.191,
+        "ci_high": 0.2052
+      },
+      {
+        "arr_hour": 14,
+        "n": 11820,
+        "positives": 2736,
+        "rate": 0.2315,
+        "ci_low": 0.224,
+        "ci_high": 0.2392
+      },
+      {
+        "arr_hour": 15,
+        "n": 10431,
+        "positives": 2575,
+        "rate": 0.2469,
+        "ci_low": 0.2387,
+        "ci_high": 0.2552
+      },
+      {
+        "arr_hour": 16,
+        "n": 12626,
+        "positives": 3530,
+        "rate": 0.2796,
+        "ci_low": 0.2718,
+        "ci_high": 0.2875
+      },
+      {
+        "arr_hour": 17,
+        "n": 13827,
+        "positives": 4435,
+        "rate": 0.3207,
+        "ci_low": 0.313,
+        "ci_high": 0.3286
+      },
+      {
+        "arr_hour": 18,
+        "n": 15601,
+        "positives": 5135,
+        "rate": 0.3291,
+        "ci_low": 0.3218,
+        "ci_high": 0.3366
+      },
+      {
+        "arr_hour": 19,
+        "n": 14330,
+        "positives": 5084,
+        "rate": 0.3548,
+        "ci_low": 0.347,
+        "ci_high": 0.3627
+      },
+      {
+        "arr_hour": 20,
+        "n": 15435,
+        "positives": 5459,
+        "rate": 0.3537,
+        "ci_low": 0.3462,
+        "ci_high": 0.3613
+      },
+      {
+        "arr_hour": 21,
+        "n": 13339,
+        "positives": 5076,
+        "rate": 0.3805,
+        "ci_low": 0.3723,
+        "ci_high": 0.3888
+      },
+      {
+        "arr_hour": 22,
+        "n": 14003,
+        "positives": 5141,
+        "rate": 0.3671,
+        "ci_low": 0.3592,
+        "ci_high": 0.3752
+      },
+      {
+        "arr_hour": 23,
+        "n": 8120,
+        "positives": 3007,
+        "rate": 0.3703,
+        "ci_low": 0.3599,
+        "ci_high": 0.3809
+      }
+    ]
+  },
+  "q06_calendar_train": {
+    "dow": [
+      {
+        "dow": "Mon",
+        "n": 32028,
+        "positives": 8894,
+        "rate": 0.2777,
+        "ci_low": 0.2728,
+        "ci_high": 0.2826
+      },
+      {
+        "dow": "Tue",
+        "n": 32615,
+        "positives": 8226,
+        "rate": 0.2522,
+        "ci_low": 0.2475,
+        "ci_high": 0.257
+      },
+      {
+        "dow": "Wed",
+        "n": 32558,
+        "positives": 9058,
+        "rate": 0.2782,
+        "ci_low": 0.2734,
+        "ci_high": 0.2831
+      },
+      {
+        "dow": "Thu",
+        "n": 32663,
+        "positives": 10130,
+        "rate": 0.3101,
+        "ci_low": 0.3051,
+        "ci_high": 0.3152
+      },
+      {
+        "dow": "Fri",
+        "n": 32391,
+        "positives": 9518,
+        "rate": 0.2938,
+        "ci_low": 0.2889,
+        "ci_high": 0.2988
+      },
+      {
+        "dow": "Sat",
+        "n": 25808,
+        "positives": 4767,
+        "rate": 0.1847,
+        "ci_low": 0.18,
+        "ci_high": 0.1895
+      },
+      {
+        "dow": "Sun",
+        "n": 29664,
+        "positives": 6830,
+        "rate": 0.2302,
+        "ci_low": 0.2255,
+        "ci_high": 0.2351
+      }
+    ],
+    "month": [
+      {
+        "month": 1,
+        "n": 26398,
+        "positives": 6201,
+        "rate": 0.2349,
+        "ci_low": 0.2298,
+        "ci_high": 0.2401
+      },
+      {
+        "month": 2,
+        "n": 23611,
+        "positives": 5615,
+        "rate": 0.2378,
+        "ci_low": 0.2324,
+        "ci_high": 0.2433
+      },
+      {
+        "month": 3,
+        "n": 27902,
+        "positives": 6586,
+        "rate": 0.236,
+        "ci_low": 0.2311,
+        "ci_high": 0.2411
+      },
+      {
+        "month": 4,
+        "n": 27564,
+        "positives": 7925,
+        "rate": 0.2875,
+        "ci_low": 0.2822,
+        "ci_high": 0.2929
+      },
+      {
+        "month": 5,
+        "n": 28128,
+        "positives": 6376,
+        "rate": 0.2267,
+        "ci_low": 0.2218,
+        "ci_high": 0.2316
+      },
+      {
+        "month": 6,
+        "n": 27075,
+        "positives": 8535,
+        "rate": 0.3152,
+        "ci_low": 0.3097,
+        "ci_high": 0.3208
+      },
+      {
+        "month": 7,
+        "n": 28293,
+        "positives": 9112,
+        "rate": 0.3221,
+        "ci_low": 0.3166,
+        "ci_high": 0.3275
+      },
+      {
+        "month": 8,
+        "n": 28756,
+        "positives": 7073,
+        "rate": 0.246,
+        "ci_low": 0.241,
+        "ci_high": 0.251
+      }
+    ]
+  },
+  "q07_carrier_train": [
+    {
+      "carrier": "HA",
+      "n": 243,
+      "positives": 35,
+      "rate": 0.144,
+      "ci_low": 0.1054,
+      "ci_high": 0.1937
+    },
+    {
+      "carrier": "AS",
+      "n": 481,
+      "positives": 81,
+      "rate": 0.1684,
+      "ci_low": 0.1376,
+      "ci_high": 0.2044
+    },
+    {
+      "carrier": "VX",
+      "n": 3291,
+      "positives": 646,
+      "rate": 0.1963,
+      "ci_low": 0.1831,
+      "ci_high": 0.2102
+    },
+    {
+      "carrier": "AA",
+      "n": 21533,
+      "positives": 4376,
+      "rate": 0.2032,
+      "ci_low": 0.1979,
+      "ci_high": 0.2087
+    },
+    {
+      "carrier": "US",
+      "n": 13158,
+      "positives": 2727,
+      "rate": 0.2073,
+      "ci_low": 0.2004,
+      "ci_high": 0.2143
+    },
+    {
+      "carrier": "DL",
+      "n": 31796,
+      "positives": 6653,
+      "rate": 0.2092,
+      "ci_low": 0.2048,
+      "ci_high": 0.2137
+    },
+    {
+      "carrier": "UA",
+      "n": 38465,
+      "positives": 9138,
+      "rate": 0.2376,
+      "ci_low": 0.2333,
+      "ci_high": 0.2418
+    },
+    {
+      "carrier": "WN",
+      "n": 7855,
+      "positives": 1960,
+      "rate": 0.2495,
+      "ci_low": 0.2401,
+      "ci_high": 0.2592
+    },
+    {
+      "carrier": "9E",
+      "n": 11085,
+      "positives": 3128,
+      "rate": 0.2822,
+      "ci_low": 0.2739,
+      "ci_high": 0.2906
+    },
+    {
+      "carrier": "MQ",
+      "n": 16768,
+      "positives": 4938,
+      "rate": 0.2945,
+      "ci_low": 0.2876,
+      "ci_high": 0.3014
+    },
+    {
+      "carrier": "B6",
+      "n": 36493,
+      "positives": 10813,
+      "rate": 0.2963,
+      "ci_low": 0.2916,
+      "ci_high": 0.301
+    },
+    {
+      "carrier": "FL",
+      "n": 2278,
+      "positives": 781,
+      "rate": 0.3428,
+      "ci_low": 0.3236,
+      "ci_high": 0.3626
+    },
+    {
+      "carrier": "EV",
+      "n": 33476,
+      "positives": 11831,
+      "rate": 0.3534,
+      "ci_low": 0.3483,
+      "ci_high": 0.3586
+    },
+    {
+      "carrier": "YV",
+      "n": 351,
+      "positives": 127,
+      "rate": 0.3618,
+      "ci_low": 0.3133,
+      "ci_high": 0.4133
+    },
+    {
+      "carrier": "F9",
+      "n": 447,
+      "positives": 184,
+      "rate": 0.4116,
+      "ci_low": 0.367,
+      "ci_high": 0.4578
+    },
+    {
+      "carrier": "OO",
+      "n": 7,
+      "positives": 5,
+      "rate": 0.7143,
+      "ci_low": 0.3589,
+      "ci_high": 0.9178
+    }
+  ],
+  "q08_airports_train": {
+    "origin": [
+      {
+        "origin": "EWR",
+        "n": 78746,
+        "positives": 22411,
+        "rate": 0.2846,
+        "ci_low": 0.2815,
+        "ci_high": 0.2878
+      },
+      {
+        "origin": "JFK",
+        "n": 73627,
+        "positives": 19050,
+        "rate": 0.2587,
+        "ci_low": 0.2556,
+        "ci_high": 0.2619
+      },
+      {
+        "origin": "LGA",
+        "n": 65354,
+        "positives": 15962,
+        "rate": 0.2442,
+        "ci_low": 0.241,
+        "ci_high": 0.2475
+      }
+    ],
+    "dest_summary": {
+      "n_groups": 102,
+      "n_lt_30": 8,
+      "n_lt_100": 12,
+      "share_outside_95pct_funnel": 0.647,
+      "rate_range_groups_n_ge_1000": [
+        0.2041,
+        0.4142
+      ],
+      "n_groups_n_ge_1000": 50
+    },
+    "dest": [
+      {
+        "dest": "ATL",
+        "n": 11236,
+        "positives": 3138,
+        "rate": 0.2793,
+        "ci_low": 0.2711,
+        "ci_high": 0.2877
+      },
+      {
+        "dest": "ORD",
+        "n": 10979,
+        "positives": 2845,
+        "rate": 0.2591,
+        "ci_low": 0.251,
+        "ci_high": 0.2674
+      },
+      {
+        "dest": "LAX",
+        "n": 10543,
+        "positives": 2246,
+        "rate": 0.213,
+        "ci_low": 0.2053,
+        "ci_high": 0.221
+      },
+      {
+        "dest": "BOS",
+        "n": 10091,
+        "positives": 2088,
+        "rate": 0.2069,
+        "ci_low": 0.1991,
+        "ci_high": 0.2149
+      },
+      {
+        "dest": "MCO",
+        "n": 9483,
+        "positives": 2392,
+        "rate": 0.2522,
+        "ci_low": 0.2436,
+        "ci_high": 0.2611
+      },
+      {
+        "dest": "CLT",
+        "n": 8866,
+        "positives": 2386,
+        "rate": 0.2691,
+        "ci_low": 0.26,
+        "ci_high": 0.2784
+      },
+      {
+        "dest": "SFO",
+        "n": 8454,
+        "positives": 2087,
+        "rate": 0.2469,
+        "ci_low": 0.2378,
+        "ci_high": 0.2562
+      },
+      {
+        "dest": "FLL",
+        "n": 8155,
+        "positives": 2348,
+        "rate": 0.2879,
+        "ci_low": 0.2782,
+        "ci_high": 0.2978
+      },
+      {
+        "dest": "MIA",
+        "n": 7656,
+        "positives": 1617,
+        "rate": 0.2112,
+        "ci_low": 0.2022,
+        "ci_high": 0.2205
+      },
+      {
+        "dest": "DCA",
+        "n": 6271,
+        "positives": 1760,
+        "rate": 0.2807,
+        "ci_low": 0.2697,
+        "ci_high": 0.2919
+      },
+      {
+        "dest": "DTW",
+        "n": 6063,
+        "positives": 1426,
+        "rate": 0.2352,
+        "ci_low": 0.2247,
+        "ci_high": 0.246
+      },
+      {
+        "dest": "DFW",
+        "n": 5717,
+        "positives": 1213,
+        "rate": 0.2122,
+        "ci_low": 0.2018,
+        "ci_high": 0.223
+      },
+      {
+        "dest": "RDU",
+        "n": 5291,
+        "positives": 1501,
+        "rate": 0.2837,
+        "ci_low": 0.2717,
+        "ci_high": 0.296
+      },
+      {
+        "dest": "TPA",
+        "n": 4890,
+        "positives": 1368,
+        "rate": 0.2798,
+        "ci_low": 0.2674,
+        "ci_high": 0.2925
+      },
+      {
+        "dest": "DEN",
+        "n": 4778,
+        "positives": 1346,
+        "rate": 0.2817,
+        "ci_low": 0.2691,
+        "ci_high": 0.2946
+      },
+      {
+        "dest": "IAH",
+        "n": 4697,
+        "positives": 1137,
+        "rate": 0.2421,
+        "ci_low": 0.23,
+        "ci_high": 0.2545
+      },
+      {
+        "dest": "MSP",
+        "n": 4483,
+        "positives": 1130,
+        "rate": 0.2521,
+        "ci_low": 0.2396,
+        "ci_high": 0.265
+      },
+      {
+        "dest": "PBI",
+        "n": 4338,
+        "positives": 1264,
+        "rate": 0.2914,
+        "ci_low": 0.278,
+        "ci_high": 0.3051
+      },
+      {
+        "dest": "SJU",
+        "n": 3999,
+        "positives": 941,
+        "rate": 0.2353,
+        "ci_low": 0.2224,
+        "ci_high": 0.2487
+      },
+      {
+        "dest": "LAS",
+        "n": 3950,
+        "positives": 806,
+        "rate": 0.2041,
+        "ci_low": 0.1918,
+        "ci_high": 0.2169
+      },
+      {
+        "dest": "BNA",
+        "n": 3883,
+        "positives": 1184,
+        "rate": 0.3049,
+        "ci_low": 0.2906,
+        "ci_high": 0.3196
+      },
+      {
+        "dest": "IAD",
+        "n": 3552,
+        "positives": 1043,
+        "rate": 0.2936,
+        "ci_low": 0.2789,
+        "ci_high": 0.3088
+      },
+      {
+        "dest": "PHX",
+        "n": 3090,
+        "positives": 682,
+        "rate": 0.2207,
+        "ci_low": 0.2064,
+        "ci_high": 0.2357
+      },
+      {
+        "dest": "CLE",
+        "n": 3032,
+        "positives": 807,
+        "rate": 0.2662,
+        "ci_low": 0.2507,
+        "ci_high": 0.2822
+      },
+      {
+        "dest": "BUF",
+        "n": 2999,
+        "positives": 751,
+        "rate": 0.2504,
+        "ci_low": 0.2352,
+        "ci_high": 0.2662
+      },
+      {
+        "dest": "STL",
+        "n": 2680,
+        "positives": 768,
+        "rate": 0.2866,
+        "ci_low": 0.2698,
+        "ci_high": 0.304
+      },
+      {
+        "dest": "MDW",
+        "n": 2664,
+        "positives": 709,
+        "rate": 0.2661,
+        "ci_low": 0.2497,
+        "ci_high": 0.2833
+      },
+      {
+        "dest": "SEA",
+        "n": 2626,
+        "positives": 568,
+        "rate": 0.2163,
+        "ci_low": 0.201,
+        "ci_high": 0.2325
+      },
+      {
+        "dest": "RSW",
+        "n": 2465,
+        "positives": 536,
+        "rate": 0.2174,
+        "ci_low": 0.2016,
+        "ci_high": 0.2342
+      },
+      {
+        "dest": "CVG",
+        "n": 2463,
+        "positives": 833,
+        "rate": 0.3382,
+        "ci_low": 0.3198,
+        "ci_high": 0.3571
+      },
+      {
+        "dest": "MSY",
+        "n": 2372,
+        "positives": 675,
+        "rate": 0.2846,
+        "ci_low": 0.2668,
+        "ci_high": 0.3031
+      },
+      {
+        "dest": "CMH",
+        "n": 2170,
+        "positives": 626,
+        "rate": 0.2885,
+        "ci_low": 0.2698,
+        "ci_high": 0.3079
+      },
+      {
+        "dest": "MKE",
+        "n": 1831,
+        "positives": 523,
+        "rate": 0.2856,
+        "ci_low": 0.2654,
+        "ci_high": 0.3068
+      },
+      {
+        "dest": "SAN",
+        "n": 1813,
+        "positives": 440,
+        "rate": 0.2427,
+        "ci_low": 0.2235,
+        "ci_high": 0.263
+      },
+      {
+        "dest": "BTV",
+        "n": 1800,
+        "positives": 502,
+        "rate": 0.2789,
+        "ci_low": 0.2587,
+        "ci_high": 0.3001
+      },
+      {
+        "dest": "PIT",
+        "n": 1775,
+        "positives": 467,
+        "rate": 0.2631,
+        "ci_low": 0.2431,
+        "ci_high": 0.2841
+      },
+      {
+        "dest": "PWM",
+        "n": 1763,
+        "positives": 541,
+        "rate": 0.3069,
+        "ci_low": 0.2858,
+        "ci_high": 0.3288
+      },
+      {
+        "dest": "JAX",
+        "n": 1710,
+        "positives": 599,
+        "rate": 0.3503,
+        "ci_low": 0.328,
+        "ci_high": 0.3732
+      },
+      {
+        "dest": "CHS",
+        "n": 1682,
+        "positives": 498,
+        "rate": 0.2961,
+        "ci_low": 0.2747,
+        "ci_high": 0.3183
+      },
+      {
+        "dest": "SLC",
+        "n": 1657,
+        "positives": 343,
+        "rate": 0.207,
+        "ci_low": 0.1882,
+        "ci_high": 0.2272
+      },
+      {
+        "dest": "AUS",
+        "n": 1631,
+        "positives": 465,
+        "rate": 0.2851,
+        "ci_low": 0.2637,
+        "ci_high": 0.3075
+      },
+      {
+        "dest": "ROC",
+        "n": 1513,
+        "positives": 464,
+        "rate": 0.3067,
+        "ci_low": 0.284,
+        "ci_high": 0.3304
+      },
+      {
+        "dest": "RIC",
+        "n": 1439,
+        "positives": 596,
+        "rate": 0.4142,
+        "ci_low": 0.389,
+        "ci_high": 0.4398
+      },
+      {
+        "dest": "MCI",
+        "n": 1293,
+        "positives": 449,
+        "rate": 0.3473,
+        "ci_low": 0.3218,
+        "ci_high": 0.3736
+      },
+      {
+        "dest": "HOU",
+        "n": 1279,
+        "positives": 350,
+        "rate": 0.2737,
+        "ci_low": 0.2499,
+        "ci_high": 0.2987
+      },
+      {
+        "dest": "BWI",
+        "n": 1265,
+        "positives": 373,
+        "rate": 0.2949,
+        "ci_low": 0.2704,
+        "ci_high": 0.3206
+      },
+      {
+        "dest": "MEM",
+        "n": 1129,
+        "positives": 344,
+        "rate": 0.3047,
+        "ci_low": 0.2785,
+        "ci_high": 0.3322
+      },
+      {
+        "dest": "IND",
+        "n": 1101,
+        "positives": 331,
+        "rate": 0.3006,
+        "ci_low": 0.2743,
+        "ci_high": 0.3284
+      },
+      {
+        "dest": "PHL",
+        "n": 1096,
+        "positives": 349,
+        "rate": 0.3184,
+        "ci_low": 0.2915,
+        "ci_high": 0.3466
+      },
+      {
+        "dest": "SYR",
+        "n": 1066,
+        "positives": 295,
+        "rate": 0.2767,
+        "ci_low": 0.2507,
+        "ci_high": 0.3044
+      },
+      {
+        "dest": "ORF",
+        "n": 946,
+        "positives": 298,
+        "rate": 0.315,
+        "ci_low": 0.2862,
+        "ci_high": 0.3453
+      },
+      {
+        "dest": "DAY",
+        "n": 941,
+        "positives": 301,
+        "rate": 0.3199,
+        "ci_low": 0.2909,
+        "ci_high": 0.3504
+      },
+      {
+        "dest": "PDX",
+        "n": 858,
+        "positives": 261,
+        "rate": 0.3042,
+        "ci_low": 0.2743,
+        "ci_high": 0.3358
+      },
+      {
+        "dest": "GSO",
+        "n": 857,
+        "positives": 305,
+        "rate": 0.3559,
+        "ci_low": 0.3245,
+        "ci_high": 0.3885
+      },
+      {
+        "dest": "SRQ",
+        "n": 838,
+        "positives": 176,
+        "rate": 0.21,
+        "ci_low": 0.1838,
+        "ci_high": 0.2389
+      },
+      {
+        "dest": "SDF",
+        "n": 752,
+        "positives": 259,
+        "rate": 0.3444,
+        "ci_low": 0.3113,
+        "ci_high": 0.3791
+      },
+      {
+        "dest": "MHT",
+        "n": 696,
+        "positives": 230,
+        "rate": 0.3305,
+        "ci_low": 0.2965,
+        "ci_high": 0.3663
+      },
+      {
+        "dest": "XNA",
+        "n": 687,
+        "positives": 184,
+        "rate": 0.2678,
+        "ci_low": 0.2361,
+        "ci_high": 0.3022
+      },
+      {
+        "dest": "BQN",
+        "n": 663,
+        "positives": 186,
+        "rate": 0.2805,
+        "ci_low": 0.2477,
+        "ci_high": 0.3159
+      },
+      {
+        "dest": "CAK",
+        "n": 590,
+        "positives": 196,
+        "rate": 0.3322,
+        "ci_low": 0.2954,
+        "ci_high": 0.3712
+      },
+      {
+        "dest": "SNA",
+        "n": 510,
+        "positives": 75,
+        "rate": 0.1471,
+        "ci_low": 0.119,
+        "ci_high": 0.1804
+      },
+      {
+        "dest": "GRR",
+        "n": 508,
+        "positives": 198,
+        "rate": 0.3898,
+        "ci_low": 0.3483,
+        "ci_high": 0.4328
+      },
+      {
+        "dest": "HNL",
+        "n": 481,
+        "positives": 84,
+        "rate": 0.1746,
+        "ci_low": 0.1433,
+        "ci_high": 0.2111
+      },
+      {
+        "dest": "SAV",
+        "n": 480,
+        "positives": 181,
+        "rate": 0.3771,
+        "ci_low": 0.3349,
+        "ci_high": 0.4213
+      },
+      {
+        "dest": "OMA",
+        "n": 454,
+        "positives": 171,
+        "rate": 0.3767,
+        "ci_low": 0.3333,
+        "ci_high": 0.4221
+      },
+      {
+        "dest": "LGB",
+        "n": 451,
+        "positives": 111,
+        "rate": 0.2461,
+        "ci_low": 0.2086,
+        "ci_high": 0.2879
+      },
+      {
+        "dest": "GSP",
+        "n": 438,
+        "positives": 179,
+        "rate": 0.4087,
+        "ci_low": 0.3636,
+        "ci_high": 0.4553
+      },
+      {
+        "dest": "SAT",
+        "n": 430,
+        "positives": 114,
+        "rate": 0.2651,
+        "ci_low": 0.2256,
+        "ci_high": 0.3088
+      },
+      {
+        "dest": "STT",
+        "n": 404,
+        "positives": 59,
+        "rate": 0.146,
+        "ci_low": 0.1149,
+        "ci_high": 0.1838
+      },
+      {
+        "dest": "TYS",
+        "n": 376,
+        "positives": 170,
+        "rate": 0.4521,
+        "ci_low": 0.4026,
+        "ci_high": 0.5027
+      },
+      {
+        "dest": "BDL",
+        "n": 339,
+        "positives": 90,
+        "rate": 0.2655,
+        "ci_low": 0.2213,
+        "ci_high": 0.3149
+      },
+      {
+        "dest": "ALB",
+        "n": 308,
+        "positives": 99,
+        "rate": 0.3214,
+        "ci_low": 0.2717,
+        "ci_high": 0.3755
+      },
+      {
+        "dest": "DSM",
+        "n": 298,
+        "positives": 117,
+        "rate": 0.3926,
+        "ci_low": 0.3389,
+        "ci_high": 0.4491
+      },
+      {
+        "dest": "PVD",
+        "n": 261,
+        "positives": 104,
+        "rate": 0.3985,
+        "ci_low": 0.341,
+        "ci_high": 0.4589
+      },
+      {
+        "dest": "BUR",
+        "n": 248,
+        "positives": 79,
+        "rate": 0.3185,
+        "ci_low": 0.2637,
+        "ci_high": 0.3789
+      },
+      {
+        "dest": "MSN",
+        "n": 247,
+        "positives": 103,
+        "rate": 0.417,
+        "ci_low": 0.3572,
+        "ci_high": 0.4793
+      },
+      {
+        "dest": "PSE",
+        "n": 238,
+        "positives": 63,
+        "rate": 0.2647,
+        "ci_low": 0.2127,
+        "ci_high": 0.3242
+      },
+      {
+        "dest": "SJC",
+        "n": 208,
+        "positives": 61,
+        "rate": 0.2933,
+        "ci_low": 0.2356,
+        "ci_high": 0.3584
+      },
+      {
+        "dest": "OKC",
+        "n": 204,
+        "positives": 110,
+        "rate": 0.5392,
+        "ci_low": 0.4707,
+        "ci_high": 0.6063
+      },
+      {
+        "dest": "OAK",
+        "n": 201,
+        "positives": 62,
+        "rate": 0.3085,
+        "ci_low": 0.2487,
+        "ci_high": 0.3754
+      },
+      {
+        "dest": "SMF",
+        "n": 198,
+        "positives": 81,
+        "rate": 0.4091,
+        "ci_low": 0.343,
+        "ci_high": 0.4787
+      },
+      {
+        "dest": "TUL",
+        "n": 196,
+        "positives": 104,
+        "rate": 0.5306,
+        "ci_low": 0.4608,
+        "ci_high": 0.5992
+      },
+      {
+        "dest": "ACK",
+        "n": 196,
+        "positives": 42,
+        "rate": 0.2143,
+        "ci_low": 0.1626,
+        "ci_high": 0.2769
+      },
+      {
+        "dest": "BHM",
+        "n": 190,
+        "positives": 62,
+        "rate": 0.3263,
+        "ci_low": 0.2637,
+        "ci_high": 0.3959
+      },
+      {
+        "dest": "EGE",
+        "n": 182,
+        "positives": 41,
+        "rate": 0.2253,
+        "ci_low": 0.1706,
+        "ci_high": 0.2913
+      },
+      {
+        "dest": "MVY",
+        "n": 180,
+        "positives": 37,
+        "rate": 0.2056,
+        "ci_low": 0.153,
+        "ci_high": 0.2704
+      },
+      {
+        "dest": "AVL",
+        "n": 151,
+        "positives": 29,
+        "rate": 0.1921,
+        "ci_low": 0.1372,
+        "ci_high": 0.2622
+      },
+      {
+        "dest": "BGR",
+        "n": 139,
+        "positives": 50,
+        "rate": 0.3597,
+        "ci_low": 0.2847,
+        "ci_high": 0.4423
+      },
+      {
+        "dest": "CRW",
+        "n": 134,
+        "positives": 48,
+        "rate": 0.3582,
+        "ci_low": 0.282,
+        "ci_high": 0.4423
+      },
+      {
+        "dest": "ABQ",
+        "n": 132,
+        "positives": 42,
+        "rate": 0.3182,
+        "ci_low": 0.2448,
+        "ci_high": 0.4018
+      },
+      {
+        "dest": "TVC",
+        "n": 95,
+        "positives": 29,
+        "rate": 0.3053,
+        "ci_low": 0.2217,
+        "ci_high": 0.4039
+      },
+      {
+        "dest": "CAE",
+        "n": 63,
+        "positives": 43,
+        "rate": 0.6825,
+        "ci_low": 0.56,
+        "ci_high": 0.7841
+      },
+      {
+        "dest": "MYR",
+        "n": 58,
+        "positives": 16,
+        "rate": 0.2759,
+        "ci_low": 0.1775,
+        "ci_high": 0.402
+      },
+      {
+        "dest": "BZN",
+        "n": 31,
+        "positives": 5,
+        "rate": 0.1613,
+        "ci_low": 0.0709,
+        "ci_high": 0.3263
+      },
+      {
+        "dest": "CHO",
+        "n": 27,
+        "positives": 7,
+        "rate": 0.2593,
+        "ci_low": 0.1317,
+        "ci_high": 0.4468
+      },
+      {
+        "dest": "PSP",
+        "n": 16,
+        "positives": 1,
+        "rate": 0.0625,
+        "ci_low": 0.0111,
+        "ci_high": 0.2833
+      },
+      {
+        "dest": "HDN",
+        "n": 12,
+        "positives": 1,
+        "rate": 0.0833,
+        "ci_low": 0.0149,
+        "ci_high": 0.3539
+      },
+      {
+        "dest": "MTJ",
+        "n": 12,
+        "positives": 2,
+        "rate": 0.1667,
+        "ci_low": 0.047,
+        "ci_high": 0.448
+      },
+      {
+        "dest": "ANC",
+        "n": 8,
+        "positives": 1,
+        "rate": 0.125,
+        "ci_low": 0.0224,
+        "ci_high": 0.4709
+      },
+      {
+        "dest": "JAC",
+        "n": 8,
+        "positives": 3,
+        "rate": 0.375,
+        "ci_low": 0.1368,
+        "ci_high": 0.6943
+      },
+      {
+        "dest": "EYW",
+        "n": 7,
+        "positives": 3,
+        "rate": 0.4286,
+        "ci_low": 0.1582,
+        "ci_high": 0.7495
+      },
+      {
+        "dest": "SBN",
+        "n": 1,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.7935
+      }
+    ]
+  },
+  "q09_routes_train": {
+    "summary": {
+      "n_groups": 218,
+      "n_lt_30": 22,
+      "n_lt_100": 36,
+      "share_outside_95pct_funnel": 0.532,
+      "rate_range_groups_n_ge_1000": [
+        0.1561,
+        0.4547
+      ],
+      "n_groups_n_ge_1000": 73
+    },
+    "route_flight_count_quantiles": {
+      "0": 1.0,
+      "0.1": 29.80000000000001,
+      "0.25": 196.0,
+      "0.5": 563.0,
+      "0.75": 1342.75,
+      "1": 7450.0
+    },
+    "smallest_routes": [
+      {
+        "route": "JFK-BHM",
+        "n": 1,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.7935
+      },
+      {
+        "route": "JFK-MEM",
+        "n": 1,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.7935
+      },
+      {
+        "route": "LGA-CAE",
+        "n": 1,
+        "positives": 1,
+        "rate": 1.0,
+        "ci_low": 0.2065,
+        "ci_high": 1.0
+      },
+      {
+        "route": "LGA-GSP",
+        "n": 1,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.7935
+      },
+      {
+        "route": "LGA-SBN",
+        "n": 1,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.7935
+      },
+      {
+        "route": "LGA-IND",
+        "n": 2,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.6576
+      },
+      {
+        "route": "LGA-OMA",
+        "n": 2,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.6576
+      },
+      {
+        "route": "LGA-MYR",
+        "n": 3,
+        "positives": 1,
+        "rate": 0.3333,
+        "ci_low": 0.0615,
+        "ci_high": 0.7923
+      },
+      {
+        "route": "LGA-ROC",
+        "n": 3,
+        "positives": 0,
+        "rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.5615
+      },
+      {
+        "route": "LGA-EYW",
+        "n": 7,
+        "positives": 3,
+        "rate": 0.4286,
+        "ci_low": 0.1582,
+        "ci_high": 0.7495
+      }
+    ]
+  },
+  "q11_numeric": {
+    "distance_quantiles_train": {
+      "0": 17.0,
+      "0.01": 169.0,
+      "0.5": 872.0,
+      "0.99": 2586.0,
+      "1": 4983.0
+    },
+    "distance_extremes": [
+      {
+        "route": "EWR-LGA",
+        "distance": 17
+      },
+      {
+        "route": "EWR-PHL",
+        "distance": 80
+      },
+      {
+        "route": "JFK-PHL",
+        "distance": 94
+      },
+      {
+        "route": "EWR-HNL",
+        "distance": 4963
+      },
+      {
+        "route": "JFK-HNL",
+        "distance": 4983
+      }
+    ],
+    "dep_hour_counts_all": {
+      "1": 1,
+      "5": 1953,
+      "6": 25951,
+      "7": 22821,
+      "8": 27242,
+      "9": 20312,
+      "10": 16708,
+      "11": 16033,
+      "12": 18181,
+      "13": 19956,
+      "14": 21706,
+      "15": 23888,
+      "16": 23002,
+      "17": 24426,
+      "18": 21783,
+      "19": 21441,
+      "20": 16739,
+      "21": 10933,
+      "22": 2639,
+      "23": 1061
+    },
+    "routes_HNL_ANC_rows": 715,
+    "numeric_missing_in_permitted_inputs": {
+      "sched_dep_time": 0,
+      "sched_arr_time": 0,
+      "distance": 0
+    }
+  },
+  "q12_relationships_train": {
+    "rate_by_distance_decile": [
+      {
+        "bin": "(79.999, 214.0]",
+        "index": 0,
+        "n": 22545,
+        "positives": 5718,
+        "rate": 0.2536,
+        "ci_low": 0.248,
+        "ci_high": 0.2593
+      },
+      {
+        "bin": "(214.0, 427.0]",
+        "index": 1,
+        "n": 21855,
+        "positives": 6380,
+        "rate": 0.2919,
+        "ci_low": 0.2859,
+        "ci_high": 0.298
+      },
+      {
+        "bin": "(427.0, 544.0]",
+        "index": 2,
+        "n": 21004,
+        "positives": 5643,
+        "rate": 0.2687,
+        "ci_low": 0.2627,
+        "ci_high": 0.2747
+      },
+      {
+        "bin": "(544.0, 738.0]",
+        "index": 3,
+        "n": 22230,
+        "positives": 6318,
+        "rate": 0.2842,
+        "ci_low": 0.2783,
+        "ci_high": 0.2902
+      },
+      {
+        "bin": "(738.0, 888.0]",
+        "index": 4,
+        "n": 21620,
+        "positives": 6420,
+        "rate": 0.2969,
+        "ci_low": 0.2909,
+        "ci_high": 0.3031
+      },
+      {
+        "bin": "(888.0, 1028.0]",
+        "index": 5,
+        "n": 22348,
+        "positives": 5995,
+        "rate": 0.2683,
+        "ci_low": 0.2625,
+        "ci_high": 0.2741
+      },
+      {
+        "bin": "(1028.0, 1096.0]",
+        "index": 6,
+        "n": 22241,
+        "positives": 5641,
+        "rate": 0.2536,
+        "ci_low": 0.248,
+        "ci_high": 0.2594
+      },
+      {
+        "bin": "(1096.0, 1598.0]",
+        "index": 7,
+        "n": 21996,
+        "positives": 5596,
+        "rate": 0.2544,
+        "ci_low": 0.2487,
+        "ci_high": 0.2602
+      },
+      {
+        "bin": "(1598.0, 2446.0]",
+        "index": 8,
+        "n": 20570,
+        "positives": 4740,
+        "rate": 0.2304,
+        "ci_low": 0.2247,
+        "ci_high": 0.2362
+      },
+      {
+        "bin": "(2446.0, 4983.0]",
+        "index": 9,
+        "n": 21318,
+        "positives": 4972,
+        "rate": 0.2332,
+        "ci_low": 0.2276,
+        "ci_high": 0.239
+      }
+    ],
+    "spearman_candidate_numeric": {
+      "hour": {
+        "hour": 1.0,
+        "arr_hour": 0.867,
+        "distance": -0.03,
+        "dow": 0.017,
+        "month": -0.004
+      },
+      "arr_hour": {
+        "hour": 0.867,
+        "arr_hour": 1.0,
+        "distance": 0.074,
+        "dow": 0.016,
+        "month": -0.022
+      },
+      "distance": {
+        "hour": -0.03,
+        "arr_hour": 0.074,
+        "distance": 1.0,
+        "dow": 0.016,
+        "month": 0.023
+      },
+      "dow": {
+        "hour": 0.017,
+        "arr_hour": 0.016,
+        "distance": 0.016,
+        "dow": 1.0,
+        "month": 0.01
+      },
+      "month": {
+        "hour": -0.004,
+        "arr_hour": -0.022,
+        "distance": 0.023,
+        "dow": 0.01,
+        "month": 1.0
+      }
+    },
+    "dest_served_by_n_carriers_quantiles": {
+      "0": 1.0,
+      "0.5": 2.0,
+      "1": 7.0
+    },
+    "carriers_per_origin": {
+      "EWR": 12,
+      "JFK": 10,
+      "LGA": 13
+    }
+  },
+  "q13_shift": {
+    "category_share_tvd": {
+      "carrier": {
+        "tvd_train_vs_validation": 0.0206,
+        "tvd_train_vs_test": 0.0127
+      },
+      "origin": {
+        "tvd_train_vs_validation": 0.0299,
+        "tvd_train_vs_test": 0.0211
+      },
+      "dest": {
+        "tvd_train_vs_validation": 0.0543,
+        "tvd_train_vs_test": 0.0511
+      },
+      "hour": {
+        "tvd_train_vs_validation": 0.0271,
+        "tvd_train_vs_test": 0.0272
+      },
+      "dow": {
+        "tvd_train_vs_validation": 0.0312,
+        "tvd_train_vs_test": 0.0306
+      },
+      "route": {
+        "tvd_train_vs_validation": 0.0685,
+        "tvd_train_vs_test": 0.0641
+      }
+    },
+    "entity_rate_stability_train_JanApr_vs_MayAug": {
+      "carrier": {
+        "n_entities": 13,
+        "pearson_rate_h1_vs_h2": 0.725,
+        "spearman_rate_h1_vs_h2": 0.808
+      },
+      "origin": {
+        "n_entities": 3,
+        "pearson_rate_h1_vs_h2": 0.173,
+        "spearman_rate_h1_vs_h2": -0.5
+      },
+      "dest": {
+        "n_entities": 65,
+        "pearson_rate_h1_vs_h2": 0.504,
+        "spearman_rate_h1_vs_h2": 0.538
+      },
+      "route": {
+        "n_entities": 123,
+        "pearson_rate_h1_vs_h2": 0.467,
+        "spearman_rate_h1_vs_h2": 0.469
+      }
+    },
+    "min_n_per_half": 200,
+    "daily_rate_autocorrelation_train": {
+      "1": 0.3564,
+      "2": 0.0407,
+      "3": 0.0352,
+      "4": 0.0375,
+      "5": -0.0278,
+      "6": 0.0451,
+      "7": 0.0205,
+      "8": -0.0425,
+      "9": -0.0576,
+      "10": 0.0246,
+      "11": 0.1079,
+      "12": 0.0248,
+      "13": 0.0587,
+      "14": 0.144
+    },
+    "note_autocorrelation": "lag 1 is not usable at prediction time (D10); lags >= 2 are."
+  },
+  "q14_unseen_rare": {
+    "carrier": {
+      "validation": {
+        "categories": [],
+        "n_categories": 0,
+        "rows": 0,
+        "row_share": 0.0,
+        "rows_in_train_rare_lt30": 20
+      },
+      "test": {
+        "categories": [],
+        "n_categories": 0,
+        "rows": 0,
+        "row_share": 0.0,
+        "rows_in_train_rare_lt30": 5
+      }
+    },
+    "origin": {
+      "validation": {
+        "categories": [],
+        "n_categories": 0,
+        "rows": 0,
+        "row_share": 0.0,
+        "rows_in_train_rare_lt30": 0
+      },
+      "test": {
+        "categories": [],
+        "n_categories": 0,
+        "rows": 0,
+        "row_share": 0.0,
+        "rows_in_train_rare_lt30": 0
+      }
+    },
+    "dest": {
+      "validation": {
+        "categories": [
+          "ILM"
+        ],
+        "n_categories": 1,
+        "rows": 52,
+        "row_share": 0.00092,
+        "rows_in_train_rare_lt30": 6
+      },
+      "test": {
+        "categories": [
+          "ILM",
+          "LEX"
+        ],
+        "n_categories": 2,
+        "rows": 59,
+        "row_share": 0.00106,
+        "rows_in_train_rare_lt30": 34
+      }
+    },
+    "route": {
+      "validation": {
+        "categories": [
+          "EWR-SBN",
+          "LGA-ILM"
+        ],
+        "n_categories": 2,
+        "rows": 55,
+        "row_share": 0.00097,
+        "rows_in_train_rare_lt30": 467
+      },
+      "test": {
+        "categories": [
+          "EWR-SBN",
+          "JFK-JAC",
+          "JFK-STL",
+          "LGA-ILM",
+          "LGA-LEX"
+        ],
+        "n_categories": 5,
+        "rows": 63,
+        "row_share": 0.00114,
+        "rows_in_train_rare_lt30": 433
+      }
+    }
+  },
+  "figures": {
+    "eda_01_unlabelled_share.png": "reports/figures/eda/eda_01_unlabelled_share.png",
+    "eda_02_arr_delay_distribution.png": "reports/figures/eda/eda_02_arr_delay_distribution.png",
+    "eda_03_daily_prevalence.png": "reports/figures/eda/eda_03_daily_prevalence.png",
+    "eda_04_daily_volume.png": "reports/figures/eda/eda_04_daily_volume.png",
+    "eda_05_rate_by_dep_hour.png": "reports/figures/eda/eda_05_rate_by_dep_hour.png",
+    "eda_06_rate_by_calendar.png": "reports/figures/eda/eda_06_rate_by_calendar.png",
+    "eda_07_rate_by_carrier.png": "reports/figures/eda/eda_07_rate_by_carrier.png",
+    "eda_08_funnel_dest_route.png": "reports/figures/eda/eda_08_funnel_dest_route.png",
+    "eda_09_rate_by_distance_arrhour.png": "reports/figures/eda/eda_09_rate_by_distance_arrhour.png",
+    "eda_10_stability_autocorrelation.png": "reports/figures/eda/eda_10_stability_autocorrelation.png",
+    "eda_11_feature_shift.png": "reports/figures/eda/eda_11_feature_shift.png"
+  }
+}

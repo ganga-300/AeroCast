@@ -66,8 +66,9 @@ origin, destination, route). The rules are:
 
 1. **Eligible outcome columns:** `arr_delay`/`y`, `dep_delay`, and the cancellation proxy derived
    from `dep_time` (`history_eligible` in the registry). `air_time` and `arr_time` are not used.
-2. **Time cutoff — OPEN (D10).** A historical outcome may be used for a prediction at time *t* only
-   if it was available before *t*. Measured evidence:
+2. **Time cutoff — CONFIRMED (D10): a flight on date D may use outcomes only of flights with
+   flight date ≤ D−2** (`history_lag_days: 2`). Principle: a historical outcome may be used for a
+   prediction at time *t* only if it was available before *t*. Measured evidence:
    - With a cutoff of "flight date < D" (lag 1), **19,303 labelled flights (5.90%)** have a
      landing lower bound (actual departure + `air_time`) at or after 00:00 on D, so their outcome
      was *not* known at the prediction time. 53.8% of them are positives, so this leakage is
@@ -75,8 +76,10 @@ origin, destination, route). The rules are:
    - With "flight date ≤ D−2" (lag 2), **0** flights violate the rule, even with a 180-minute
      allowance for unrecorded taxi-in (latest landing lower bound: 41.55 h after the start of the
      flight date).
-   - `configs/config.yaml` keeps `history_lag_days: null`. `require_history_lag()` refuses to
-     build historical features until this is confirmed.
+   - `scripts/check_contract.py` re-verifies on every run that the configured lag has zero
+     violations; `require_history_lag()` refuses to build historical features if the value is unset.
+   - Consequence: the cancellation proxy of a D−2 flight is also known by then (it never departed),
+     so the same cutoff applies to all history-eligible outcomes.
 3. **Never** use the current flight's own outcome, same-day outcomes, future records,
    full-dataset aggregates or row position.
 4. **Ordering:** aggregation is computed by date, never by CSV row order. `prepare_flights` sorts by
